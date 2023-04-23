@@ -1,4 +1,15 @@
-import './globals.css';
+import { Lato, Montserrat } from 'next/font/google';
+import 'app/globals.css';
+import Link from 'next/link';
+
+export const metadata = {
+    title: 'Risk Viz',
+};
+
+const montserrat = Montserrat({
+    weight: ['400', '500'],
+    subsets: ['latin'],
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -8,7 +19,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
             <head />
-            <body>{children}</body>
+            <body className={montserrat.className}>
+                <nav>
+                    <Link href="/">Home</Link>
+                </nav>
+                <main>{children}</main>
+            </body>
         </html>
     );
 }
