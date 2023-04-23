@@ -1,11 +1,15 @@
 import Image from 'next/image';
 import styles from './page.module.css';
 
-export default function Home() {
+export default async function Home() {
+    const res = await fetch('http://localhost:3000/api', { cache: 'no-store' }); // TODO: remove cache
+    const data = await res.json();
+
     return (
         <>
             <div className="text-primary">Tailwind</div>
             <div className="text-secondary">Tailwind</div>
+            <div>{JSON.stringify(data)}</div>
         </>
     );
 }
