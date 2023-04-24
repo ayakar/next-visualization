@@ -1,5 +1,6 @@
-import { Lato, Montserrat } from 'next/font/google';
-import 'app/globals.css';
+import { Montserrat } from 'next/font/google';
+import '@/app/globals.css';
+
 import Link from 'next/link';
 
 export const metadata = {
@@ -21,7 +22,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <head />
             <body className={montserrat.className}>
                 <nav>
-                    <Link href="/">Home</Link>
+                    <Link href="/">Home | </Link>
+                    <Link href="/location">Location</Link>
                 </nav>
                 <main>{children}</main>
             </body>
