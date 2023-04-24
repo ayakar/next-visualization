@@ -9,7 +9,7 @@ export default async function Home() {
         <>
             <div className="text-primary">Tailwind</div>
             <div className="text-secondary">Tailwind</div>
-            <div>{JSON.stringify(data)}</div>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
         </>
     );
 }
