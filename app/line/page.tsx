@@ -6,7 +6,7 @@ import { Risk } from '../types/RiskRating';
 import useFetch from '../hooks/useFetch';
 
 const LinePage = () => {
-    const { errorMessage, isLoading, fetchData } = useFetch();
+    const { errorMessage, fetchData } = useFetch();
     const [selectedFilteredBy, setSelectedFilteredBy] = useState(''); // Possible values: location, asset, business_category
     const [availableOptions, setAvailableOptions] = useState([]); // all options will be dynamically generated based on selectedFilteredBy value
     const [selectedOptions, setSelectedOptions] = useState(''); // selected options to fetch risksData
@@ -30,7 +30,7 @@ const LinePage = () => {
         }
 
         if (selectedFilteredBy) {
-            fetchData(endPoint, setAvailableOptions, false);
+            fetchData(endPoint, setAvailableOptions);
         }
     }, [selectedFilteredBy, fetchData]);
 
@@ -79,14 +79,12 @@ const LinePage = () => {
                     </option>
                 ))}
             </select>
-            {isLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <Line
-                    title={selectedOptions}
-                    lineData={lineData}
-                />
-            )}
+
+            <Line
+                title={selectedOptions}
+                lineData={lineData}
+            />
+
             {/* TODO: styled this */}
             {errorMessage && <div>{errorMessage}</div>}
         </div>

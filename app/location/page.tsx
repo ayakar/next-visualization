@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Risk } from '../types/RiskRating';
 import Location from '../components/Location';
 import { config } from '@/app/constants/endpoints';
@@ -23,7 +23,7 @@ const LocationPage = () => {
 
     return (
         // TODO: replace with loader
-        <Suspense fallback={<div>loading...</div>}>
+        <>
             <select
                 value={selectedYear}
                 onChange={(event) => {
@@ -41,7 +41,7 @@ const LocationPage = () => {
                 ))}
             </select>
             <Location locationData={locationData} />
-        </Suspense>
+        </>
     );
 };
 
