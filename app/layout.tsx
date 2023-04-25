@@ -23,7 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={montserrat.className}>
                 <nav>
                     <Link href="/">Home | </Link>
-                    <Link href="/location">Location</Link>
+                    <Link href="/location">Location | </Link>
+                    <Link href="/line">Line</Link>
                 </nav>
                 <main>{children}</main>
             </body>
