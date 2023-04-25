@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Line from '@/app/components/Line';
 import { config } from '../constants/endpoints';
 import { Risk } from '../types/RiskRating';
+import useFetch from '../hooks/useFetch';
 
 const LinePage = () => {
+    const { errorMessage, isLoading, fetchData } = useFetch();
     const [selectedFilteredBy, setSelectedFilteredBy] = useState(''); // Possible values: location, asset, business_category
     const [availableOptions, setAvailableOptions] = useState([]); // all options will be dynamically generated based on selectedFilteredBy value
     const [selectedOptions, setSelectedOptions] = useState(''); // selected options to fetch risksData
@@ -12,35 +14,29 @@ const LinePage = () => {
     const [lineData, setLineData] = useState({}); // { '2030': 0.27, '2050': 0.06 }
 
     useEffect(() => {
-        const fetchFilterOptions = async () => {
-            let endPoint = '';
-            switch (selectedFilteredBy) {
-                case 'asset':
-                    endPoint = config.url.RISKS_ASSETS;
-                    break;
-                case 'location':
-                    endPoint = config.url.RISKS_LOCATIONS; // TODO implement this
-                    break;
-                case 'business_category':
-                    endPoint = config.url.RISKS_CATEGORIES;
-                    break;
-                default:
-                    break;
-            }
-            const res = await fetch(endPoint);
-            const data = await res.json();
-            setAvailableOptions(data);
-        };
-        if (selectedFilteredBy) {
-            fetchFilterOptions();
+        let endPoint = '';
+        switch (selectedFilteredBy) {
+            case 'asset':
+                endPoint = config.url.RISKS_ASSETS;
+                break;
+            case 'location':
+                endPoint = config.url.RISKS_LOCATIONS; // TODO implement this
+                break;
+            case 'business_category':
+                endPoint = config.url.RISKS_CATEGORIES;
+                break;
+            default:
+                break;
         }
-    }, [selectedFilteredBy]);
+
+        if (selectedFilteredBy) {
+            fetchData(endPoint, setAvailableOptions, false);
+        }
+    }, [selectedFilteredBy, fetchData]);
 
     useEffect(() => {
-        const fetchLineData = async () => {
-            const res = await fetch(`${config.url.RISKS}/?${selectedFilteredBy}=${selectedOptions}`);
-            const data = await res.json();
-            console.log(data); // TODO: remove
+        const transFormData = (data: Risk[]) => {
+            console.log('datais: ', data); // TODO: remove
             let transformedData: { [key: number]: number } = {};
             data.forEach((item: Risk) => {
                 const year = item['Year'];
@@ -48,13 +44,13 @@ const LinePage = () => {
                 const current = transformedData[year] ? transformedData[year] : 0;
                 transformedData[year] = current + riskRating;
             });
-
             setLineData(transformedData);
         };
+
         if (selectedOptions) {
-            fetchLineData();
+            fetchData(`${config.url.RISKS}/?${selectedFilteredBy}=${selectedOptions}`, transFormData);
         }
-    }, [selectedOptions, selectedFilteredBy]);
+    }, [selectedOptions, selectedFilteredBy, fetchData]);
 
     return (
         <div>
@@ -83,13 +79,16 @@ const LinePage = () => {
                     </option>
                 ))}
             </select>
-
-            <Line
-                title={selectedOptions}
-                lineData={lineData}
-            />
-
-            {/* {JSON.stringify(lineData)} */}
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : (
+                <Line
+                    title={selectedOptions}
+                    lineData={lineData}
+                />
+            )}
+            {/* TODO: styled this */}
+            {errorMessage && <div>{errorMessage}</div>}
         </div>
     );
 };
