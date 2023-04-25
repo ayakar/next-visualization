@@ -3,7 +3,7 @@ export interface Risk {
     Lat: number;
     Long: number;
     'Business Category': string;
-    'Risk Rating': string;
+    'Risk Rating': number;
     'Risk Factors': {
         Earthquake?: number;
         'Extreme heat'?: number;

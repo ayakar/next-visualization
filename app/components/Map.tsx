@@ -3,57 +3,50 @@ import { useEffect, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
 import { Risk } from '../types/RiskRating';
-import LocationMarker from '../components/LocationMarker';
 
-const Map = () => {
-    const [locationData, setLocationData] = useState<Risk[] | null>();
+interface Props {
+    locationData: Risk[] | null;
+}
 
+const Map: React.FC<Props> = ({ locationData }) => {
     const position: LatLngExpression = [43.6532, -79.3832]; // default location
-    const zoom: number = 10;
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await fetch('http://localhost:3000/api');
-            const data = await res.json();
-            setLocationData(data);
-        };
-
-        fetchData();
-    }, []);
-
-    const icon: L.DivIcon = L.divIcon({
-        className: 'icon',
-        iconSize: [20, 20],
-        // iconAnchor: [0, 0],
-        // popupAnchor: [15, 0],
-    });
+    const zoom: number = 5;
 
     return (
         <MapContainer
-            // className={styles['leaflet-container']}
             center={position}
             zoom={zoom}
-            scrollWheelZoom={false}
+            scrollWheelZoom={true}
         >
             <TileLayer
                 attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {locationData?.map((item, index) => (
-                <Marker
-                    icon={icon}
-                    key={index}
-                    position={[item.Lat, item.Long]}
-                    title={`${item['Asset Name']}`}
-                >
-                    <Popup>
-                        <p>Risk data here</p>
-                    </Popup>
-                </Marker>
-            ))}
+            {locationData?.map((item, index) => {
+                const marker =
+                    item['Risk Rating'] > 0.8 ? './assets/marker-high.svg' : item['Risk Rating'] > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
+
+                return (
+                    <Marker
+                        icon={L.icon({
+                            iconUrl: marker,
+                            iconSize: [20, 20],
+                            iconAnchor: [0, 0],
+                        })}
+                        key={index}
+                        position={[item.Lat, item.Long]}
+                        title={`${item['Asset Name']}`}
+                    >
+                        <Popup>
+                            <h2>{item['Asset Name']}</h2>
+                            <div>{item['Business Category']}</div>
+                            <div>{item['Year']}</div>
+                        </Popup>
+                    </Marker>
+                );
+            })}
         </MapContainer>
     );
 };
