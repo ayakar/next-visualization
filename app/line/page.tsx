@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Line from '@/app/components/Line';
 import { config } from '../constants/endpoints';
-import { LineChartDataset, Risk } from '../types/RiskRating';
+import { LineChartData, LineChartDataset, Risk } from '../types/RiskRating';
 import useFetch from '../hooks/useFetch';
 import Location from '../components/Location';
 
@@ -44,7 +44,7 @@ const LinePage = () => {
         const transFormData = (data: Risk[]) => {
             console.log('response: ', data); // TODO: remove
 
-            let transformedData: { [key: number]: number } = {};
+            let transformedData: LineChartData = {};
             data.forEach((item: Risk) => {
                 const year = item['Year'];
                 const riskRating = item['Risk Rating'];
