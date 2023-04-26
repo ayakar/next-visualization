@@ -41,13 +41,7 @@ const LinePage = () => {
     }, [selectedFilteredBy, fetchData]);
 
     useEffect(() => {
-        const colors = ['pink', 'green']; // TODO: change this from theme
-        // const datasets = lineData.map((item, index) => ({
-        //     label: title,
-        //     data: item,
-        //     borderColor: colors[index % colors.length],
-        //     backgroundColor: colors[index % colors.length],
-        // }));
+        const colors = ['pink', 'green', 'blue', 'yellow', 'orange']; // TODO: change this from theme
 
         const transFormData = (data: Risk[]) => {
             console.log('response: ', data); // TODO: remove
@@ -56,17 +50,23 @@ const LinePage = () => {
             let transformedData: { [key: number]: number } = {};
 
             if (selectedFilteredBy === 'location') {
+                // 1. Separate data by Asset
+                let byAsset = {};
                 data.forEach((item: Risk) => {
                     const asset = item['Asset Name'];
-                    arr.push();
-                }); // [{asset_name:{2060:0.5, 2070:0.3}}, {asset_name2:{2030:0.2, 2070:1}} }]
-
-                // location will have multiple line
-                data.forEach((item: Risk) => {
                     const year = item['Year'];
                     const riskRating = item['Risk Rating'];
-                    const current = transformedData[year] ? transformedData[year] : 0;
-                    transformedData[year] = current + riskRating;
+                    byAsset[asset] = byAsset[asset] ? byAsset[asset] : {};
+                    const current = byAsset[asset][year] ? byAsset[asset][year] : 0;
+                    byAsset[asset][year] = current + riskRating;
+                }); // [{asset_name:{2060:0.5, 2070:0.3}}, {asset_name2:{2030:0.2, 2070:1}} }]
+                console.log('by asset: ', byAsset);
+
+                // 2. Make datasets with label etc
+                datasets = Object.entries(byAsset).map(([key, value], index) => {
+                    datasets = { label: key, data: value, borderColor: colors[index % colors.length], backgroundColor: colors[index % colors.length] };
+                    console.log(datasets); // {label: ASSET_NAME, data:xxx, borderColor:xxx,backgroundColor}
+                    arr.push(datasets); // [{label:xxx, data:xxx, borderColor:xxx,backgroundColor}, {....}]
                 });
             } else {
                 data.forEach((item: Risk) => {
@@ -81,9 +81,9 @@ const LinePage = () => {
                     borderColor: colors[0],
                     backgroundColor: colors[0],
                 };
+                arr.push(datasets);
             }
 
-            arr.push(datasets);
             console.log(arr);
             setLineData(arr);
         };

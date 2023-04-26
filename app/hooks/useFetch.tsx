@@ -23,6 +23,7 @@ const useFetch = () => {
 
             setIsSuccess(true);
         } catch (error) {
+            console.error('Something went wrong', error);
             setErrorMessage('Something went wrong. Please try again.');
             setIsSuccess(false);
         }

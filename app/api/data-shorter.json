@@ -102,6 +102,15 @@
         "Year": 2050
     },
     {
+        "Asset Name": "Mejia, Roberts and Gay",
+        "Lat": 46.1351,
+        "Long": -60.1831,
+        "Business Category": "Energy",
+        "Risk Rating": 0.1,
+        "Risk Factors": { "Volcano": 0, "Hurricane": 0, "Drought": 0, "Tornado": 0.01, "Extreme heat": 0.01 },
+        "Year": 2050
+    },
+    {
         "Asset Name": "Flynn-Anderson",
         "Lat": 45.40008,
         "Long": -73.58248,
