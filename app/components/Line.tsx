@@ -14,9 +14,9 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
     const options = {
         responsive: true,
         plugins: {
-            // legend: {
-            //     position: 'top' as const,
-            // }, // TODO
+            legend: {
+                display: false,
+            },
             title: {
                 display: true,
                 text: title,
@@ -27,11 +27,17 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
     const data = {
         datasets: [
             {
-                label: 'Risk By Year',
+                label: title,
                 data: lineData,
                 borderColor: 'pink',
                 backgroundColor: 'green',
             },
+            // {
+            //     label: title,
+            //     data: { '2030': 0.27, '2050': 0.06 },
+            //     borderColor: 'red',
+            //     backgroundColor: 'blue',
+            // },
         ],
     };
 

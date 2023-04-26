@@ -7,9 +7,10 @@ import { Risk } from '../types/RiskRating';
 
 interface Props {
     locationData: Risk[] | null;
+    onClickHandler?: (data: string) => void | null;
 }
 
-const Map: React.FC<Props> = ({ locationData }) => {
+const Map: React.FC<Props> = ({ locationData, onClickHandler }) => {
     const position: LatLngExpression = [43.6532, -79.3832]; // default location
     const zoom: number = 5;
 
@@ -38,12 +39,15 @@ const Map: React.FC<Props> = ({ locationData }) => {
                         key={index}
                         position={[item.Lat, item.Long]}
                         title={`${item['Asset Name']}`}
+                        eventHandlers={{ click: () => onClickHandler && onClickHandler(`${item.Lat},${item.Long}`) }}
                     >
-                        <Popup>
-                            <h2>{item['Asset Name']}</h2>
-                            <div>{item['Business Category']}</div>
-                            <div>{item['Year']}</div>
-                        </Popup>
+                        {!onClickHandler && (
+                            <Popup>
+                                <h2>{item['Asset Name']}</h2>
+                                <div>{item['Business Category']}</div>
+                                <div>{item['Year']}</div>
+                            </Popup>
+                        )}
                     </Marker>
                 );
             })}

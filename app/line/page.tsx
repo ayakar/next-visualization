@@ -4,12 +4,17 @@ import Line from '@/app/components/Line';
 import { config } from '../constants/endpoints';
 import { Risk } from '../types/RiskRating';
 import useFetch from '../hooks/useFetch';
+import Location from '../components/Location';
 
 const LinePage = () => {
     const { errorMessage, fetchData } = useFetch();
+
     const [selectedFilteredBy, setSelectedFilteredBy] = useState(''); // Possible values: location, asset, business_category
+
     const [availableOptions, setAvailableOptions] = useState([]); // all options will be dynamically generated based on selectedFilteredBy value
     const [selectedOptions, setSelectedOptions] = useState(''); // selected options to fetch risksData
+
+    const [locationData, setLocationData] = useState([]); // This is to show maker on map when location is selected. (instead of selectedOptions for assets, category)
 
     const [lineData, setLineData] = useState({}); // { '2030': 0.27, '2050': 0.06 }
 
@@ -20,7 +25,7 @@ const LinePage = () => {
                 endPoint = config.url.RISKS_ASSETS;
                 break;
             case 'location':
-                endPoint = config.url.RISKS_LOCATIONS; // TODO implement this
+                endPoint = config.url.RISKS; // TODO do I need to reset selectedOption value?
                 break;
             case 'business_category':
                 endPoint = config.url.RISKS_CATEGORIES;
@@ -28,8 +33,9 @@ const LinePage = () => {
             default:
                 break;
         }
-
-        if (selectedFilteredBy) {
+        if (selectedFilteredBy === 'location') {
+            fetchData(endPoint, setLocationData); // TODO: optimize this
+        } else if (selectedFilteredBy) {
             fetchData(endPoint, setAvailableOptions);
         }
     }, [selectedFilteredBy, fetchData]);
@@ -54,6 +60,14 @@ const LinePage = () => {
 
     return (
         <div>
+            <Line
+                title={selectedOptions}
+                lineData={lineData}
+            />
+
+            {/* TODO: styled this */}
+            {errorMessage && <div>{errorMessage}</div>}
+
             <label htmlFor="filteredBy">Filtered by:</label>
             <select
                 id="filteredBy"
@@ -65,28 +79,27 @@ const LinePage = () => {
                 <option value="asset">Asset</option>
                 <option value="business_category">Business Category</option>
             </select>
-            <select
-                onChange={(event) => setSelectedOptions(event.target.value)}
-                value={selectedOptions}
-            >
-                <option value="">Please Select</option>
-                {availableOptions?.map((availableOption) => (
-                    <option
-                        key={availableOption}
-                        value={availableOption}
-                    >
-                        {availableOption}
-                    </option>
-                ))}
-            </select>
-
-            <Line
-                title={selectedOptions}
-                lineData={lineData}
-            />
-
-            {/* TODO: styled this */}
-            {errorMessage && <div>{errorMessage}</div>}
+            {selectedFilteredBy === 'location' ? (
+                <Location
+                    locationData={locationData}
+                    onClickHandler={(data) => setSelectedOptions(data)}
+                />
+            ) : (
+                <select
+                    onChange={(event) => setSelectedOptions(event.target.value)}
+                    value={selectedOptions}
+                >
+                    <option value="">Please Select</option>
+                    {availableOptions?.map((availableOption) => (
+                        <option
+                            key={availableOption}
+                            value={availableOption}
+                        >
+                            {availableOption}
+                        </option>
+                    ))}
+                </select>
+            )}
         </div>
     );
 };
