@@ -2,10 +2,11 @@
 import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
+import { LineChartDataset } from '../types/RiskRating';
 
 interface Props {
     title: string;
-    lineData: { [key: number]: number }[];
+    lineData: LineChartDataset[] | [{}];
 }
 
 const Line: React.FC<Props> = ({ title, lineData }) => {
@@ -23,17 +24,16 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
             },
         },
     };
-
-    const colors = ['pink', 'green'];
-    const datasets = lineData.map((item, index) => ({
-        label: title,
-        data: item,
-        borderColor: colors[index % colors.length],
-        backgroundColor: colors[index % colors.length],
-    }));
+    // const colors = ['pink', 'green'];
+    // const datasets = lineData.map((item, index) => ({
+    //     label: title,
+    //     data: item,
+    //     borderColor: colors[index % colors.length],
+    //     backgroundColor: colors[index % colors.length],
+    // }));
 
     const data = {
-        datasets: datasets,
+        datasets: lineData,
         // datasets: [
         //     {
         //         label: title,

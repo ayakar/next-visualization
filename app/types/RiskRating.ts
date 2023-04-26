@@ -18,3 +18,13 @@ export interface Risk {
     };
     Year: number;
 }
+// TODO: do i need export here?
+export interface LineChartData {
+    [key: number]: number;
+}
+export interface LineChartDataset {
+    label: string;
+    data: LineChartData;
+    borderColor: string;
+    backgroundColor: string;
+}
