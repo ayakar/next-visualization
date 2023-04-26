@@ -16,7 +16,7 @@ const LinePage = () => {
 
     const [locationData, setLocationData] = useState([]); // This is to show maker on map when location is selected. (instead of selectedOptions for assets, category)
 
-    const [lineData, setLineData] = useState({}); // { '2030': 0.27, '2050': 0.06 }
+    const [lineData, setLineData] = useState([{}]); // [{ '2030': 0.27, '2050': 0.06 }]
 
     useEffect(() => {
         let endPoint = '';
@@ -42,7 +42,8 @@ const LinePage = () => {
 
     useEffect(() => {
         const transFormData = (data: Risk[]) => {
-            console.log('datais: ', data); // TODO: remove
+            console.log('response: ', data); // TODO: remove
+            let arr = [];
             let transformedData: { [key: number]: number } = {};
             data.forEach((item: Risk) => {
                 const year = item['Year'];
@@ -50,7 +51,9 @@ const LinePage = () => {
                 const current = transformedData[year] ? transformedData[year] : 0;
                 transformedData[year] = current + riskRating;
             });
-            setLineData(transformedData);
+            arr.push(transformedData);
+            console.log(arr);
+            setLineData(arr);
         };
 
         if (selectedOptions) {

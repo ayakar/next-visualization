@@ -5,7 +5,7 @@ import { Line as LineChartJS } from 'react-chartjs-2';
 
 interface Props {
     title: string;
-    lineData: {};
+    lineData: { [key: number]: number }[];
 }
 
 const Line: React.FC<Props> = ({ title, lineData }) => {
@@ -24,21 +24,30 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
         },
     };
 
+    const colors = ['pink', 'green'];
+    const datasets = lineData.map((item, index) => ({
+        label: title,
+        data: item,
+        borderColor: colors[index % colors.length],
+        backgroundColor: colors[index % colors.length],
+    }));
+
     const data = {
-        datasets: [
-            {
-                label: title,
-                data: lineData,
-                borderColor: 'pink',
-                backgroundColor: 'green',
-            },
-            // {
-            //     label: title,
-            //     data: { '2030': 0.27, '2050': 0.06 },
-            //     borderColor: 'red',
-            //     backgroundColor: 'blue',
-            // },
-        ],
+        datasets: datasets,
+        // datasets: [
+        //     {
+        //         label: title,
+        //         data: lineData,
+        //         borderColor: 'pink',
+        //         backgroundColor: 'green',
+        //     },
+        //     {
+        //         label: title,
+        //         data: { '2030': 0.27, '2050': 0.06 },
+        //         borderColor: 'red',
+        //         backgroundColor: 'blue',
+        //     },
+        // ],
     };
 
     return (
