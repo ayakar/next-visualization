@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Risk } from '../types/RiskRating';
-import Location from '../components/Location';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../hooks/useFetch';
 import SelectYear from '../components/SelectYear';
 import Table from '../components/Table';
+import SelectAsset from '../components/SelectAsset';
+import SelectBusinessCategory from '../components/SelectBusinessCategory';
 
 const TablePage = () => {
     const { fetchData } = useFetch();
@@ -14,6 +15,20 @@ const TablePage = () => {
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
     const [sortLabel, setSortLabel] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
+    const [riskFactorLists, setRiskFactorLists] = useState({
+        Earthquake: false,
+        'Extreme heat': false,
+        Wildfire: false,
+        Tornado: false,
+        Flooding: false,
+        Volcano: false,
+        Hurricane: false,
+        Drought: false,
+        'Extreme cold': false,
+        'Sea level rise': false,
+    });
+    const [selectedAsset, setSelectedAsset] = useState('');
+    const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
 
     const limit = 30;
 
@@ -36,17 +51,61 @@ const TablePage = () => {
     };
 
     const onPaginationClickHandler = (pageNum: number) => {
-        const offset = pageNum * limit;
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
+        // const offset = pageNum * limit;
+        // fetchData(`${config.url.RISKS}/?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
+    };
+
+    const onFilterSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        let endPoint = `${config.url.RISKS}/?year=${selectedYear}&limit=${limit}`;
+        if (selectedBusinessCategory) {
+            endPoint += `&business_category=${selectedBusinessCategory}`;
+        }
+        if (selectedAsset) {
+            endPoint += `&asset=${selectedAsset}`;
+        }
+
+        fetchData(endPoint, setTableData);
     };
 
     return (
         <div>
-            {JSON.stringify(sortOrder)}
             <SelectYear
                 selectedYear={selectedYear}
                 setSelectedYear={setSelectedYear}
             />
+
+            <form onSubmit={onFilterSubmitHandler}>
+                <SelectBusinessCategory
+                    selectedBusinessCategory={selectedBusinessCategory}
+                    setSelectedBusinessCategory={setSelectedBusinessCategory}
+                />
+                <SelectAsset
+                    selectedAsset={selectedAsset}
+                    setSelectedAsset={setSelectedAsset}
+                />
+                {Object.entries(riskFactorLists).map(([factorName, isChecked], index) => {
+                    return (
+                        <div key={factorName}>
+                            <input
+                                type="checkbox"
+                                id={factorName}
+                                checked={isChecked}
+                                onChange={() => setRiskFactorLists((prev) => ({ ...prev, [factorName]: !prev[factorName as keyof typeof riskFactorLists] }))}
+                            />
+                            <label htmlFor={factorName}>{factorName}</label>
+                        </div>
+                    );
+                })}
+
+                <button
+                    type="submit"
+                    className="bg-primary hover:bg-black text-white font-bold py-2 px-4 rounded"
+                >
+                    Filter Submit
+                </button>
+            </form>
             <Table
                 tableData={tableData}
                 onSortClickHandler={onSortClickHandler}
