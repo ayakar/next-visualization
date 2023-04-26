@@ -5,6 +5,8 @@ import { config } from '../constants/endpoints';
 import { LineChartData, LineChartDataset, Risk } from '../types/RiskRating';
 import useFetch from '../hooks/useFetch';
 import Location from '../components/Location';
+import SelectBusinessCategory from '../components/SelectBusinessCategory';
+import SelectAsset from '../components/SelectAsset';
 
 const LinePage = () => {
     const { errorMessage, fetchData } = useFetch();
@@ -86,21 +88,18 @@ const LinePage = () => {
                     locationData={locationData}
                     onClickHandler={(data) => setSelectedOptions(data)}
                 />
+            ) : selectedFilteredBy === 'asset' ? (
+                <SelectAsset
+                    selectedAsset={selectedOptions}
+                    setSelectedAsset={setSelectedOptions}
+                />
             ) : (
-                <select
-                    onChange={(event) => setSelectedOptions(event.target.value)}
-                    value={selectedOptions}
-                >
-                    <option value="">Please Select</option>
-                    {availableOptions?.map((availableOption) => (
-                        <option
-                            key={availableOption}
-                            value={availableOption}
-                        >
-                            {availableOption}
-                        </option>
-                    ))}
-                </select>
+                selectedFilteredBy === 'business_category' && (
+                    <SelectBusinessCategory
+                        selectedBusinessCategory={selectedOptions}
+                        setSelectedBusinessCategory={setSelectedOptions}
+                    />
+                )
             )}
         </div>
     );
