@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import risks from '../data.json';
+import { Risk } from '@/app/types/RiskRating';
 
 // 1: filter: year, asset, business cat, location
 // 2: sort: sort, order
 // 3: trim: limit, offset
 
-export async function GET(request) {
-    let filtered = risks;
+export async function GET(request: { url: URL }) {
+    let filtered: Risk[] = risks;
     // Query Params
     const { searchParams } = new URL(request.url);
     const year = searchParams.get('year');
@@ -15,9 +16,9 @@ export async function GET(request) {
     const location = searchParams.get('location');
 
     const sortBy = searchParams.get('sort'); // TODO change to sort-by
-    const order = searchParams.get('order'); // asc or desc
-    const limit = searchParams.get('limit');
-    const offset = searchParams.get('offset') ?? 0;
+    const order = searchParams.get('order') ?? 'asc'; // default is asc
+    const limit = searchParams.get('limit'); // null or number of limit
+    const offset = searchParams.get('offset') ?? '0'; // default is 0
 
     if (year) {
         filtered = filtered.filter((risk) => risk['Year'].toString() === year);
@@ -51,12 +52,12 @@ export async function GET(request) {
     return NextResponse.json(filtered);
 }
 
-const sortRisks = (data, sortBy, order = 'asc') => {
+const sortRisks = (data: Risk[], sortBy: string, order: string) => {
     const isAsc = order === 'asc';
-    data.sort((a, b) => {
-        if (a[sortBy] < b[sortBy]) {
+    data.sort((a: Risk, b: Risk) => {
+        if (a[sortBy as keyof Risk] < b[sortBy as keyof Risk]) {
             return isAsc ? -1 : 1;
-        } else if (a[sortBy] > b[sortBy]) {
+        } else if (a[sortBy as keyof Risk] > b[sortBy as keyof Risk]) {
             return isAsc ? 1 : -1;
         } else {
             return 0;
@@ -65,7 +66,7 @@ const sortRisks = (data, sortBy, order = 'asc') => {
     console.log(data.length);
     return data;
 };
-const trimRisks = (data, limit, offset) => {
+const trimRisks = (data: Risk[], limit: string, offset: string) => {
     // TODO: optimize by combine with sortRisks() if possible
     const startIndex = parseInt(offset);
     const endIndex = parseInt(offset) + parseInt(limit);
