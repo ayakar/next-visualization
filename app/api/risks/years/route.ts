@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import risks from '@/app/api/data-shorter.json'; // change this to data.json
+import risks from '@/app/api/data.json';
 import { Risk } from '@/app/types/RiskRating';
 
 export async function GET() {
