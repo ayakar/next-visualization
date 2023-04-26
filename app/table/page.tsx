@@ -12,28 +12,45 @@ const TablePage = () => {
     const { fetchData } = useFetch();
     const [tableData, setTableData] = useState<Risk[] | null>(null);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
+    const [sortLabel, setSortLabel] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');
 
-    const numOfData = 30;
-    const offSet = 0;
+    const limit = 30;
 
     useEffect(() => {
-        // TODO optimize request based on visible region
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}`, setTableData);
+        fetchData(`${config.url.RISKS}/?year=${selectedYear}&limit=${limit}`, setTableData);
     }, [selectedYear, fetchData]);
 
-    const onClickHandler = (label: string, order: boolean) => {
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}&sort=${label}&order=${order}`, setTableData);
+    useEffect(() => {
+        fetchData(`${config.url.RISKS}/?year=${selectedYear}&order=${sortOrder}&limit=${limit}&sort=${sortLabel}`, setTableData);
+
+        // adding this because selectedYear shouldn't be dependency here
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sortLabel, sortOrder, fetchData]);
+
+    const onSortClickHandler = (label: string) => {
+        if (label === sortLabel) {
+            setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+        }
+        setSortLabel(label);
+    };
+
+    const onPaginationClickHandler = (pageNum: number) => {
+        const offset = pageNum * limit;
+        fetchData(`${config.url.RISKS}/?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
     };
 
     return (
         <div>
+            {JSON.stringify(sortOrder)}
             <SelectYear
                 selectedYear={selectedYear}
                 setSelectedYear={setSelectedYear}
             />
             <Table
                 tableData={tableData}
-                onClickHandler={onClickHandler}
+                onSortClickHandler={onSortClickHandler}
+                onPaginationClickHandler={onPaginationClickHandler}
             />
         </div>
     );

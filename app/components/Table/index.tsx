@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Risk } from '../../types/RiskRating';
-import Th from './Th';
 
 interface Props {
     tableData: Risk[] | null;
-    onClickHandler: (label: string, sortOrder: boolean) => void;
+    onSortClickHandler: (label: string) => void;
+    onPaginationClickHandler: (pageNum: number) => void;
 }
 
-const Table: React.FC<Props> = ({ tableData, onClickHandler }) => {
+const Table: React.FC<Props> = ({ tableData, onSortClickHandler, onPaginationClickHandler }) => {
     const labels = ['Asset Name', 'Lat', 'Long', 'Business Category', 'Risk Rating', 'Risk Factors', 'Year'];
 
     return (
@@ -16,11 +16,12 @@ const Table: React.FC<Props> = ({ tableData, onClickHandler }) => {
                 <thead>
                     <tr>
                         {labels.map((label, index) => (
-                            <Th
+                            <th
                                 key={index}
-                                thLabel={label}
-                                sortClickHandler={onClickHandler}
-                            />
+                                onClick={() => label !== 'Year' && label !== 'Risk Factors' && onSortClickHandler(label)}
+                            >
+                                {label}
+                            </th>
                         ))}
                     </tr>
                 </thead>
@@ -38,7 +39,10 @@ const Table: React.FC<Props> = ({ tableData, onClickHandler }) => {
                     ))}
                 </tbody>
             </table>
-            <div>Pargination here!</div>
+            <div>
+                <button onClick={() => onPaginationClickHandler(1)}>1</button>
+                <button onClick={() => onPaginationClickHandler(2)}>2</button>
+            </div>
         </>
     );
 };
