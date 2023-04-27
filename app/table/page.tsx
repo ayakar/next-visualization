@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, FormEvent } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Risk } from '../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../hooks/useFetch';
@@ -8,9 +8,10 @@ import SelectYear from '../components/SelectYear';
 import Table from '../components/Table';
 import SelectAsset from '../components/SelectAsset';
 import SelectBusinessCategory from '../components/SelectBusinessCategory';
+import Spinner from '../components/Spinner';
 
 const TablePage = () => {
-    const { fetchData } = useFetch();
+    const { fetchData, isLoading } = useFetch();
     const [tableData, setTableData] = useState<Risk[]>([]);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
@@ -28,21 +29,45 @@ const TablePage = () => {
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
 
-    const [sortLabel, setSortLabel] = useState('');
+    const [sortLabel, setSortLabel] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState('asc');
 
     const limit = 30;
 
-    useEffect(() => {
-        fetchData(`${config.url.RISKS}?year=${selectedYear}&limit=${limit}`, setTableData);
-    }, [fetchData]);
+    const getTableData = useCallback(
+        (offset = null) => {
+            let endPoint = `${config.url.RISKS}?year=${selectedYear}&limit=${limit}`;
 
-    useEffect(() => {
-        fetchData(`${config.url.RISKS}?year=${selectedYear}&order=${sortOrder}&limit=${limit}&sort=${sortLabel}`, setTableData);
+            // Filter: business category, asset, risk factor
+            if (selectedBusinessCategory) {
+                endPoint += `&business_category=${selectedBusinessCategory}`;
+            }
+            if (selectedAsset) {
+                endPoint += `&asset=${selectedAsset}`;
+            }
+            const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
+            if (checkedRiskFactors.length > 0) {
+                endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
+            }
+            // sort
+            if (sortLabel) {
+                endPoint += `&sort=${sortLabel}&order=${sortOrder}`;
+            }
 
-        // adding this because selectedYear shouldn't be dependency here
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sortLabel, sortOrder, fetchData]);
+            // offset
+            if (offset) {
+                endPoint += `&offset=${offset}`;
+            }
+
+            fetchData(endPoint, setTableData);
+        },
+        [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, sortLabel, sortOrder, fetchData]
+    );
+
+    // Initial
+    useEffect(() => {
+        getTableData();
+    }, [getTableData]);
 
     const onSortClickHandler = (label: string) => {
         if (label === sortLabel) {
@@ -53,41 +78,17 @@ const TablePage = () => {
 
     const onPaginationClickHandler = (pageNum: number) => {
         // const offset = pageNum * limit;
-        // fetchData(`${config.url.RISKS}?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
+        // getTableData(offset);
     };
-
-    const onFilterSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        let endPoint = `${config.url.RISKS}?year=${selectedYear}&limit=${limit}`;
-        if (selectedBusinessCategory) {
-            endPoint += `&business_category=${selectedBusinessCategory}`;
-        }
-        if (selectedAsset) {
-            endPoint += `&asset=${selectedAsset}`;
-        }
-        const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
-
-        if (checkedRiskFactors.length > 0) {
-            endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
-        }
-
-        fetchData(endPoint, setTableData);
-    };
-
-    // 1. initial load ... filtered by year, sort asc
-    // 2. pagination ...
-    // 3. filter submit ...
-    // 4. sort
 
     return (
         <div>
-            <SelectYear
-                selectedYear={selectedYear}
-                setSelectedYear={setSelectedYear}
-            />
+            <div>
+                <SelectYear
+                    selectedYear={selectedYear}
+                    setSelectedYear={setSelectedYear}
+                />
 
-            <form onSubmit={onFilterSubmitHandler}>
                 <SelectBusinessCategory
                     selectedBusinessCategory={selectedBusinessCategory}
                     setSelectedBusinessCategory={setSelectedBusinessCategory}
@@ -109,23 +110,19 @@ const TablePage = () => {
                         </div>
                     );
                 })}
+            </div>
 
-                <button
-                    type="submit"
-                    className="bg-primary hover:bg-black text-white font-bold py-2 px-4 rounded"
-                >
-                    Filter Submit
-                </button>
-            </form>
-            {tableData.length > 0 ? (
+            {isLoading ? (
+                <Spinner />
+            ) : tableData.length > 0 ? (
                 <Table
                     tableData={tableData}
                     onSortClickHandler={onSortClickHandler}
                     onPaginationClickHandler={onPaginationClickHandler}
                 />
             ) : (
-                // TODO: style this
-                <div>No result. Please select different term</div>
+                // Style this
+                <div>No Result. Please try different term</div>
             )}
         </div>
     );
