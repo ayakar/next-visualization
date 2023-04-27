@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Risk } from '../../types/RiskRating';
+import { Risk } from '../../../types/RiskRating';
 import Pagination from './Pagination';
 
 interface Props {

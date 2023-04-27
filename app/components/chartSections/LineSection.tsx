@@ -1,14 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Line from '@/app/components/Line';
-import { config } from '../constants/endpoints';
-import { LineChartData, LineChartDataset, Risk } from '../types/RiskRating';
-import useFetch from '../hooks/useFetch';
-import Location from '../components/Location';
-import SelectBusinessCategory from '../components/SelectBusinessCategory';
-import SelectAsset from '../components/SelectAsset';
+import Line from '@/app/components/charts/Line';
+import { config } from '../../constants/endpoints';
+import { LineChartData, LineChartDataset, Risk } from '../../types/RiskRating';
+import useFetch from '../../hooks/useFetch';
+import Location from '../charts/Location';
+import SelectBusinessCategory from '../SelectBusinessCategory';
+import SelectAsset from '../SelectAsset';
 
-const LinePage = () => {
+const LineSection = () => {
     const { errorMessage, fetchData } = useFetch();
 
     const [selectedFilteredBy, setSelectedFilteredBy] = useState(''); // Possible values: location, asset, business_category
@@ -105,4 +105,4 @@ const LinePage = () => {
     );
 };
 
-export default LinePage;
+export default LineSection;

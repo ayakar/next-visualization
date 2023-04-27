@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Risk } from '../types/RiskRating';
+import { Risk } from '../../types/RiskRating';
 
 interface Props {
     locationData: Risk[] | null;

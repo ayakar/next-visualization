@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Risk } from '../types/RiskRating';
-import Location from '../components/Location';
+import { Risk } from '../../types/RiskRating';
+import Location from '../charts/Location';
 import { config } from '@/app/constants/endpoints';
-import useFetch from '../hooks/useFetch';
-import SelectYear from '../components/SelectYear';
+import useFetch from '../../hooks/useFetch';
+import SelectYear from '../SelectYear';
 
-const LocationPage = () => {
+const LocationSection = () => {
     const { fetchData } = useFetch();
     const [locationData, setLocationData] = useState<Risk[] | null>(null);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
@@ -29,4 +29,4 @@ const LocationPage = () => {
     );
 };
 
-export default LocationPage;
+export default LocationSection;

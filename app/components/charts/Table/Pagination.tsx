@@ -18,6 +18,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         for (let i = 1; i < totalPages + 1; i++) {
             LeftPagination.push(
                 <PaginationButton
+                    key={i}
                     pageNumber={i}
                     currentPage={currentPage}
                     onClickHandler={onClickHandler}
@@ -33,6 +34,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         for (let i = 1; i < maximumPagination + 1; i++) {
             LeftPagination.push(
                 <PaginationButton
+                    key={i}
                     pageNumber={i}
                     currentPage={currentPage}
                     onClickHandler={onClickHandler}
@@ -43,6 +45,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         for (let i = totalPages; i > totalPages - maximumPagination; i--) {
             RightPagination.push(
                 <PaginationButton
+                    key={i}
                     pageNumber={i}
                     currentPage={currentPage}
                     onClickHandler={onClickHandler}
@@ -60,6 +63,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         // Generate left
         LeftPagination.push(
             <PaginationButton
+                key={1}
                 pageNumber={1}
                 currentPage={currentPage}
                 onClickHandler={onClickHandler}
@@ -70,6 +74,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         for (let i = currentPage - 1; i < currentPage + 2; i++) {
             MiddlePagination.push(
                 <PaginationButton
+                    key={i}
                     pageNumber={i}
                     currentPage={currentPage}
                     onClickHandler={onClickHandler}
@@ -80,6 +85,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         // Generate right
         RightPagination.push(
             <PaginationButton
+                key={totalPages}
                 pageNumber={totalPages}
                 currentPage={currentPage}
                 onClickHandler={onClickHandler}

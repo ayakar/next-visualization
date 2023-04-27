@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { Risk, TableRiskData } from '../types/RiskRating';
+import { Risk, TableRiskData } from '../../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
-import useFetch from '../hooks/useFetch';
-import SelectYear from '../components/SelectYear';
-import Table from '../components/Table';
-import SelectAsset from '../components/SelectAsset';
-import SelectBusinessCategory from '../components/SelectBusinessCategory';
-import Spinner from '../components/Spinner';
+import useFetch from '../../hooks/useFetch';
+import SelectYear from '../SelectYear';
+import Table from '../charts/Table';
+import SelectAsset from '../SelectAsset';
+import SelectBusinessCategory from '../SelectBusinessCategory';
+import Spinner from '../Spinner';
 
-const TablePage = () => {
+const TableSection = () => {
     const { fetchData, isLoading } = useFetch();
     const [tableData, setTableData] = useState<Risk[]>([]);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
@@ -142,4 +142,4 @@ const TablePage = () => {
     );
 };
 
-export default TablePage;
+export default TableSection;
