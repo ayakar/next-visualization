@@ -29,3 +29,9 @@ export interface LineChartDataset {
     borderColor: string;
     backgroundColor: string;
 }
+
+export interface TableRiskData {
+    data: Risk[];
+    totalPages: number;
+    currentPage: number;
+}

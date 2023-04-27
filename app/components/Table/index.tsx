@@ -4,6 +4,8 @@ import Pagination from './Pagination';
 
 interface Props {
     tableData: Risk[] | null;
+    totalPages: number;
+    currentPage: number;
     onSortClickHandler: (label: string) => void;
     onPaginationClickHandler: (pageNum: number) => void;
 }

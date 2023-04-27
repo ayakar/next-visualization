@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { Risk } from '../types/RiskRating';
+import { Risk, TableRiskData } from '../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../hooks/useFetch';
 import SelectYear from '../components/SelectYear';
@@ -30,7 +30,7 @@ const TablePage = () => {
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
     // For sorting
     const [sortLabel, setSortLabel] = useState<string | null>(null);
-    const [sortOrder, setSortOrder] = useState('asc');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     //For pagination
     const [totalPages, setTotalPages] = useState(0);
@@ -63,12 +63,12 @@ const TablePage = () => {
                 endPoint += `&offset=${offset}`;
             }
             console.log(endPoint);
-            const transformData = (resData) => {
+            const transformData = (resData: TableRiskData) => {
                 setTableData(resData.data);
                 setTotalPages(resData.totalPages);
-                console.log(resData.totalPages);
                 setCurrentPage(resData.currentPage);
-                console.log('cuurent page:', resData.currentPage);
+                console.log('total pages:', resData.totalPages);
+                console.log('current page:', resData.currentPage);
             };
 
             fetchData(endPoint, transformData);
