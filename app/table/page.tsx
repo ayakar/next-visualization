@@ -11,11 +11,9 @@ import SelectBusinessCategory from '../components/SelectBusinessCategory';
 
 const TablePage = () => {
     const { fetchData } = useFetch();
-    const [tableData, setTableData] = useState<Risk[] | null>(null);
+    const [tableData, setTableData] = useState<Risk[]>([]);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
-    const [sortLabel, setSortLabel] = useState('');
-    const [sortOrder, setSortOrder] = useState('asc');
-    const [riskFactorLists, setRiskFactorLists] = useState({
+    const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
         'Extreme heat': false,
         Wildfire: false,
@@ -30,11 +28,14 @@ const TablePage = () => {
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
 
+    const [sortLabel, setSortLabel] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc');
+
     const limit = 30;
 
     useEffect(() => {
         fetchData(`${config.url.RISKS}?year=${selectedYear}&limit=${limit}`, setTableData);
-    }, [selectedYear, fetchData]);
+    }, [fetchData]);
 
     useEffect(() => {
         fetchData(`${config.url.RISKS}?year=${selectedYear}&order=${sortOrder}&limit=${limit}&sort=${sortLabel}`, setTableData);
@@ -74,6 +75,11 @@ const TablePage = () => {
         fetchData(endPoint, setTableData);
     };
 
+    // 1. initial load ... filtered by year, sort asc
+    // 2. pagination ...
+    // 3. filter submit ...
+    // 4. sort
+
     return (
         <div>
             <SelectYear
@@ -111,11 +117,16 @@ const TablePage = () => {
                     Filter Submit
                 </button>
             </form>
-            <Table
-                tableData={tableData}
-                onSortClickHandler={onSortClickHandler}
-                onPaginationClickHandler={onPaginationClickHandler}
-            />
+            {tableData.length > 0 ? (
+                <Table
+                    tableData={tableData}
+                    onSortClickHandler={onSortClickHandler}
+                    onPaginationClickHandler={onPaginationClickHandler}
+                />
+            ) : (
+                // TODO: style this
+                <div>No result. Please select different term</div>
+            )}
         </div>
     );
 };
