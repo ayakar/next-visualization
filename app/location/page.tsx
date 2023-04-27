@@ -14,7 +14,7 @@ const LocationPage = () => {
 
     useEffect(() => {
         // TODO optimize request based on visible region
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}`, setLocationData);
+        fetchData(`${config.url.RISKS}?year=${selectedYear}`, setLocationData);
     }, [selectedYear, fetchData]);
 
     return (

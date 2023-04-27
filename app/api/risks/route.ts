@@ -14,12 +14,16 @@ export async function GET(request: { url: URL }) {
     const asset = searchParams.get('asset');
     const business_category = searchParams.get('business_category'); // TODO: change to -
     const location = searchParams.get('location');
+    const riskFactor = searchParams.get('risk-factor');
 
     const sortBy = searchParams.get('sort'); // TODO change to sort-by
     const order = searchParams.get('order') ?? 'asc'; // default is asc
     const limit = searchParams.get('limit'); // null or number of limit
     const offset = searchParams.get('offset') ?? '0'; // default is 0
 
+    // TODO refactor this
+    // filter_obj = {year:"", business_category:""}
+    // filtered = data.filter((risk) => (if filter_obj['year'] ? risk['Year'].toString()) === year &&)
     if (year) {
         filtered = filtered.filter((risk) => risk['Year'].toString() === year);
         console.log('year', filtered.length);
@@ -38,6 +42,15 @@ export async function GET(request: { url: URL }) {
         const long = splittedLocation[1];
         filtered = filtered.filter((risk) => risk['Lat'].toString() === lat && risk['Long'].toString() === long);
         console.log('location', filtered.length);
+    }
+
+    if (riskFactor) {
+        const reqRiskFactors = riskFactor.split(','); //[ 'Flooding', 'Volcano', 'Hurricane' ]
+        filtered = filtered.filter((risk) => {
+            const riskFactors = Object.keys(risk['Risk Factors']);
+            return reqRiskFactors.every((factor) => riskFactors.includes(factor));
+        });
+        console.log('risk factor', filtered.length);
     }
 
     if (sortBy) {

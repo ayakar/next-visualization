@@ -6,7 +6,7 @@ interface Props {
     selectedBusinessCategory: string;
     setSelectedBusinessCategory: React.Dispatch<React.SetStateAction<string>>;
 }
-// TODO: use this to line map
+
 const SelectBusinessCategory: React.FC<Props> = ({ selectedBusinessCategory, setSelectedBusinessCategory }) => {
     const { fetchData } = useFetch();
     const [availableBusinessCategories, setAvailableBusinessCategories] = useState<number[]>([]);

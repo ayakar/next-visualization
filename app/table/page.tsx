@@ -33,11 +33,11 @@ const TablePage = () => {
     const limit = 30;
 
     useEffect(() => {
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}&limit=${limit}`, setTableData);
+        fetchData(`${config.url.RISKS}?year=${selectedYear}&limit=${limit}`, setTableData);
     }, [selectedYear, fetchData]);
 
     useEffect(() => {
-        fetchData(`${config.url.RISKS}/?year=${selectedYear}&order=${sortOrder}&limit=${limit}&sort=${sortLabel}`, setTableData);
+        fetchData(`${config.url.RISKS}?year=${selectedYear}&order=${sortOrder}&limit=${limit}&sort=${sortLabel}`, setTableData);
 
         // adding this because selectedYear shouldn't be dependency here
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,18 +52,23 @@ const TablePage = () => {
 
     const onPaginationClickHandler = (pageNum: number) => {
         // const offset = pageNum * limit;
-        // fetchData(`${config.url.RISKS}/?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
+        // fetchData(`${config.url.RISKS}?year=${selectedYear}&sort=${sortLabel}&order=${sortOrder}&limit=${limit}?offset=${offset}`, setTableData);
     };
 
     const onFilterSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        let endPoint = `${config.url.RISKS}/?year=${selectedYear}&limit=${limit}`;
+        let endPoint = `${config.url.RISKS}?year=${selectedYear}&limit=${limit}`;
         if (selectedBusinessCategory) {
             endPoint += `&business_category=${selectedBusinessCategory}`;
         }
         if (selectedAsset) {
             endPoint += `&asset=${selectedAsset}`;
+        }
+        const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
+
+        if (checkedRiskFactors.length > 0) {
+            endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
 
         fetchData(endPoint, setTableData);

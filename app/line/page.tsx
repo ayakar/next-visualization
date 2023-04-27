@@ -58,7 +58,7 @@ const LinePage = () => {
         };
 
         if (selectedOptions) {
-            fetchData(`${config.url.RISKS}/?${selectedFilteredBy}=${selectedOptions}`, transFormData);
+            fetchData(`${config.url.RISKS}?${selectedFilteredBy}=${selectedOptions}`, transFormData);
         }
     }, [selectedOptions, selectedFilteredBy, fetchData]);
 

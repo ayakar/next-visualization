@@ -6,7 +6,7 @@ interface Props {
     selectedAsset: string;
     setSelectedAsset: React.Dispatch<React.SetStateAction<string>>;
 }
-// TODO: use this to line map
+
 const SelectAsset: React.FC<Props> = ({ selectedAsset, setSelectedAsset }) => {
     const { fetchData } = useFetch();
     const [availableAssets, setAvailableAssets] = useState<number[]>([]);
