@@ -8,6 +8,7 @@ import { Risk } from '@/app/types/RiskRating';
 
 export async function GET(request: { url: URL }) {
     let filtered: Risk[] = risks;
+    let totalPages;
     // Query Params
     const { searchParams } = new URL(request.url);
     const year = searchParams.get('year');
@@ -58,10 +59,12 @@ export async function GET(request: { url: URL }) {
         console.log('sortBy', filtered.length);
     }
     if (limit) {
+        console.log('limit, offset', limit, offset);
+        totalPages = Math.ceil(parseInt(filtered.length) / parseInt(limit));
         filtered = trimRisks(filtered, limit, offset);
+        return NextResponse.json({ data: filtered, totalPages, currentPage: offset / limit + 1 });
     }
 
-    console.log(filtered.length);
     return NextResponse.json(filtered);
 }
 
@@ -84,6 +87,5 @@ const trimRisks = (data: Risk[], limit: string, offset: string) => {
     const startIndex = parseInt(offset);
     const endIndex = parseInt(offset) + parseInt(limit);
     const trimmedData = data.slice(startIndex, endIndex);
-
     return trimmedData;
 };

@@ -28,14 +28,18 @@ const TablePage = () => {
     });
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
-
+    // For sorting
     const [sortLabel, setSortLabel] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState('asc');
 
-    const limit = 30;
+    //For pagination
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const limit = 10;
 
     const getTableData = useCallback(
-        (offset = null) => {
+        (offset: number | null = null) => {
             let endPoint = `${config.url.RISKS}?year=${selectedYear}&limit=${limit}`;
 
             // Filter: business category, asset, risk factor
@@ -58,8 +62,16 @@ const TablePage = () => {
             if (offset) {
                 endPoint += `&offset=${offset}`;
             }
+            console.log(endPoint);
+            const transformData = (resData) => {
+                setTableData(resData.data);
+                setTotalPages(resData.totalPages);
+                console.log(resData.totalPages);
+                setCurrentPage(resData.currentPage);
+                console.log('cuurent page:', resData.currentPage);
+            };
 
-            fetchData(endPoint, setTableData);
+            fetchData(endPoint, transformData);
         },
         [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, sortLabel, sortOrder, fetchData]
     );
@@ -77,8 +89,8 @@ const TablePage = () => {
     };
 
     const onPaginationClickHandler = (pageNum: number) => {
-        // const offset = pageNum * limit;
-        // getTableData(offset);
+        const offset = (pageNum - 1) * limit;
+        getTableData(offset);
     };
 
     return (
@@ -117,6 +129,8 @@ const TablePage = () => {
             ) : tableData.length > 0 ? (
                 <Table
                     tableData={tableData}
+                    totalPages={totalPages}
+                    currentPage={currentPage}
                     onSortClickHandler={onSortClickHandler}
                     onPaginationClickHandler={onPaginationClickHandler}
                 />

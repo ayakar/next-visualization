@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Risk } from '../../types/RiskRating';
+import Pagination from './Pagination';
 
 interface Props {
     tableData: Risk[] | null;
@@ -7,7 +8,7 @@ interface Props {
     onPaginationClickHandler: (pageNum: number) => void;
 }
 
-const Table: React.FC<Props> = ({ tableData, onSortClickHandler, onPaginationClickHandler }) => {
+const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClickHandler, onPaginationClickHandler }) => {
     const labels = ['Asset Name', 'Lat', 'Long', 'Business Category', 'Risk Rating', 'Risk Factors', 'Year'];
 
     return (
@@ -40,8 +41,11 @@ const Table: React.FC<Props> = ({ tableData, onSortClickHandler, onPaginationCli
                 </tbody>
             </table>
             <div>
-                <button onClick={() => onPaginationClickHandler(1)}>1</button>
-                <button onClick={() => onPaginationClickHandler(2)}>2</button>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onClickHandler={onPaginationClickHandler}
+                />
             </div>
         </>
     );
