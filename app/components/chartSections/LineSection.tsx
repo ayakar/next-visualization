@@ -7,11 +7,16 @@ import useFetch from '../../hooks/useFetch';
 
 import { useFilterContext } from '@/app/contexts/FilterContext';
 
-const LineSection = () => {
+interface Props {
+    initialLineResponse: LineChartDataset;
+}
+
+const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
     const { errorMessage, fetchData } = useFetch();
+    const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
 
-    const [lineData, setLineData] = useState<LineChartDataset | {}>({}); // [{ '2030': 0.27, '2050': 0.06 }]
+    const [lineData, setLineData] = useState(initialLineResponse); // [{ '2030': 0.27, '2050': 0.06 }]
 
     useEffect(() => {
         let endPoint = `${config.url.RISKS_LINE}?`;
@@ -30,20 +35,12 @@ const LineSection = () => {
         if (checkedRiskFactors.length > 0) {
             endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
-
-        // const transFormData = (data: Risk[]) => {
-        //     let transformedData: LineChartData = {};
-        //     data.forEach((item: Risk) => {
-        //         const year = item['Year'];
-        //         const riskRating = item['Risk Rating'];
-        //         const current = transformedData[year] ? transformedData[year] : 0;
-        //         transformedData[year] = current + riskRating;
-        //     });
-
-        //     setLineData(transformedData);
-        // };
-
-        fetchData(endPoint, setLineData);
+        if (!isInitial) {
+            fetchData(endPoint, setLineData);
+        }
+        setIsInitial(false);
+        // I am adding this because isInitial should not be false right after initialization
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     return (

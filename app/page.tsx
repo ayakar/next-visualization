@@ -11,8 +11,9 @@ import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
 const fetchInitialAvailableYears = async () => {
     const res = await fetch(`${config.url.RISKS_YEARS}`, {
         next: {
+            // revalidate: 60 * 60 * 24, // TODO: use this
             revalidate: 1,
-        }, // TODO: remove this
+        },
     });
     const data = await res.json();
     return data;
@@ -20,8 +21,9 @@ const fetchInitialAvailableYears = async () => {
 const fetchInitialAvailableAssets = async () => {
     const res = await fetch(`${config.url.RISKS_ASSETS}`, {
         next: {
+            // revalidate: 60 * 60 * 24, // TODO: use this
             revalidate: 1,
-        }, // TODO: remove this
+        },
     });
     const data = await res.json();
     return data;
@@ -29,8 +31,9 @@ const fetchInitialAvailableAssets = async () => {
 const fetchInitialAvailableBusinessCategories = async () => {
     const res = await fetch(`${config.url.RISKS_CATEGORIES}`, {
         next: {
+            // revalidate: 60 * 60 * 24, // TODO: use this
             revalidate: 1,
-        }, // TODO: remove this
+        },
     });
     const data = await res.json();
 
@@ -40,37 +43,44 @@ const fetchInitialAvailableBusinessCategories = async () => {
 const fetchInitialTableData = async () => {
     const res = await fetch(`${config.url.RISKS_TABLE}?limit=10`, {
         next: {
-            revalidate: 60,
-        }, // TODO: remove this
+            // revalidate: 60 * 60 * 24, // TODO: use this
+            revalidate: 1,
+        },
     });
     const data = await res.json();
     return data;
 };
-// TODO: apply this
-// const fetchInitialLineData = async () => {
-//     const res = await fetch(`${config.url.RISKS}`, {
-//         next: {
-//             revalidate: 60,
-//         }, // TODO: remove this
-//     });
-//     const data = await res.json();
-//     return data;
-// };
-// const fetchInitialMapData = async () => {
-//     const res = await fetch(`${config.url.RISKS}`, {
-//         next: {
-//             revalidate: 60,
-//         }, // TODO: remove this
-//     });
-//     const data = await res.json();
-//     return data;
-// };
+
+const fetchInitialLineData = async () => {
+    const res = await fetch(`${config.url.RISKS_LINE}`, {
+        next: {
+            // revalidate: 60 * 60 * 24, // TODO: use this
+            revalidate: 1,
+        },
+    });
+    const data = await res.json();
+    return data;
+};
+const fetchInitialMapData = async () => {
+    const res = await fetch(`${config.url.RISKS_MAP}`, {
+        next: {
+            // revalidate: 60 * 60 * 24, // TODO: use this
+            revalidate: 1,
+        },
+    });
+    const data = await res.json();
+
+    return data;
+};
 
 export default async function Home() {
     const initialTableResponse = await fetchInitialTableData();
+    const initialLineResponse = await fetchInitialLineData();
+    const initialMapResponse = await fetchInitialMapData();
     const initialAvailableYears = await fetchInitialAvailableYears();
     const initialAvailableAssets = await fetchInitialAvailableAssets();
     const initialAvailableBusinessCategories = await fetchInitialAvailableBusinessCategories();
+
     return (
         <>
             {/* <div className="text-primary">Tailwind</div>
@@ -80,8 +90,8 @@ export default async function Home() {
             <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
             {/* TODO: change this to dynamic */}
             <CheckBoxRiskFactor />
-            <MapSection />
-            <LineSection />
+            <MapSection initialMapResponse={initialMapResponse} />
+            <LineSection initialLineResponse={initialLineResponse} />
             <TableSection initialTableResponse={initialTableResponse} />
         </>
     );

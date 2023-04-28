@@ -7,6 +7,6 @@ export async function GET() {
     risks.forEach((risk: Risk) => (businessCategory[risk['Business Category']] = true));
     const businessCategoriesArr = Object.keys(businessCategory);
     const businessCategoriesArrNum = businessCategoriesArr.map((businessCategoryArr) => businessCategoryArr); // [ 'Mcknight, Beasley and Stewart', 'Acevedo-Kennedy', 'Ware PLC' ]
-
-    return NextResponse.json(businessCategoriesArrNum);
+    const sorted = businessCategoriesArrNum.sort();
+    return NextResponse.json(sorted);
 }

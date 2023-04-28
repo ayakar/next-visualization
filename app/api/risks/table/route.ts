@@ -3,11 +3,12 @@ import { Risk } from '@/app/types/RiskRating';
 import { filterRiskData } from '../filterRiskData';
 
 export async function GET(request: { url: URL }) {
+    console.log('table api called');
     let totalPages;
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get('limit'); // null or number of limit
     const offset = searchParams.get('offset') ?? '0'; // default is 0
-    const sortBy = searchParams.get('sort'); // TODO change to sort-by
+    const sortBy = searchParams.get('sort');
     const order = searchParams.get('order') ?? 'asc'; // default is asc
 
     let filtered = await filterRiskData(request);
@@ -19,10 +20,10 @@ export async function GET(request: { url: URL }) {
 
     if (limit) {
         console.log('limit, offset', limit, offset);
-        totalPages = Math.ceil(parseInt(filtered.length) / parseInt(limit));
+        totalPages = Math.ceil(filtered.length / parseInt(limit));
         filtered = trimRisks(filtered, limit, offset);
 
-        return NextResponse.json({ data: filtered, totalPages, currentPage: offset / limit + 1 });
+        return NextResponse.json({ data: filtered, totalPages, currentPage: parseInt(offset) / parseInt(limit) + 1 });
     }
 }
 

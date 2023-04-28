@@ -4,9 +4,13 @@ import { FilterContext } from '../types/RiskRating';
 
 const FilterContext = createContext<FilterContext>({
     selectedYear: '',
-    setSelectedYear() {},
+    setSelectedYear: () => {},
     selectedAsset: '',
-    setSelectedAsset() {},
+    setSelectedAsset: () => {},
+    selectedBusinessCategory: '',
+    setSelectedBusinessCategory: () => {},
+    riskFactorLists: {},
+    setRiskFactorLists: () => {},
 });
 
 // Hook

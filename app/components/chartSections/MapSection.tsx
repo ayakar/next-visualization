@@ -1,17 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Risk } from '../../types/RiskRating';
+import { MapChartData, Risk } from '../../types/RiskRating';
 import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import { useFilterContext } from '@/app/contexts/FilterContext';
 import Spinner from '../Spinner';
 
-const MapSection = () => {
+interface Props {
+    initialMapResponse: MapChartData;
+}
+
+const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
     const { isLoading, errorMessage, fetchData } = useFetch();
-    const [mapData, setMapData] = useState<Risk[] | null>(null);
+    const [mapData, setMapData] = useState(initialMapResponse);
+    const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
 
     useEffect(() => {
         let endPoint = `${config.url.RISKS_MAP}?`;
@@ -30,8 +35,12 @@ const MapSection = () => {
         if (checkedRiskFactors.length > 0) {
             endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
-
-        fetchData(endPoint, setMapData);
+        if (!isInitial) {
+            fetchData(endPoint, setMapData);
+        }
+        setIsInitial(false);
+        // I am adding this because isInitial should not be false right after initialization
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     if (isLoading) {

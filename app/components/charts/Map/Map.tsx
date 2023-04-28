@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Risk } from '../../../types/RiskRating';
+import { MapChartData, Risk } from '../../../types/RiskRating';
 
 interface Props {
-    mapData: Risk[] | null;
+    mapData: MapChartData;
     onClickHandler?: (data: string) => void | null;
 }
 
@@ -44,7 +44,7 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
                             iconAnchor: [0, 0],
                         })}
                         key={item}
-                        position={[lat, long]}
+                        position={[parseInt(lat), parseInt(long)]}
                         title={item}
                         eventHandlers={{ click: () => onClickHandler && onClickHandler(item) }}
                     >
@@ -57,32 +57,6 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
                     </Marker>
                 );
             })}
-            {/* {mapData?.map((item, index) => {
-                const marker =
-                    item['Risk Rating'] > 0.8 ? './assets/marker-high.svg' : item['Risk Rating'] > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
-
-                return (
-                    <Marker
-                        icon={L.icon({
-                            iconUrl: marker,
-                            iconSize: [20, 20],
-                            iconAnchor: [0, 0],
-                        })}
-                        key={index}
-                        position={[item.Lat, item.Long]}
-                        title={`${item['Asset Name']}`}
-                        eventHandlers={{ click: () => onClickHandler && onClickHandler(`${item.Lat},${item.Long}`) }}
-                    >
-                        {!onClickHandler && (
-                            <Popup>
-                                <h2>{item['Asset Name']}</h2>
-                                <div>{item['Business Category']}</div>
-                                <div>{item['Year']}</div>
-                            </Popup>
-                        )}
-                    </Marker>
-                );
-            })} */}
         </MapContainer>
     );
 };
