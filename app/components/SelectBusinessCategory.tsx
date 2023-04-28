@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import useFetch from '../hooks/useFetch';
-import { config } from '../constants/endpoints';
+'use client';
+import React from 'react';
+import { useFilterContext } from '../contexts/FilterContext';
 
 interface Props {
-    selectedBusinessCategory: string;
-    setSelectedBusinessCategory: React.Dispatch<React.SetStateAction<string>>;
+    initialAvailableBusinessCategories: string[];
 }
 
-const SelectBusinessCategory: React.FC<Props> = ({ selectedBusinessCategory, setSelectedBusinessCategory }) => {
-    const { fetchData } = useFetch();
-    const [availableBusinessCategories, setAvailableBusinessCategories] = useState<number[]>([]);
-
-    useEffect(() => {
-        fetchData(config.url.RISKS_CATEGORIES, setAvailableBusinessCategories);
-    }, [fetchData]);
+const SelectBusinessCategory: React.FC<Props> = ({ initialAvailableBusinessCategories }) => {
+    const { selectedBusinessCategory, setSelectedBusinessCategory } = useFilterContext();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedBusinessCategory(event.target.value);
@@ -25,12 +19,12 @@ const SelectBusinessCategory: React.FC<Props> = ({ selectedBusinessCategory, set
             onChange={onChangeHandler}
         >
             <option value="">Please Select</option>
-            {availableBusinessCategories.map((availableAsset) => (
+            {initialAvailableBusinessCategories.map((availableBusinessCategory) => (
                 <option
-                    key={availableAsset}
-                    value={availableAsset}
+                    key={availableBusinessCategory}
+                    value={availableBusinessCategory}
                 >
-                    {availableAsset}
+                    {availableBusinessCategory}
                 </option>
             ))}
         </select>

@@ -36,12 +36,12 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
     const value = {
         selectedYear,
         setSelectedYear,
-        // riskFactorLists,
-        // setRiskFactorLists,
+        riskFactorLists,
+        setRiskFactorLists,
         selectedAsset,
         setSelectedAsset,
-        // selectedBusinessCategory,
-        // setSelectedBusinessCategory,
+        selectedBusinessCategory,
+        setSelectedBusinessCategory,
         // selectedLocation,
         // setSelectedLocation,
     };
@@ -51,9 +51,9 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
             <div style={{ border: '1px solid red' }}>
                 <div>Selected Year: {JSON.stringify(selectedYear)}</div>
                 <div>Selected Asset: {JSON.stringify(selectedAsset)}</div>
-                {/* <div>Selected riskFactorLists: {JSON.stringify(riskFactorLists)}</div>
+                <div>Selected riskFactorLists: {JSON.stringify(riskFactorLists)}</div>
                 <div>Selected selectedBusinessCategory: {JSON.stringify(selectedBusinessCategory)}</div>
-                <div>Selected selectedLocation: {JSON.stringify(selectedLocation)}</div> */}
+                {/*  <div>Selected selectedLocation: {JSON.stringify(selectedLocation)}</div> */}
             </div>
             {children}
         </FilterContext.Provider>

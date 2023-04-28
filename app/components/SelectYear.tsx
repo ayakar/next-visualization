@@ -8,7 +8,6 @@ interface Props {
 
 const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
     const { selectedYear, setSelectedYear } = useFilterContext();
-    const [availableYears] = useState<number[]>(initialAvailableYears);
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedYear(parseInt(event.target.value));
@@ -20,7 +19,7 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
             onChange={onChangeHandler}
         >
             <option value="">Please Select Year</option>
-            {availableYears.map((availableYear) => (
+            {initialAvailableYears.map((availableYear) => (
                 <option
                     key={availableYear}
                     value={availableYear}

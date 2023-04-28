@@ -5,6 +5,8 @@ import TableSection from './components/chartSections/TableSection';
 import { config } from './constants/endpoints';
 import SelectYear from './components/SelectYear';
 import SelectAsset from './components/SelectAsset';
+import SelectBusinessCategory from './components/SelectBusinessCategory';
+import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
 
 const fetchInitialAvailableYears = async () => {
     const res = await fetch(`${config.url.RISKS_YEARS}`, {
@@ -15,13 +17,23 @@ const fetchInitialAvailableYears = async () => {
     const data = await res.json();
     return data;
 };
-const fetchInitialAvailableAsset = async () => {
+const fetchInitialAvailableAssets = async () => {
     const res = await fetch(`${config.url.RISKS_ASSETS}`, {
         next: {
             revalidate: 1,
         }, // TODO: remove this
     });
     const data = await res.json();
+    return data;
+};
+const fetchInitialAvailableBusinessCategories = async () => {
+    const res = await fetch(`${config.url.RISKS_CATEGORIES}`, {
+        next: {
+            revalidate: 1,
+        }, // TODO: remove this
+    });
+    const data = await res.json();
+
     return data;
 };
 
@@ -38,13 +50,17 @@ const fetchInitialTableData = async () => {
 export default async function Home() {
     const initialTableResponse = await fetchInitialTableData();
     const initialAvailableYears = await fetchInitialAvailableYears();
-    const initialAvailableAsset = await fetchInitialAvailableAsset();
+    const initialAvailableAssets = await fetchInitialAvailableAssets();
+    const initialAvailableBusinessCategories = await fetchInitialAvailableBusinessCategories();
     return (
         <>
             {/* <div className="text-primary">Tailwind</div>
             <div className="text-secondary">Tailwind</div> */}
             <SelectYear initialAvailableYears={initialAvailableYears} />
-            <SelectAsset initialAvailableAsset={initialAvailableAsset} />
+            <SelectAsset initialAvailableAssets={initialAvailableAssets} />
+            <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
+            {/* TODO: change this to dynamic */}
+            <CheckBoxRiskFactor />
             <TableSection initialTableResponse={initialTableResponse} />
             {/* <MapSection />
             <LineSection /> */}
