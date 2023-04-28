@@ -13,7 +13,7 @@ interface Props {
 }
 
 const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
-    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
+    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
     const { fetchData, isLoading } = useFetch();
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
     const [tableData, setTableData] = useState<Risk[]>(initialTableResponse.data);
@@ -46,6 +46,9 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
             if (checkedRiskFactors.length > 0) {
                 endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
             }
+            if (selectedLocation) {
+                endPoint += `&location=${selectedLocation}`;
+            }
             // sort
             if (sortLabel) {
                 endPoint += `&sort=${sortLabel}&order=${sortOrder}`;
@@ -66,7 +69,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
 
             fetchData(endPoint, transformData);
         },
-        [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, sortLabel, sortOrder, fetchData]
+        [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, sortLabel, sortOrder, selectedLocation, fetchData]
     );
 
     // Initial

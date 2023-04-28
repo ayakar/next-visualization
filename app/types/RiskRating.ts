@@ -52,6 +52,6 @@ export interface FilterContext {
     setSelectedAsset: React.Dispatch<React.SetStateAction<string>>;
     selectedBusinessCategory: string;
     setSelectedBusinessCategory: React.Dispatch<React.SetStateAction<string>>;
-    // selectedLocation,
-    // setSelectedLocation,
+    selectedLocation: string;
+    setSelectedLocation: React.Dispatch<React.SetStateAction<string>>;
 }

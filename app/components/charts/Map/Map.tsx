@@ -4,13 +4,14 @@ import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapChartData, Risk } from '../../../types/RiskRating';
+import { useFilterContext } from '@/app/contexts/FilterContext';
 
 interface Props {
     mapData: MapChartData;
-    onClickHandler?: (data: string) => void | null;
 }
 
-const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
+const Map: React.FC<Props> = ({ mapData }) => {
+    const { selectedLocation, setSelectedLocation } = useFilterContext();
     const position: LatLngExpression = [43.6532, -79.3832]; // default map
     const zoom: number = 5;
 
@@ -19,6 +20,7 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
             center={position}
             zoom={zoom}
             scrollWheelZoom={true}
+            // onClick={() => setSelectedLocation('')}
         >
             <TileLayer
                 attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
@@ -35,25 +37,28 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
                         : mapData[item].averageRiskRating > 0.5
                         ? './assets/marker-md.svg'
                         : './assets/marker-low.svg';
+                const markerSize = selectedLocation === item ? 30 : 20;
 
                 return (
                     <Marker
                         icon={L.icon({
                             iconUrl: marker,
-                            iconSize: [20, 20],
-                            iconAnchor: [0, 0],
+                            iconSize: [markerSize, markerSize],
+                            iconAnchor: [markerSize / 2, 0],
                         })}
                         key={item}
                         position={[parseInt(lat), parseInt(long)]}
                         title={item}
-                        eventHandlers={{ click: () => onClickHandler && onClickHandler(item) }}
+                        eventHandlers={{
+                            click: () => setSelectedLocation((prev) => (prev !== item ? item : null)),
+                            mouseover: (event) => event.target.openPopup(),
+                            mouseout: (event) => event.target.closePopup(),
+                        }}
                     >
-                        {!onClickHandler && (
-                            <Popup>
-                                <div>{JSON.stringify(mapData[item].averageRiskRating)}</div>
-                                <div>{JSON.stringify(mapData[item].assets.length)}</div>
-                            </Popup>
-                        )}
+                        <Popup closeButton={false}>
+                            <div>{JSON.stringify(mapData[item].averageRiskRating)}</div>
+                            {/* <div>{JSON.stringify(mapData[item].assets)}</div> */}
+                        </Popup>
                     </Marker>
                 );
             })}

@@ -11,6 +11,8 @@ const FilterContext = createContext<FilterContext>({
     setSelectedBusinessCategory: () => {},
     riskFactorLists: {},
     setRiskFactorLists: () => {},
+    selectedLocation: '',
+    setSelectedLocation: () => {},
 });
 
 // Hook
@@ -35,7 +37,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
     });
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(''); //`${item.Lat},${item.Long}`
 
     const value = {
         selectedYear,
@@ -46,8 +48,8 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
         setSelectedAsset,
         selectedBusinessCategory,
         setSelectedBusinessCategory,
-        // selectedLocation,
-        // setSelectedLocation,
+        selectedLocation,
+        setSelectedLocation,
     };
 
     return (
@@ -57,7 +59,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
                 <div>Selected Asset: {JSON.stringify(selectedAsset)}</div>
                 <div>Selected riskFactorLists: {JSON.stringify(riskFactorLists)}</div>
                 <div>Selected selectedBusinessCategory: {JSON.stringify(selectedBusinessCategory)}</div>
-                {/*  <div>Selected selectedLocation: {JSON.stringify(selectedLocation)}</div> */}
+                <div>Selected Location: {JSON.stringify(selectedLocation)}</div>
             </div>
             {children}
         </FilterContext.Provider>

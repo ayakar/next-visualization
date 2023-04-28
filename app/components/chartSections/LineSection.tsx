@@ -12,7 +12,7 @@ interface Props {
 }
 
 const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
-    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
+    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
     const { errorMessage, fetchData } = useFetch();
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
 
@@ -35,13 +35,17 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
         if (checkedRiskFactors.length > 0) {
             endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
+        if (selectedLocation) {
+            endPoint += `&location=${selectedLocation}`;
+        }
+
         if (!isInitial) {
             fetchData(endPoint, setLineData);
         }
         setIsInitial(false);
         // I am adding this because isInitial should not be false right after initialization
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
+    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     return (
         <div>
