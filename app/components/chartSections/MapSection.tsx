@@ -10,7 +10,10 @@ import SelectYear from '../SelectYear';
 const MapSection = () => {
     const { fetchData } = useFetch();
     const [mapData, setMapData] = useState<Risk[] | null>(null);
+
+    // Will be global state
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
+    //end: Will be global state
 
     useEffect(() => {
         // TODO optimize request based on visible region

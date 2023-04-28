@@ -13,6 +13,8 @@ import Spinner from '../Spinner';
 const TableSection = () => {
     const { fetchData, isLoading } = useFetch();
     const [tableData, setTableData] = useState<Risk[]>([]);
+
+    // Will be global state
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
@@ -28,6 +30,8 @@ const TableSection = () => {
     });
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');
+    // end: Will be global state
+
     // For sorting
     const [sortLabel, setSortLabel] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');

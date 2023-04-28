@@ -7,16 +7,20 @@ import useFetch from '../../hooks/useFetch';
 import Map from '../charts/Map';
 import SelectBusinessCategory from '../SelectBusinessCategory';
 import SelectAsset from '../SelectAsset';
+import { useFilterContext } from '@/app/contexts/FilterContext';
 
 const LineSection = () => {
+    const { selectedYear } = useFilterContext();
     const { errorMessage, fetchData } = useFetch();
 
+    // Will be global state
     const [selectedFilteredBy, setSelectedFilteredBy] = useState(''); // Possible values: location, asset, business_category
 
     const [availableOptions, setAvailableOptions] = useState([]); // all options will be dynamically generated based on selectedFilteredBy value
     const [selectedOptions, setSelectedOptions] = useState(''); // selected options to fetch risksData
 
     const [locationData, setLocationData] = useState([]); // This is to show maker on map when location is selected. (instead of selectedOptions for assets, category)
+    // end:  Will be global state
 
     const [lineData, setLineData] = useState<LineChartDataset | {}>({}); // [{ '2030': 0.27, '2050': 0.06 }]
 

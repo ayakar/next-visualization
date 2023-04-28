@@ -35,3 +35,7 @@ export interface TableRiskData {
     totalPages: number;
     currentPage: number;
 }
+
+export interface FilterContext {
+    selectedYear: number;
+}

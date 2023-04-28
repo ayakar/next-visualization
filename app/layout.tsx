@@ -2,6 +2,7 @@ import { Montserrat } from 'next/font/google';
 import '@/app/globals.css';
 
 import Link from 'next/link';
+import { FilterProvider } from './contexts/FilterContext';
 
 export const metadata = {
     title: 'Risk Viz',
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <head />
             <body className={montserrat.className}>
                 <nav>side bar here?</nav>
-                <main>{children}</main>
+                <main>
+                    <FilterProvider>{children}</FilterProvider>
+                </main>
             </body>
         </html>
     );
