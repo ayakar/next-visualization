@@ -50,7 +50,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         position={[parseInt(lat), parseInt(long)]}
                         title={item}
                         eventHandlers={{
-                            click: () => setSelectedLocation((prev) => (prev !== item ? item : null)),
+                            click: () => setSelectedLocation((prev) => (prev !== item ? item : '')),
                             mouseover: (event) => event.target.openPopup(),
                             mouseout: (event) => event.target.closePopup(),
                         }}
