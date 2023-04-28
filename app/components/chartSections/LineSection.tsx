@@ -14,7 +14,7 @@ const LineSection = () => {
     const [lineData, setLineData] = useState<LineChartDataset | {}>({}); // [{ '2030': 0.27, '2050': 0.06 }]
 
     useEffect(() => {
-        let endPoint = `${config.url.RISKS}?`;
+        let endPoint = `${config.url.RISKS_LINE}?`;
 
         // Filter: business category, asset, risk factor, year
         if (selectedYear) {
@@ -31,19 +31,19 @@ const LineSection = () => {
             endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
 
-        const transFormData = (data: Risk[]) => {
-            let transformedData: LineChartData = {};
-            data.forEach((item: Risk) => {
-                const year = item['Year'];
-                const riskRating = item['Risk Rating'];
-                const current = transformedData[year] ? transformedData[year] : 0;
-                transformedData[year] = current + riskRating;
-            });
+        // const transFormData = (data: Risk[]) => {
+        //     let transformedData: LineChartData = {};
+        //     data.forEach((item: Risk) => {
+        //         const year = item['Year'];
+        //         const riskRating = item['Risk Rating'];
+        //         const current = transformedData[year] ? transformedData[year] : 0;
+        //         transformedData[year] = current + riskRating;
+        //     });
 
-            setLineData(transformedData);
-        };
+        //     setLineData(transformedData);
+        // };
 
-        fetchData(endPoint, transFormData);
+        fetchData(endPoint, setLineData);
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     return (

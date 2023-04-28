@@ -1,5 +1,3 @@
-// TODO: remove this!!
-import { NextResponse } from 'next/server';
 import risks from '../data.json';
 import { Risk } from '@/app/types/RiskRating';
 
@@ -7,9 +5,9 @@ import { Risk } from '@/app/types/RiskRating';
 // 2: sort: sort, order
 // 3: trim: limit, offset
 
-export async function GET(request: { url: URL }) {
+export async function filterRiskData(request: { url: URL }) {
     let filtered: Risk[] = risks;
-    let totalPages;
+
     // Query Params
     const { searchParams } = new URL(request.url);
     const year = searchParams.get('year');
@@ -17,11 +15,6 @@ export async function GET(request: { url: URL }) {
     const business_category = searchParams.get('business_category'); // TODO: change to -
     const location = searchParams.get('location');
     const riskFactor = searchParams.get('risk-factor');
-
-    const sortBy = searchParams.get('sort'); // TODO change to sort-by
-    const order = searchParams.get('order') ?? 'asc'; // default is asc
-    const limit = searchParams.get('limit'); // null or number of limit
-    const offset = searchParams.get('offset') ?? '0'; // default is 0
 
     // TODO refactor this
     // filter_obj = {year:"", business_category:""}
@@ -55,38 +48,5 @@ export async function GET(request: { url: URL }) {
         console.log('risk factor', filtered.length);
     }
 
-    if (sortBy) {
-        filtered = sortRisks(filtered, sortBy, order);
-        console.log('sortBy', filtered.length);
-    }
-    if (limit) {
-        console.log('limit, offset', limit, offset);
-        totalPages = Math.ceil(parseInt(filtered.length) / parseInt(limit));
-        filtered = trimRisks(filtered, limit, offset);
-        return NextResponse.json({ data: filtered, totalPages, currentPage: offset / limit + 1 });
-    }
-
-    return NextResponse.json(filtered);
+    return filtered;
 }
-
-const sortRisks = (data: Risk[], sortBy: string, order: string) => {
-    const isAsc = order === 'asc';
-    data.sort((a: Risk, b: Risk) => {
-        if (a[sortBy as keyof Risk] < b[sortBy as keyof Risk]) {
-            return isAsc ? -1 : 1;
-        } else if (a[sortBy as keyof Risk] > b[sortBy as keyof Risk]) {
-            return isAsc ? 1 : -1;
-        } else {
-            return 0;
-        }
-    });
-    console.log(data.length);
-    return data;
-};
-const trimRisks = (data: Risk[], limit: string, offset: string) => {
-    // TODO: optimize by combine with sortRisks() if possible
-    const startIndex = parseInt(offset);
-    const endIndex = parseInt(offset) + parseInt(limit);
-    const trimmedData = data.slice(startIndex, endIndex);
-    return trimmedData;
-};

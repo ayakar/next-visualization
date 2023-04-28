@@ -25,7 +25,39 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {mapData?.map((item, index) => {
+            {Object.keys(mapData).map((item) => {
+                const lat = item.split(',')[0];
+                const long = item.split(',')[1];
+
+                const marker =
+                    mapData[item].averageRiskRating > 0.8
+                        ? './assets/marker-high.svg'
+                        : mapData[item].averageRiskRating > 0.5
+                        ? './assets/marker-md.svg'
+                        : './assets/marker-low.svg';
+
+                return (
+                    <Marker
+                        icon={L.icon({
+                            iconUrl: marker,
+                            iconSize: [20, 20],
+                            iconAnchor: [0, 0],
+                        })}
+                        key={item}
+                        position={[lat, long]}
+                        title={item}
+                        eventHandlers={{ click: () => onClickHandler && onClickHandler(item) }}
+                    >
+                        {!onClickHandler && (
+                            <Popup>
+                                <div>{JSON.stringify(mapData[item].averageRiskRating)}</div>
+                                <div>{JSON.stringify(mapData[item].assets.length)}</div>
+                            </Popup>
+                        )}
+                    </Marker>
+                );
+            })}
+            {/* {mapData?.map((item, index) => {
                 const marker =
                     item['Risk Rating'] > 0.8 ? './assets/marker-high.svg' : item['Risk Rating'] > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
 
@@ -50,7 +82,7 @@ const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
                         )}
                     </Marker>
                 );
-            })}
+            })} */}
         </MapContainer>
     );
 };

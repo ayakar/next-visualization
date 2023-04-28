@@ -36,6 +36,13 @@ export interface TableRiskData {
     currentPage: number;
 }
 
+export interface MapChartData {
+    [key: string]: {
+        averageRiskRating: number;
+        assets: { assetName: string; businessCategory: string; riskRating: number }[];
+    };
+}
+
 export interface FilterContext {
     selectedYear: number | '';
     setSelectedYear: React.Dispatch<React.SetStateAction<number | ''>>;

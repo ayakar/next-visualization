@@ -30,7 +30,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
 
     const getTableData = useCallback(
         (offset: number | null = null) => {
-            let endPoint = `${config.url.RISKS}?limit=${limit}`;
+            let endPoint = `${config.url.RISKS_TABLE}?limit=${limit}`;
 
             // Filter: business category, asset, risk factor, year
             if (selectedYear) {

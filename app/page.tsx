@@ -38,7 +38,7 @@ const fetchInitialAvailableBusinessCategories = async () => {
 };
 
 const fetchInitialTableData = async () => {
-    const res = await fetch(`${config.url.RISKS}?limit=10`, {
+    const res = await fetch(`${config.url.RISKS_TABLE}?limit=10`, {
         next: {
             revalidate: 60,
         }, // TODO: remove this

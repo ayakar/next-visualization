@@ -14,7 +14,7 @@ const MapSection = () => {
     const [mapData, setMapData] = useState<Risk[] | null>(null);
 
     useEffect(() => {
-        let endPoint = `${config.url.RISKS}?`;
+        let endPoint = `${config.url.RISKS_MAP}?`;
 
         // Filter: business category, asset, risk factor, year
         if (selectedYear) {
