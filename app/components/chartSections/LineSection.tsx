@@ -4,7 +4,7 @@ import Line from '@/app/components/charts/Line';
 import { config } from '../../constants/endpoints';
 import { LineChartData, LineChartDataset, Risk } from '../../types/RiskRating';
 import useFetch from '../../hooks/useFetch';
-import Location from '../charts/Location';
+import Map from '../charts/Map';
 import SelectBusinessCategory from '../SelectBusinessCategory';
 import SelectAsset from '../SelectAsset';
 
@@ -84,8 +84,8 @@ const LineSection = () => {
                 <option value="business_category">Business Category</option>
             </select>
             {selectedFilteredBy === 'location' ? (
-                <Location
-                    locationData={locationData}
+                <Map
+                    mapData={locationData}
                     onClickHandler={(data) => setSelectedOptions(data)}
                 />
             ) : selectedFilteredBy === 'asset' ? (

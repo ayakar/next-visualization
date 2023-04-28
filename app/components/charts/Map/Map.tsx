@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Risk } from '../../types/RiskRating';
+import { Risk } from '../../../types/RiskRating';
 
 interface Props {
-    locationData: Risk[] | null;
+    mapData: Risk[] | null;
     onClickHandler?: (data: string) => void | null;
 }
 
-const Map: React.FC<Props> = ({ locationData, onClickHandler }) => {
-    const position: LatLngExpression = [43.6532, -79.3832]; // default location
+const Map: React.FC<Props> = ({ mapData, onClickHandler }) => {
+    const position: LatLngExpression = [43.6532, -79.3832]; // default map
     const zoom: number = 5;
 
     return (
@@ -25,7 +25,7 @@ const Map: React.FC<Props> = ({ locationData, onClickHandler }) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {locationData?.map((item, index) => {
+            {mapData?.map((item, index) => {
                 const marker =
                     item['Risk Rating'] > 0.8 ? './assets/marker-high.svg' : item['Risk Rating'] > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
 

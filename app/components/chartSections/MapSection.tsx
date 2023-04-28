@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { Risk } from '../../types/RiskRating';
-import Location from '../charts/Location';
+import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import SelectYear from '../SelectYear';
 
-const LocationSection = () => {
+const MapSection = () => {
     const { fetchData } = useFetch();
-    const [locationData, setLocationData] = useState<Risk[] | null>(null);
+    const [mapData, setMapData] = useState<Risk[] | null>(null);
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
 
     useEffect(() => {
         // TODO optimize request based on visible region
-        fetchData(`${config.url.RISKS}?year=${selectedYear}`, setLocationData);
+        fetchData(`${config.url.RISKS}?year=${selectedYear}`, setMapData);
     }, [selectedYear, fetchData]);
 
     return (
@@ -24,9 +24,9 @@ const LocationSection = () => {
                 selectedYear={selectedYear}
                 setSelectedYear={setSelectedYear}
             />
-            <Location locationData={locationData} />
+            <Map mapData={mapData} />
         </>
     );
 };
 
-export default LocationSection;
+export default MapSection;
