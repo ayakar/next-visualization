@@ -1,9 +1,11 @@
+const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'PROD_url_here!';
+
 export const config = {
     url: {
-        RISKS: `/api/risks`,
-        RISKS_YEARS: `/api/risks/years`,
-        RISKS_ASSETS: `/api/risks/assets`,
-        RISKS_LOCATIONS: `/api/risks/locations`,
-        RISKS_CATEGORIES: `/api/risks/business_categories`,
+        RISKS: `${domain}/api/risks`,
+        RISKS_YEARS: `${domain}/api/risks/years`,
+        RISKS_ASSETS: `${domain}/api/risks/assets`,
+        RISKS_LOCATIONS: `${domain}/api/risks/locations`,
+        RISKS_CATEGORIES: `${domain}/api/risks/business_categories`,
     },
 };

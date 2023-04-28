@@ -4,26 +4,24 @@ import styles from './page.module.css';
 import TableSection from './components/chartSections/TableSection';
 import { config } from './constants/endpoints';
 
-const fetchAssetData = async () => {
-    const res = await fetch(`http://localhost:3000/${config.url.RISKS_ASSETS}`, {
+const fetchInitialTableData = async () => {
+    const res = await fetch(`${config.url.RISKS}?year=2030&limit=10`, {
         next: {
             revalidate: 60,
         },
     });
-
     const data = await res.json();
-    console.log(data);
     return data;
 };
 
 export default async function Home() {
-    const assetData = await fetchAssetData();
+    const initialTableResponse = await fetchInitialTableData();
     return (
         <>
-            <div className="text-primary">Tailwind</div>
-            <div className="text-secondary">Tailwind</div>
-            {JSON.stringify(assetData)}
-            <TableSection />
+            {/* <div className="text-primary">Tailwind</div>
+            <div className="text-secondary">Tailwind</div> */}
+
+            <TableSection initialTableResponse={initialTableResponse} />
             <MapSection />
             <LineSection />
         </>

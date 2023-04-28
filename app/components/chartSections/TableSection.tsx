@@ -10,9 +10,10 @@ import SelectAsset from '../SelectAsset';
 import SelectBusinessCategory from '../SelectBusinessCategory';
 import Spinner from '../Spinner';
 
-const TableSection = () => {
+const TableSection = ({ initialTableResponse: { data: initialTableData, totalPages: initialTotalPage, currentPage: initialCurrentPage } }) => {
     const { fetchData, isLoading } = useFetch();
-    const [tableData, setTableData] = useState<Risk[]>([]);
+    const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
+    const [tableData, setTableData] = useState<Risk[]>(initialTableData);
 
     // Will be global state
     const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
@@ -37,8 +38,8 @@ const TableSection = () => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     //For pagination
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(initialTotalPage);
+    const [currentPage, setCurrentPage] = useState(initialCurrentPage);
 
     const limit = 10;
 
@@ -82,7 +83,10 @@ const TableSection = () => {
 
     // Initial
     useEffect(() => {
-        getTableData();
+        if (!isInitial) {
+            getTableData();
+        }
+        setIsInitial(false);
     }, [getTableData]);
 
     const onSortClickHandler = (label: string) => {

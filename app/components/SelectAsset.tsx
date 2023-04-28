@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import useFetch from '../hooks/useFetch';
 import { config } from '../constants/endpoints';
