@@ -10,7 +10,11 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
     const { selectedYear, setSelectedYear } = useFilterContext();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedYear(parseInt(event.target.value));
+        if (event.target.value !== '') {
+            setSelectedYear(parseInt(event.target.value));
+        } else {
+            setSelectedYear('');
+        }
     };
 
     return (

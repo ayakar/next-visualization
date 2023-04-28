@@ -5,29 +5,44 @@ import { Risk } from '../../types/RiskRating';
 import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
-import SelectYear from '../SelectYear';
+import { useFilterContext } from '@/app/contexts/FilterContext';
+import Spinner from '../Spinner';
 
 const MapSection = () => {
-    const { fetchData } = useFetch();
+    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
+    const { isLoading, errorMessage, fetchData } = useFetch();
     const [mapData, setMapData] = useState<Risk[] | null>(null);
 
-    // Will be global state
-    const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
-    //end: Will be global state
-
     useEffect(() => {
-        // TODO optimize request based on visible region
-        fetchData(`${config.url.RISKS}?year=${selectedYear}`, setMapData);
-    }, [selectedYear, fetchData]);
+        let endPoint = `${config.url.RISKS}?`;
+
+        // Filter: business category, asset, risk factor, year
+        if (selectedYear) {
+            endPoint += `&year=${selectedYear}`;
+        }
+        if (selectedBusinessCategory) {
+            endPoint += `&business_category=${selectedBusinessCategory}`;
+        }
+        if (selectedAsset) {
+            endPoint += `&asset=${selectedAsset}`;
+        }
+        const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
+        if (checkedRiskFactors.length > 0) {
+            endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
+        }
+
+        fetchData(endPoint, setMapData);
+    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
+
+    if (isLoading) {
+        return <Spinner />;
+    }
 
     return (
-        // TODO: replace with loader
         <>
-            <SelectYear
-                selectedYear={selectedYear}
-                setSelectedYear={setSelectedYear}
-            />
             <Map mapData={mapData} />
+            {/* TODO: styled this */}
+            {errorMessage && <div>{errorMessage}</div>}
         </>
     );
 };

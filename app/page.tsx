@@ -46,6 +46,25 @@ const fetchInitialTableData = async () => {
     const data = await res.json();
     return data;
 };
+// TODO: apply this
+// const fetchInitialLineData = async () => {
+//     const res = await fetch(`${config.url.RISKS}`, {
+//         next: {
+//             revalidate: 60,
+//         }, // TODO: remove this
+//     });
+//     const data = await res.json();
+//     return data;
+// };
+// const fetchInitialMapData = async () => {
+//     const res = await fetch(`${config.url.RISKS}`, {
+//         next: {
+//             revalidate: 60,
+//         }, // TODO: remove this
+//     });
+//     const data = await res.json();
+//     return data;
+// };
 
 export default async function Home() {
     const initialTableResponse = await fetchInitialTableData();
@@ -61,10 +80,9 @@ export default async function Home() {
             <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
             {/* TODO: change this to dynamic */}
             <CheckBoxRiskFactor />
+            <MapSection />
             <LineSection />
             <TableSection initialTableResponse={initialTableResponse} />
-            {/* <MapSection />
-             */}
         </>
     );
 }

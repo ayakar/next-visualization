@@ -38,7 +38,7 @@ export interface TableRiskData {
 
 export interface FilterContext {
     selectedYear: number | '';
-    setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+    setSelectedYear: React.Dispatch<React.SetStateAction<number | ''>>;
     riskFactorLists: { [key: string]: boolean };
     setRiskFactorLists: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
     selectedAsset: string;

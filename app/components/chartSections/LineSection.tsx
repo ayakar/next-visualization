@@ -11,9 +11,6 @@ const LineSection = () => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
     const { errorMessage, fetchData } = useFetch();
 
-    // Will be global state
-    // const [locationData, setLocationData] = useState([]); // This is to show maker on map when location is selected. (instead of selectedOptions for assets, category)
-    // end:  Will be global state
     const [lineData, setLineData] = useState<LineChartDataset | {}>({}); // [{ '2030': 0.27, '2050': 0.06 }]
 
     useEffect(() => {
