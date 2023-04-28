@@ -61,9 +61,10 @@ export default async function Home() {
             <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
             {/* TODO: change this to dynamic */}
             <CheckBoxRiskFactor />
+            <LineSection />
             <TableSection initialTableResponse={initialTableResponse} />
             {/* <MapSection />
-            <LineSection /> */}
+             */}
         </>
     );
 }

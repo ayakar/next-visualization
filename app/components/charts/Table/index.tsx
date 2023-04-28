@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEvent } from 'react';
 import { Risk } from '../../../types/RiskRating';
 import Pagination from './Pagination';
 
@@ -7,7 +7,7 @@ interface Props {
     totalPages: number;
     currentPage: number;
     onSortClickHandler: (label: string) => void;
-    onPaginationClickHandler: (pageNum: number) => void;
+    onPaginationClickHandler: (pageNum: number, event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClickHandler, onPaginationClickHandler }) => {

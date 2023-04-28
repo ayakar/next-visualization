@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import PaginationButton from './PaginationButton';
 
 interface Props {
     currentPage: number;
     totalPages: number;
-    onClickHandler: (num: number) => void;
+    onClickHandler: (num: number, event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }) => {

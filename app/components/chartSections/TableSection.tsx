@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, MouseEvent } from 'react';
 import { Risk, TableRiskData } from '../../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
@@ -86,7 +86,8 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
         setSortLabel(label);
     };
 
-    const onPaginationClickHandler = (pageNum: number) => {
+    const onPaginationClickHandler = (pageNum: number, event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         const offset = (pageNum - 1) * limit;
         getTableData(offset);
     };
