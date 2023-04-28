@@ -3,7 +3,10 @@ import React, { createContext, useState, useContext } from 'react';
 import { FilterContext } from '../types/RiskRating';
 
 const FilterContext = createContext<FilterContext>({
-    selectedYear: 2030,
+    selectedYear: '',
+    setSelectedYear() {},
+    selectedAsset: '',
+    setSelectedAsset() {},
 });
 
 // Hook
@@ -13,7 +16,7 @@ export const useFilterContext = () => {
 
 // Provider with Filter info
 export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
-    const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
+    const [selectedYear, setSelectedYear] = useState<number | ''>(''); // TODO: convert to context
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
         'Extreme heat': false,
@@ -32,16 +35,27 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
 
     const value = {
         selectedYear,
-        // setSelectedYear,
+        setSelectedYear,
         // riskFactorLists,
         // setRiskFactorLists,
-        // selectedAsset,
-        // setSelectedAsset,
+        selectedAsset,
+        setSelectedAsset,
         // selectedBusinessCategory,
         // setSelectedBusinessCategory,
         // selectedLocation,
         // setSelectedLocation,
     };
 
-    return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;
+    return (
+        <FilterContext.Provider value={value}>
+            <div style={{ border: '1px solid red' }}>
+                <div>Selected Year: {JSON.stringify(selectedYear)}</div>
+                <div>Selected Asset: {JSON.stringify(selectedAsset)}</div>
+                {/* <div>Selected riskFactorLists: {JSON.stringify(riskFactorLists)}</div>
+                <div>Selected selectedBusinessCategory: {JSON.stringify(selectedBusinessCategory)}</div>
+                <div>Selected selectedLocation: {JSON.stringify(selectedLocation)}</div> */}
+            </div>
+            {children}
+        </FilterContext.Provider>
+    );
 };

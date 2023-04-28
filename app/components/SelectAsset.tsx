@@ -1,20 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import useFetch from '../hooks/useFetch';
-import { config } from '../constants/endpoints';
+import React, { useState } from 'react';
+import { useFilterContext } from '../contexts/FilterContext';
 
 interface Props {
-    selectedAsset: string;
-    setSelectedAsset: React.Dispatch<React.SetStateAction<string>>;
+    initialAvailableAsset: string[];
 }
 
-const SelectAsset: React.FC<Props> = ({ selectedAsset, setSelectedAsset }) => {
-    const { fetchData } = useFetch();
-    const [availableAssets, setAvailableAssets] = useState<number[]>([]);
-
-    useEffect(() => {
-        fetchData(config.url.RISKS_ASSETS, setAvailableAssets);
-    }, [fetchData]);
+const SelectAsset: React.FC<Props> = ({ initialAvailableAsset }) => {
+    const { selectedAsset, setSelectedAsset } = useFilterContext();
+    const [availableAssets] = useState<string[]>(initialAvailableAsset);
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedAsset(event.target.value);
@@ -25,7 +19,6 @@ const SelectAsset: React.FC<Props> = ({ selectedAsset, setSelectedAsset }) => {
             value={selectedAsset}
             onChange={onChangeHandler}
         >
-            {' '}
             <option value="">Please Select</option>
             {availableAssets.map((availableAsset) => (
                 <option

@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import useFetch from '../hooks/useFetch';
-import { config } from '../constants/endpoints';
+'use client';
+import React, { useState } from 'react';
+import { useFilterContext } from '../contexts/FilterContext';
 
 interface Props {
-    selectedYear: number;
-    setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+    initialAvailableYears: number[];
 }
 
-const SelectYear: React.FC<Props> = ({ selectedYear, setSelectedYear }) => {
-    const { fetchData } = useFetch();
-    const [availableYears, setAvailableYears] = useState<number[]>([]);
-    // api call here to get year
-    useEffect(() => {
-        fetchData(config.url.RISKS_YEARS, setAvailableYears);
-    }, [fetchData]);
+const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
+    const { selectedYear, setSelectedYear } = useFilterContext();
+    const [availableYears] = useState<number[]>(initialAvailableYears);
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedYear(parseInt(event.target.value));
@@ -24,6 +19,7 @@ const SelectYear: React.FC<Props> = ({ selectedYear, setSelectedYear }) => {
             value={selectedYear}
             onChange={onChangeHandler}
         >
+            <option value="">Please Select Year</option>
             {availableYears.map((availableYear) => (
                 <option
                     key={availableYear}

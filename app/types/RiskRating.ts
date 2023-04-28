@@ -37,5 +37,14 @@ export interface TableRiskData {
 }
 
 export interface FilterContext {
-    selectedYear: number;
+    selectedYear: number | '';
+    setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+    // riskFactorLists,
+    // setRiskFactorLists,
+    selectedAsset: string;
+    setSelectedAsset: React.Dispatch<React.SetStateAction<string>>;
+    // selectedBusinessCategory,
+    // setSelectedBusinessCategory,
+    // selectedLocation,
+    // setSelectedLocation,
 }

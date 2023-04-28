@@ -9,14 +9,20 @@ import Table from '../charts/Table';
 import SelectAsset from '../SelectAsset';
 import SelectBusinessCategory from '../SelectBusinessCategory';
 import Spinner from '../Spinner';
+import { useFilterContext } from '@/app/contexts/FilterContext';
 
-const TableSection = ({ initialTableResponse: { data: initialTableData, totalPages: initialTotalPage, currentPage: initialCurrentPage } }) => {
+interface Props {
+    initialTableResponse: TableRiskData;
+}
+
+const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
+    const { selectedYear } = useFilterContext();
     const { fetchData, isLoading } = useFetch();
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
-    const [tableData, setTableData] = useState<Risk[]>(initialTableData);
+    const [tableData, setTableData] = useState<Risk[]>(initialTableResponse.data);
 
     // Will be global state
-    const [selectedYear, setSelectedYear] = useState<number>(2030); // TODO: convert to context
+
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
         'Extreme heat': false,
@@ -38,8 +44,8 @@ const TableSection = ({ initialTableResponse: { data: initialTableData, totalPag
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     //For pagination
-    const [totalPages, setTotalPages] = useState(initialTotalPage);
-    const [currentPage, setCurrentPage] = useState(initialCurrentPage);
+    const [totalPages, setTotalPages] = useState(initialTableResponse.totalPages);
+    const [currentPage, setCurrentPage] = useState(initialTableResponse.currentPage);
 
     const limit = 10;
 
@@ -87,6 +93,8 @@ const TableSection = ({ initialTableResponse: { data: initialTableData, totalPag
             getTableData();
         }
         setIsInitial(false);
+        // I am adding this because isInitial should not be false right after initialization
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getTableData]);
 
     const onSortClickHandler = (label: string) => {
@@ -104,19 +112,19 @@ const TableSection = ({ initialTableResponse: { data: initialTableData, totalPag
     return (
         <div>
             <div>
-                <SelectYear
+                {/* <SelectYear
                     selectedYear={selectedYear}
                     setSelectedYear={setSelectedYear}
-                />
+                /> */}
 
                 <SelectBusinessCategory
                     selectedBusinessCategory={selectedBusinessCategory}
                     setSelectedBusinessCategory={setSelectedBusinessCategory}
                 />
-                <SelectAsset
+                {/* <SelectAsset
                     selectedAsset={selectedAsset}
                     setSelectedAsset={setSelectedAsset}
-                />
+                /> */}
                 {Object.entries(riskFactorLists).map(([factorName, isChecked], index) => {
                     return (
                         <div key={factorName}>
