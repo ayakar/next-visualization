@@ -39,6 +39,7 @@ export interface TableRiskData {
 export interface MapChartData {
     [key: string]: {
         averageRiskRating: number;
+        businessCategories: { [key: string]: boolean };
         assets: { assetName: string; businessCategory: string; riskRating: number }[];
     };
 }

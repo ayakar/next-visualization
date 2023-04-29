@@ -37,7 +37,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         : mapData[item].averageRiskRating > 0.5
                         ? './assets/marker-md.svg'
                         : './assets/marker-low.svg';
-                const markerSize = selectedLocation === item ? 30 : 20;
+                const markerSize = selectedLocation === item ? 50 : 30;
 
                 return (
                     <Marker
@@ -56,8 +56,16 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         }}
                     >
                         <Popup closeButton={false}>
-                            <div>{JSON.stringify(mapData[item].averageRiskRating)}</div>
-                            {/* <div>{JSON.stringify(mapData[item].assets)}</div> */}
+                            <div>Avg. Risk Rating:{mapData[item].averageRiskRating.toFixed(2)}</div>
+                            <div>Total Assets: {mapData[item].assets.length}</div>
+                            <div>
+                                Business Categories:
+                                <ul>
+                                    {Object.keys(mapData[item].businessCategories).map((category) => (
+                                        <li key={category}>{category}</li>
+                                    ))}
+                                </ul>
+                            </div>
                         </Popup>
                     </Marker>
                 );

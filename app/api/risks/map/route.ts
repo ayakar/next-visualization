@@ -22,8 +22,13 @@ export async function GET(request) {
             transformedData[latLong].assets.forEach((asset) => (totalRiskRate += asset.riskRating));
 
             transformedData[latLong].averageRiskRating = totalRiskRate / transformedData[latLong].assets.length;
+            transformedData[latLong].businessCategories[item['Business Category']] = true;
         } else {
-            transformedData[latLong] = { averageRiskRating: item['Risk Rating'], assets: [assetDetailObj] };
+            transformedData[latLong] = {
+                averageRiskRating: item['Risk Rating'],
+                businessCategories: { [item['Business Category']]: true },
+                assets: [assetDetailObj],
+            };
         }
     });
 
