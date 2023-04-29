@@ -62,8 +62,14 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                 // Disable the on-canvas tooltip
                 enabled: false,
 
-                external: function (context) {
-                    console.log(context.tooltip.dataPoints[0].raw.riskFactors);
+                external: function (context: any) {
+                    // console.log(context);
+                    // console.log(context.tooltip.dataPoints[0].raw.riskFactors);
+
+                    const tooltipModel = context.tooltip;
+                    const year = tooltipModel.dataPoints[0].raw.year;
+                    const aggregatedRiskRating = tooltipModel.dataPoints[0].raw.aggregatedRisk;
+                    const riskFactors = tooltipModel.dataPoints[0].raw.riskFactors;
                     // Tooltip Element
                     let tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -72,15 +78,13 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                         tooltipEl = document.createElement('div');
                         tooltipEl.classList.add('toolTipRoot');
                         tooltipEl.id = 'chartjs-tooltip';
-                        //   tooltipEl.innerHTML = '<div class="toolTipRoot"></div>';
+
                         document.body.appendChild(tooltipEl);
                     }
 
-                    const tooltipModel = context.tooltip;
-
                     // Hide if no tooltip
                     if (tooltipModel.opacity === 0) {
-                        tooltipEl.style.opacity = 0;
+                        tooltipEl.style.opacity = '0';
                         return;
                     }
 
@@ -92,49 +96,26 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                         tooltipEl.classList.add('no-transform');
                     }
 
-                    function getBody(bodyItem) {
-                        return bodyItem.lines; // ex. "Risk By Year: 487.52"
-                    }
-
                     // Set Text
-                    if (tooltipModel.body) {
-                        const titleLines = tooltipModel.title || [];
-                        // const bodyLines = Object.keys(context.tooltip.dataPoints[0].raw.riskFactors);
-                        const bodyLines = tooltipModel.body.map(getBody);
-
-                        let innerHtml = '<div>';
-
-                        titleLines.forEach(function (title) {
-                            innerHtml += '<div>' + title + '</div>';
-                        });
-                        innerHtml += '</div><div>';
-
-                        bodyLines.forEach(function (body, i) {
-                            const colors = tooltipModel.labelColors[i];
-                            let style = 'background:' + colors.backgroundColor;
-                            style += '; border-color:' + colors.borderColor;
-                            style += '; border-width: 2px';
-                            const span = '<span style="' + style + '">' + body + '</span>';
-                            innerHtml += '<div>' + span + '</div>';
-                        });
-                        innerHtml += '</div>';
-                        // console.log(tooltipEl);
-                        // let tableRoot = tooltipEl.getElementsByClassName('toolTipRoot')[0];
-                        // let tableRoot = tooltipEl.querySelector('table');
-
-                        tooltipEl.innerHTML = innerHtml;
-                    }
+                    let riskFactorsLi = '';
+                    Object.entries(riskFactors).forEach(([key, val]) => (riskFactorsLi += `<tr><td>${key}:</td> <td>${val}</td></tr>`));
+                    tooltipEl.innerHTML = `<div>Aggregated Risk Rating for ${year} is ${aggregatedRiskRating}</div>
+                    <table><tbody>${riskFactorsLi}</tbody></table>`;
 
                     const position = context.chart.canvas.getBoundingClientRect();
-                    // const bodyFont = ChartJS.helpers.toFont(tooltipModel.options.bodyFont);
 
                     // Display, position, and set styles for font
-                    tooltipEl.style.opacity = 1;
+                    tooltipEl.style.opacity = '1';
                     tooltipEl.style.position = 'absolute';
                     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
                     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
-                    // tooltipEl.style.font = bodyFont.string;
-                    tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
+                    tooltipEl.style.transform = 'translate(-50%, 15px)';
+                    tooltipEl.style.maxWidth = '200px';
+                    tooltipEl.style.background = 'white';
+                    tooltipEl.style.boxShadow = '0 2px 12px 0 #c0c0c0';
+                    tooltipEl.style.padding = '10px';
+                    tooltipEl.style.borderRadius = '5px';
+                    tooltipEl.style.transition = 'opacity .3s ease-in-out';
                     tooltipEl.style.pointerEvents = 'none';
                 },
             },
@@ -154,7 +135,7 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
     const data = {
         datasets: [
             {
-                label: 'Aggregated Risk By Year',
+                //label: 'Aggregated Risk By Year',
                 // labels: Object.keys(lineData),
                 // data: riskArray,
                 data: [
@@ -164,6 +145,8 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                 ],
                 borderColor: 'pink',
                 backgroundColor: 'green',
+                pointRadius: 8,
+                pointHoverRadius: 10,
             },
         ],
     };
