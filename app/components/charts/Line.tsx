@@ -34,9 +34,12 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                 enabled: false,
 
                 external: function (context: any) {
-                    // console.log(context);
-                    // console.log(context.tooltip.dataPoints[0].raw.riskFactors);
+                    // console.log('tooltip', context.tooltip);
 
+                    // Avoid throwing error when dataPoints object is not filled
+                    if (context.tooltip.dataPoints === undefined) {
+                        return;
+                    }
                     const tooltipModel = context.tooltip;
                     const year = tooltipModel.dataPoints[0].raw.year;
                     const aggregatedRiskRating = tooltipModel.dataPoints[0].raw.aggregatedRisk;
@@ -69,13 +72,18 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
 
                     // Set Text
                     let riskFactorsLi = '';
-                    Object.entries(riskFactors).forEach(([key, val]) => (riskFactorsLi += `<tr><td>${key}:</td> <td>${val}</td></tr>`));
-                    tooltipEl.innerHTML = `<div>Aggregated Risk Rating for ${year} is ${aggregatedRiskRating}</div>
+
+                    Object.keys(riskFactors).forEach((key) => {
+                        const rounded = riskFactors[key].toFixed(2);
+                        riskFactorsLi += `<tr><td>${key}:</td> <td>${rounded}</td></tr>`;
+                    });
+
+                    tooltipEl.innerHTML = `<div>Aggregated Risk Rating for ${year} is ${aggregatedRiskRating.toFixed(2)}</div>
                     <table><tbody>${riskFactorsLi}</tbody></table>`;
 
                     const position = context.chart.canvas.getBoundingClientRect();
 
-                    // Display, position, and set styles for font
+                    // Setting style on ToolTip
                     tooltipEl.style.opacity = '1';
                     tooltipEl.style.position = 'absolute';
                     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
