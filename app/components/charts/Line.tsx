@@ -28,35 +28,6 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                 text: title,
             },
 
-            // tooltip: {
-            //     boxWidth: 200,
-            //     boxHeight: 200,
-            //     backgroundColor: 'gray',
-            //     displayColors: false,
-            //     cornerRadius: 10,
-            //     padding: 15,
-            //     titleColor: 'green',
-            //     titleFont: {
-            //         // family:,
-            //         size: 30,
-            //     },
-            //     bodyColor: 'orange',
-            //     bodyFont: {
-            //         // family:,
-            //         size: 20,
-            //     },
-            //     callbacks: {
-            //         title: function (tooltipItem, data) {
-            //             console.log(tooltipItem, data);
-            //             return tooltipItem.label;
-            //         },
-
-            //         label: (tooltipItem, data) => {
-            //             return 'text';
-            //         },
-            //     },
-            // },
-
             //Custom Tool Tip
             tooltip: {
                 // Disable the on-canvas tooltip
@@ -121,28 +92,11 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
             },
         },
     };
-    // Initial server format
-    //    {
-    //         "2030": {"aggregatedRisk":"497","riskFactors":{"earthquake":"2","fire":"44"}},
-    //         "2040": {"aggregatedRisk":"23","riskFactors":["sldkf","lskdjf"]},
-    //         "2050": {"aggregatedRisk":"5","riskFactors":["sldkf","lskdjf"]},
-    //     }
-    // Final server format to send to client:
-    // [{"year":"2030","aggregatedRisk":"497","riskFactors":{"earthquake":"2","fire":"44"}},{},{}]
 
-    // riskArray = ["497","23","5"]
-    // const riskArray = Object.keys(lineData).map(key=>lineData[key].risk)
     const data = {
         datasets: [
             {
-                //label: 'Aggregated Risk By Year',
-                // labels: Object.keys(lineData),
-                // data: riskArray,
-                data: [
-                    { year: '2030', aggregatedRisk: '88', riskFactors: { earthquake: '2', fire: '44' } },
-                    { year: '2040', aggregatedRisk: '22', riskFactors: { earthquake: '2', fire: '44', drought: '8' } },
-                    { year: '2050', aggregatedRisk: '55', riskFactors: { earthquake: '2', fire: '21' } },
-                ],
+                data: lineData,
                 borderColor: 'pink',
                 backgroundColor: 'green',
                 pointRadius: 8,

@@ -20,7 +20,20 @@ export interface Risk {
 }
 
 export interface LineChartData {
-    [key: number]: number;
+    year: number;
+    aggregatedRisk: number;
+    riskFactors: {
+        Hurricane: number;
+        ExtremeHeat?: number;
+        Tornado?: number;
+        Wildfire?: number;
+        Flooding?: number;
+        Drought?: number;
+        Volcano?: number;
+        ExtremeCold?: number;
+        Earthquake?: number;
+        SeaLevelRise?: number;
+    };
 }
 
 export interface LineChartDataset {
