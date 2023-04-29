@@ -19,6 +19,7 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
 
     return (
         <select
+            className="border-dark border-1 focus:border-secondary focus:border rounded-sm px-2 py-1 outline-none "
             value={selectedYear}
             onChange={onChangeHandler}
         >

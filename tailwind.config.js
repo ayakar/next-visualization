@@ -7,11 +7,12 @@ module.exports = {
                 primary: '#F0A323',
                 primaryLight: '#fedca5',
                 secondary: '#008eaa',
-                danger: '',
+                danger: '#AA0000',
                 success: '',
                 // black: '#000',
                 white: '#fff',
-                // gray: '#88929e',
+                gray: '#88929e',
+                lightGray: '#e7e7e7',
                 // lightGray: '#f9f9f9',
                 // lightGray: '#c4cfde',
                 // yellow: '#e2e663',
@@ -52,6 +53,24 @@ module.exports = {
                 // '3xl': '1.5rem',
                 // full: '9999px',
                 // large: '12px 30px 12px 28px'
+            },
+            borderWidth: {
+                1: '1px',
+                DEFAULT: '2px',
+
+                // '4': '4px',
+                // '8': '8px',
+            },
+            borderColor: (theme) => ({
+                ...theme('colors'),
+                dark: theme('colors.gray', 'currentColor'),
+                DEFAULT: theme('colors.lightGray', 'currentColor'),
+            }),
+            borderStyle: {
+                DEFAULT: 'solid',
+            },
+            outline: {
+                custom: ['2px solid pink', '1px'],
             },
         },
     },

@@ -15,7 +15,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
 
     return (
         <>
-            <table className="border">
+            <table className="w-full">
                 <thead>
                     <tr>
                         {labels.map((label, index) => (
@@ -52,13 +52,12 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                     ))}
                 </tbody>
             </table>
-            <div>
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onClickHandler={onPaginationClickHandler}
-                />
-            </div>
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onClickHandler={onPaginationClickHandler}
+            />
         </>
     );
 };

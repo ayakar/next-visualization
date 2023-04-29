@@ -96,7 +96,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     };
 
     return (
-        <div>
+        <div className="w-full">
             {isLoading ? (
                 <Spinner />
             ) : tableData.length > 0 ? (

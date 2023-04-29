@@ -83,15 +83,18 @@ export default async function Home() {
 
     return (
         <>
-            <div className="container flex items-start flex-wrap">
+            <div className="container flex items-start flex-wrap pb-2 mb-6 border-b">
                 <SelectYear initialAvailableYears={initialAvailableYears} />
                 <SelectAsset initialAvailableAssets={initialAvailableAssets} />
                 <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
                 <CheckBoxRiskFactor />
             </div>
-            <div className="container flex flex-wrap">
-                <LineSection initialLineResponse={initialLineResponse} />
-                <MapSection initialMapResponse={initialMapResponse} />
+            <div className="container flex flex-col flex-wrap gap-10">
+                <div className="flex gap-10">
+                    <LineSection initialLineResponse={initialLineResponse} />
+                    <MapSection initialMapResponse={initialMapResponse} />
+                </div>
+
                 <TableSection initialTableResponse={initialTableResponse} />
             </div>
         </>

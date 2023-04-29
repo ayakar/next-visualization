@@ -15,6 +15,7 @@ const SelectBusinessCategory: React.FC<Props> = ({ initialAvailableBusinessCateg
 
     return (
         <select
+            className="border-dark border-1 focus:border-secondary focus:border rounded-sm px-2 py-1 outline-none "
             value={selectedBusinessCategory}
             onChange={onChangeHandler}
         >

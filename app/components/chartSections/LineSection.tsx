@@ -49,10 +49,7 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
 
     return (
         <div>
-            <Line
-                title={'TITLE HERE'} // TODO: add this
-                lineData={lineData}
-            />
+            <Line lineData={lineData} />
 
             {/* TODO: styled this */}
             {errorMessage && <div>{errorMessage}</div>}

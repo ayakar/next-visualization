@@ -1,18 +1,18 @@
 'use client';
 import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
 import { LineChartDataset } from '../../types/RiskRating';
 
 interface Props {
-    title: string;
     lineData: LineChartDataset | {};
 }
 
-const Line: React.FC<Props> = ({ title, lineData }) => {
-    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const Line: React.FC<Props> = ({ lineData }) => {
+    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
     const options = {
+        maintainAspectRatio: false,
         responsive: true,
         parsing: {
             xAxisKey: 'year',
@@ -24,15 +24,13 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
                 display: false,
             },
             title: {
-                display: true,
-                text: title,
+                display: false,
             },
 
             //Custom Tool Tip
             tooltip: {
                 // Disable the on-canvas tooltip
                 enabled: false,
-
                 external: function (context: any) {
                     // console.log('tooltip', context.tooltip);
 
@@ -105,19 +103,22 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
         datasets: [
             {
                 data: lineData,
-                borderColor: 'pink',
-                backgroundColor: 'green',
-                pointRadius: 8,
-                pointHoverRadius: 10,
+                borderColor: '#fedca5',
+                backgroundColor: '#F0A323',
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                tension: 0.1,
             },
         ],
     };
 
     return (
-        <LineChartJS
-            options={options}
-            data={data}
-        />
+        <div style={{ height: '400px', width: '500px' }}>
+            <LineChartJS
+                options={options}
+                data={data}
+            />
+        </div>
     );
 };
 
