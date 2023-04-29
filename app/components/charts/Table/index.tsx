@@ -15,13 +15,14 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
 
     return (
         <>
-            <table>
+            <table className="border">
                 <thead>
                     <tr>
                         {labels.map((label, index) => (
                             <th
                                 key={index}
                                 onClick={() => label !== 'Year' && label !== 'Risk Factors' && onSortClickHandler(label)}
+                                className="border"
                             >
                                 {label}
                             </th>
@@ -31,13 +32,22 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                 <tbody>
                     {tableData?.map((item, index) => (
                         <tr key={index}>
-                            <td>{item['Asset Name']}</td>
-                            <td>{item['Lat']}</td>
-                            <td>{item['Long']}</td>
-                            <td>{item['Business Category']}</td>
-                            <td>{item['Risk Rating']}</td>
-                            <td>{JSON.stringify(item['Risk Factors'])}</td>
-                            <td>{item['Year']}</td>
+                            <td className="border">{item['Asset Name']}</td>
+                            <td className="border">{item['Lat']}</td>
+                            <td className="border">{item['Long']}</td>
+                            <td className="border">{item['Business Category']}</td>
+                            <td className="border">{item['Risk Rating']}</td>
+
+                            <td className="border">
+                                <ul>
+                                    {Object.entries(item['Risk Factors']).map(([key, val]) => (
+                                        <li key={key}>
+                                            {key}: {val}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </td>
+                            <td className="border">{item['Year']}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -83,16 +83,17 @@ export default async function Home() {
 
     return (
         <>
-            {/* <div className="text-primary">Tailwind</div>
-            <div className="text-secondary">Tailwind</div> */}
-            <SelectYear initialAvailableYears={initialAvailableYears} />
-            <SelectAsset initialAvailableAssets={initialAvailableAssets} />
-            <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
-            {/* TODO: change this to dynamic */}
-            <CheckBoxRiskFactor />
-            <MapSection initialMapResponse={initialMapResponse} />
-            <LineSection initialLineResponse={initialLineResponse} />
-            <TableSection initialTableResponse={initialTableResponse} />
+            <div className="container flex items-start flex-wrap">
+                <SelectYear initialAvailableYears={initialAvailableYears} />
+                <SelectAsset initialAvailableAssets={initialAvailableAssets} />
+                <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
+                <CheckBoxRiskFactor />
+            </div>
+            <div className="container flex flex-wrap">
+                <LineSection initialLineResponse={initialLineResponse} />
+                <MapSection initialMapResponse={initialMapResponse} />
+                <TableSection initialTableResponse={initialTableResponse} />
+            </div>
         </>
     );
 }

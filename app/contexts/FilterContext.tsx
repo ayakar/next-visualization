@@ -54,13 +54,13 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <FilterContext.Provider value={value}>
-            <div style={{ border: '1px solid red' }}>
+            {/* <div style={{ border: '1px solid red' }}>
                 <div>Selected Year: {JSON.stringify(selectedYear)}</div>
                 <div>Selected Asset: {JSON.stringify(selectedAsset)}</div>
                 <div>Selected riskFactorLists: {JSON.stringify(riskFactorLists)}</div>
                 <div>Selected selectedBusinessCategory: {JSON.stringify(selectedBusinessCategory)}</div>
                 <div>Selected Location: {JSON.stringify(selectedLocation)}</div>
-            </div>
+            </div> */}
             {children}
         </FilterContext.Provider>
     );

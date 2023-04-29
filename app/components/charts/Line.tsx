@@ -83,7 +83,7 @@ const Line: React.FC<Props> = ({ title, lineData }) => {
 
                     const position = context.chart.canvas.getBoundingClientRect();
 
-                    // Setting style on ToolTip
+                    // Setting style on ToolTip // TODO: replace with tailwind class?
                     tooltipEl.style.opacity = '1';
                     tooltipEl.style.position = 'absolute';
                     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';

@@ -5,7 +5,7 @@ import { useFilterContext } from '../contexts/FilterContext';
 const CheckBoxRiskFactor = () => {
     const { riskFactorLists, setRiskFactorLists } = useFilterContext();
     return (
-        <div>
+        <div className="w-full flex flex-wrap">
             {Object.entries(riskFactorLists).map(([factorName, isChecked], index) => {
                 return (
                     <div key={factorName}>
