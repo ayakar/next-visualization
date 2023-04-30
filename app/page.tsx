@@ -83,7 +83,7 @@ export default async function Home() {
 
     return (
         <>
-            <div className="container flex items-start flex-wrap pb-2 mb-6 border-b">
+            <div className="container flex gap-x-6  gap-y-3  items-start flex-wrap pb-3 mb-6 border-b">
                 <SelectYear initialAvailableYears={initialAvailableYears} />
                 <SelectAsset initialAvailableAssets={initialAvailableAssets} />
                 <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />

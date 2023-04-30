@@ -73,11 +73,13 @@ const Line: React.FC<Props> = ({ lineData }) => {
 
                     Object.keys(riskFactors).forEach((key) => {
                         const rounded = riskFactors[key].toFixed(2);
-                        riskFactorsLi += `<tr><td>${key}:</td> <td>${rounded}</td></tr>`;
+                        riskFactorsLi += `<tr><td className="border-b">${key}:</td> <td style="text-align:right">${rounded}</td></tr>`;
                     });
 
-                    tooltipEl.innerHTML = `<div>Aggregated Risk Rating for ${year} is ${aggregatedRiskRating.toFixed(2)}</div>
-                    <table><tbody>${riskFactorsLi}</tbody></table>`;
+                    tooltipEl.innerHTML = `<div style="text-align:center; border-bottom:solid 1px #e7e7e7; padding-bottom:.3rem; margin-bottom:.3rem">
+                    Aggregated<br>Risk Rating : ${aggregatedRiskRating.toFixed(2)}
+                    </div>
+                    <table style="width:100%"><tbody>${riskFactorsLi}</tbody></table>`;
 
                     const position = context.chart.canvas.getBoundingClientRect();
 
@@ -87,13 +89,14 @@ const Line: React.FC<Props> = ({ lineData }) => {
                     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
                     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
                     tooltipEl.style.transform = 'translate(-50%, 15px)';
-                    tooltipEl.style.maxWidth = '200px';
+                    tooltipEl.style.maxWidth = '180px';
                     tooltipEl.style.background = 'white';
                     tooltipEl.style.boxShadow = '0 2px 12px 0 #c0c0c0';
                     tooltipEl.style.padding = '10px';
                     tooltipEl.style.borderRadius = '5px';
                     tooltipEl.style.transition = 'opacity .3s ease-in-out';
                     tooltipEl.style.pointerEvents = 'none';
+                    tooltipEl.style.fontSize = '.85rem';
                 },
             },
         },

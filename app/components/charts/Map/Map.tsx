@@ -56,11 +56,22 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         }}
                     >
                         <Popup closeButton={false}>
-                            <div>Avg. Risk Rating:{mapData[item].averageRiskRating.toFixed(2)}</div>
-                            <div>Total Assets: {mapData[item].assets.length}</div>
-                            <div>
-                                Business Categories:
-                                <ul>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td className="mr-2">Avg. Risk Rating:</td>
+                                        <td className="text-right">{mapData[item].averageRiskRating.toFixed(2)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="mr-2">Total Assets: </td>
+                                        <td className="text-right">{mapData[item].assets.length}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className="">
+                                <div>Business Categories</div>
+                                <ul className="list-disc pl-3">
                                     {Object.keys(mapData[item].businessCategories).map((category) => (
                                         <li key={category}>{category}</li>
                                     ))}
