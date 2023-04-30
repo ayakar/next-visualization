@@ -26,7 +26,7 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
             );
         }
 
-        return <div>{LeftPagination}</div>;
+        return <>{LeftPagination}</>;
     }
     if (currentPage < 3 || currentPage > totalPages - 2) {
         // show 1,2,3, ...  99,100, 101 -> page 1,2, ,100,101 show first and last 3 if the page is more than 6 and current page is first or last 2
@@ -54,9 +54,9 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         }
 
         return (
-            <div>
+            <>
                 {LeftPagination} ... {RightPagination.reverse()}
-            </div>
+            </>
         );
     } else {
         //  show 1 .,3,4, ...99,100,101 -> when the page is more than 6 and current page is more than first 2 or less than last 2
@@ -93,9 +93,9 @@ const Pagination: React.FC<Props> = ({ currentPage, totalPages, onClickHandler }
         );
 
         return (
-            <div>
+            <>
                 {LeftPagination} ...{MiddlePagination}... {RightPagination.reverse()}
-            </div>
+            </>
         );
     }
 };

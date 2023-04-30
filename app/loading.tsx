@@ -1,4 +1,9 @@
+import Spinner from './components/Spinner';
+
 export default function Loading() {
-    // TODO: styled this
-    return <div style={{ color: 'red' }}>Loading!</div>;
+    return (
+        <div className="h-screen flex justify-center items-center">
+            <Spinner />
+        </div>
+    );
 }

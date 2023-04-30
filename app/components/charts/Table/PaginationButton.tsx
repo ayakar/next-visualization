@@ -15,6 +15,7 @@ const PaginationButton: React.FC<Props> = ({ pageNumber, currentPage, onClickHan
                     ? 'bg-primary hover:bg-primaryLight hover:text-primary text-white font-bold py-2 px-4 rounded-sm transition-colors duration-300'
                     : 'bg-lightGray2 text-gray font-bold py-2 px-4 rounded-sm transition-colors duration-300'
             }
+            disabled={currentPage === pageNumber}
             onClick={(event) => onClickHandler(pageNumber, event)}
         >
             {pageNumber}

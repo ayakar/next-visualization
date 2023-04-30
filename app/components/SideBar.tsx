@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 const SideBar = () => {
     const pathname = usePathname();
-    console.log(pathname === '/');
     return (
         <aside className="w-sidebar py-6 sticky top-0 h-screen">
             <div className="flex flex-col gap-4 shadow  p-6 h-full rounded">

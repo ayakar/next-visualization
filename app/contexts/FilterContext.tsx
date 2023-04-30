@@ -22,7 +22,7 @@ export const useFilterContext = () => {
 
 // Provider with Filter info
 export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
-    const [selectedYear, setSelectedYear] = useState<number | ''>(''); // TODO: convert to context
+    const [selectedYear, setSelectedYear] = useState<number | ''>('');
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
         'Extreme heat': false,

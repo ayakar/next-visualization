@@ -20,7 +20,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
     const thClassNameNonClickable = 'text-secondary px-3 py-2 bg-secondaryLight first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br';
     return (
         <>
-            <table className="w-full">
+            <table className="w-full mb-6">
                 <thead>
                     <tr>
                         {labels.map((label, index) => (
@@ -79,12 +79,13 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                     })}
                 </tbody>
             </table>
-
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onClickHandler={onPaginationClickHandler}
-            />
+            <div className="flex gap-2">
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onClickHandler={onPaginationClickHandler}
+                />
+            </div>
         </>
     );
 };
