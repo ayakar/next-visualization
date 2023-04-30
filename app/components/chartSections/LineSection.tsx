@@ -48,7 +48,7 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     return (
-        <div>
+        <div className="pt-8">
             <Line lineData={lineData} />
 
             {/* TODO: styled this */}

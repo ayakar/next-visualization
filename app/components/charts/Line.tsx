@@ -116,7 +116,7 @@ const Line: React.FC<Props> = ({ lineData }) => {
     };
 
     return (
-        <div style={{ height: '400px', width: '600px', padding: '50px' }}>
+        <div style={{ height: '400px', width: '600px', paddingLeft: '20px', paddingRight: '20px' }}>
             <LineChartJS
                 options={options}
                 data={data}

@@ -6,13 +6,15 @@ import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import { useFilterContext } from '@/app/contexts/FilterContext';
+import { XCircle } from 'react-bootstrap-icons';
+import Image from 'next/image';
 
 interface Props {
     initialMapResponse: MapChartData;
 }
 
 const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
-    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists } = useFilterContext();
+    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation, setSelectedLocation } = useFilterContext();
     const { isLoading, errorMessage, fetchData } = useFetch();
     const [mapData, setMapData] = useState(initialMapResponse);
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
@@ -43,11 +45,49 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     return (
-        <>
+        <div className="pt-6 relative">
+            {selectedLocation && (
+                <div className="absolute top-0 flex gap-1 items-center">
+                    <button onClick={() => setSelectedLocation('')}>
+                        <XCircle color="#AA0000" />
+                    </button>
+                    {selectedLocation}
+                </div>
+            )}
+
             <Map mapData={mapData} />
+            <div className="flex text-sm gap-2">
+                <div className="flex gap-1">
+                    <Image
+                        src="./assets/marker-low.svg"
+                        alt="Low Risk"
+                        width={16}
+                        height={16}
+                    />
+                    Low Risk
+                </div>
+                <div className="flex gap-1">
+                    <Image
+                        src="./assets/marker-md.svg"
+                        alt="Medium Risk"
+                        width={16}
+                        height={16}
+                    />
+                    Medium Risk
+                </div>
+                <div className="flex gap-1">
+                    <Image
+                        src="./assets/marker-high.svg"
+                        alt="High Risk"
+                        width={16}
+                        height={16}
+                    />
+                    High Risk
+                </div>
+            </div>
             {/* TODO: styled this */}
             {errorMessage && <div>{errorMessage}</div>}
-        </>
+        </div>
     );
 };
 

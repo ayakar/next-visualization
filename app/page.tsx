@@ -83,7 +83,7 @@ export default async function Home() {
 
     return (
         <>
-            <div className="container flex gap-x-6  gap-y-3  items-start flex-wrap pb-3 mb-6 border-b">
+            <div className="container flex gap-x-6  gap-y-3 items-start flex-wrap ">
                 <SelectYear initialAvailableYears={initialAvailableYears} />
                 <SelectAsset initialAvailableAssets={initialAvailableAssets} />
                 <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
@@ -91,8 +91,8 @@ export default async function Home() {
             </div>
             <div className="container flex flex-col flex-wrap gap-10">
                 <div className="flex gap-10">
-                    <LineSection initialLineResponse={initialLineResponse} />
                     <MapSection initialMapResponse={initialMapResponse} />
+                    <LineSection initialLineResponse={initialLineResponse} />
                 </div>
 
                 <TableSection initialTableResponse={initialTableResponse} />
