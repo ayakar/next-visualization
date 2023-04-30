@@ -32,7 +32,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                 const long = item.split(',')[1];
 
                 const marker =
-                    mapData[item].averageRiskRating > 0.8
+                    mapData[item].averageRiskRating > 0.7
                         ? './assets/marker-high.svg'
                         : mapData[item].averageRiskRating > 0.5
                         ? './assets/marker-md.svg'

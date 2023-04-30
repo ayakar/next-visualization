@@ -21,7 +21,7 @@ module.exports = {
                 // yellow: '#e2e663',
             },
             width: {
-                sidebar: '240px',
+                sidebar: '200px',
                 5: '5%',
                 10: '10%',
                 20: '20%',
