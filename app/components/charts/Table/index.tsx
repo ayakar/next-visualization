@@ -62,7 +62,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                                 <td className="border-b px-1 py-2 w-10 first:pt-6 text-center">{item['Risk Rating']}</td>
 
                                 <td className="border-b px-1 py-2 w-30 first:pt-6">
-                                    <ul className="flex flex-wrap">
+                                    <ul className="flex flex-wrap gap-1">
                                         {riskFactorsArr.map(([key, val], index) => (
                                             <li key={key}>
                                                 <span>{key}: </span>

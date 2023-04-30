@@ -39,6 +39,9 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         : './assets/marker-low.svg';
                 const markerSize = selectedLocation === item ? 50 : 30;
 
+                const textColor =
+                    mapData[item].averageRiskRating > 0.7 ? 'text-danger' : mapData[item].averageRiskRating > 0.5 ? 'text-primary' : 'text-secondary';
+
                 return (
                     <Marker
                         icon={L.icon({
@@ -56,26 +59,22 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         }}
                     >
                         <Popup closeButton={false}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td className="mr-2">Avg. Risk Rating:</td>
-                                        <td className="text-right">{mapData[item].averageRiskRating.toFixed(2)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="mr-2">Total Assets: </td>
-                                        <td className="text-right">{mapData[item].assets.length}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="flex gap-1 mb-2">
+                                <span>Avg. Risk Rating:</span>
+                                <span className={`font-bold ${textColor}`}>{mapData[item].averageRiskRating.toFixed(2)}</span>
+                            </div>
 
-                            <div className="">
+                            <div className="mb-2">
                                 <div>Business Categories</div>
                                 <ul className="list-disc pl-3">
                                     {Object.keys(mapData[item].businessCategories).map((category) => (
                                         <li key={category}>{category}</li>
                                     ))}
                                 </ul>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Total Assets: </span>
+                                <span>{mapData[item].assets.length}</span>
                             </div>
                         </Popup>
                     </Marker>
