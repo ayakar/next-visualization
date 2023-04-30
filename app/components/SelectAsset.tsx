@@ -19,7 +19,7 @@ const SelectAsset: React.FC<Props> = ({ initialAvailableAssets }) => {
             value={selectedAsset}
             onChange={onChangeHandler}
         >
-            <option value="">Please Select</option>
+            <option value="">All Assets</option>
             {initialAvailableAssets.map((availableAsset) => (
                 <option
                     key={availableAsset}

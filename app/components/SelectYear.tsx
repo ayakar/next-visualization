@@ -23,7 +23,7 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
             value={selectedYear}
             onChange={onChangeHandler}
         >
-            <option value="">Please Select Year</option>
+            <option value="">All Year</option>
             {initialAvailableYears.map((availableYear) => (
                 <option
                     key={availableYear}

@@ -19,7 +19,7 @@ const SelectBusinessCategory: React.FC<Props> = ({ initialAvailableBusinessCateg
             value={selectedBusinessCategory}
             onChange={onChangeHandler}
         >
-            <option value="">Please Select</option>
+            <option value="">All Business Categories</option>
             {initialAvailableBusinessCategories.map((availableBusinessCategory) => (
                 <option
                     key={availableBusinessCategory}

@@ -30,3 +30,12 @@ img {
     height: 400px;
     border-radius: 1rem;
 }
+
+input[type='checkbox'] {
+    accent-color: #f0a323;
+}
+
+.sidebar-link__active {
+    font-weight: 700;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fedca5 50%, #fedca5 100%);
+}

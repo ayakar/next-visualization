@@ -6,7 +6,6 @@ import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import { useFilterContext } from '@/app/contexts/FilterContext';
-import Spinner from '../Spinner';
 
 interface Props {
     initialMapResponse: MapChartData;
@@ -42,10 +41,6 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
         // I am adding this because isInitial should not be false right after initialization
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
-
-    if (isLoading) {
-        return <Spinner />;
-    }
 
     return (
         <>

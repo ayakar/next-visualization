@@ -5,7 +5,6 @@ import { Risk, TableRiskData } from '../../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import Table from '../charts/Table';
-import Spinner from '../Spinner';
 import { useFilterContext } from '@/app/contexts/FilterContext';
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 
 const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
-    const { fetchData, isLoading } = useFetch();
+    const { fetchData } = useFetch();
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
     const [tableData, setTableData] = useState<Risk[]>(initialTableResponse.data);
 
@@ -96,16 +95,16 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     };
 
     return (
-        <div className="w-full">
-            {isLoading ? (
-                <Spinner />
-            ) : tableData.length > 0 ? (
+        <div className="w-full text-sm">
+            {tableData.length > 0 ? (
                 <Table
                     tableData={tableData}
                     totalPages={totalPages}
                     currentPage={currentPage}
                     onSortClickHandler={onSortClickHandler}
                     onPaginationClickHandler={onPaginationClickHandler}
+                    sortLabel={sortLabel}
+                    sortOrder={sortOrder}
                 />
             ) : (
                 // Style this
