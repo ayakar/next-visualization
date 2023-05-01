@@ -4,30 +4,36 @@ import { filterRiskData } from '../filterRiskData';
 import { MapChartData, Risk } from '@/app/types/RiskRating';
 
 export async function GET(request) {
-    console.log('map api called');
+    // console.log('map api called');
+    const { searchParams } = new URL(request.url);
+    const riskFactorParams = searchParams.get('risk-factor'); //  'Flooding,Volcano'
+
+    const riskFactorParamsArr = riskFactorParams
+        ? riskFactorParams.split(',')
+        : ['Earthquake', 'Extreme heat', 'Wildfire', 'Tornado', 'Flooding', 'Volcano', 'Hurricane', 'Drought', 'Extreme cold', 'Sea level rise'];
+
     const filtered: Risk[] = await filterRiskData(request);
     let transformedData: MapChartData = {};
     filtered.forEach((item: Risk) => {
         const latLong = `${item['Lat']},${item['Long']}`;
 
-        const assetDetailObj = {
-            assetName: item['Asset Name'],
-            businessCategory: item['Business Category'],
-            riskRating: item['Risk Rating'],
-        };
+        let totalRiskRating = 0;
+        const itemRiskFactor = Object.entries(item['Risk Factors']);
+        itemRiskFactor.forEach(([factor, data]) => {
+            if (riskFactorParamsArr.includes(factor)) {
+                totalRiskRating += data;
+            }
+        });
 
         if (transformedData[latLong]) {
-            transformedData[latLong].assets = [...transformedData[latLong].assets, assetDetailObj];
-            let totalRiskRate = 0;
-            transformedData[latLong].assets.forEach((asset) => (totalRiskRate += asset.riskRating));
-
-            transformedData[latLong].averageRiskRating = totalRiskRate / transformedData[latLong].assets.length;
+            transformedData[latLong].assetsNum += 1;
+            transformedData[latLong].totalRiskRating += totalRiskRating;
             transformedData[latLong].businessCategories[item['Business Category']] = true;
         } else {
             transformedData[latLong] = {
-                averageRiskRating: item['Risk Rating'],
+                totalRiskRating: totalRiskRating,
                 businessCategories: { [item['Business Category']]: true },
-                assets: [assetDetailObj],
+                assetsNum: 1,
             };
         }
     });

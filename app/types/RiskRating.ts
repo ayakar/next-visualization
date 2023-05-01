@@ -51,9 +51,9 @@ export interface TableRiskData {
 
 export interface MapChartData {
     [key: string]: {
-        averageRiskRating: number;
+        totalRiskRating: number;
         businessCategories: { [key: string]: boolean };
-        assets: { assetName: string; businessCategory: string; riskRating: number }[];
+        assetsNum: number;
     };
 }
 

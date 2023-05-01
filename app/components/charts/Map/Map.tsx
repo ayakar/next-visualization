@@ -30,17 +30,13 @@ const Map: React.FC<Props> = ({ mapData }) => {
             {Object.keys(mapData).map((item) => {
                 const lat = item.split(',')[0];
                 const long = item.split(',')[1];
+                const averageRiskRating = mapData[item].totalRiskRating / mapData[item].assetsNum;
 
                 const marker =
-                    mapData[item].averageRiskRating > 0.7
-                        ? './assets/marker-high.svg'
-                        : mapData[item].averageRiskRating > 0.5
-                        ? './assets/marker-md.svg'
-                        : './assets/marker-low.svg';
+                    averageRiskRating > 0.7 ? './assets/marker-high.svg' : averageRiskRating > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
                 const markerSize = selectedLocation === item ? 50 : 30;
 
-                const textColor =
-                    mapData[item].averageRiskRating > 0.7 ? 'text-danger' : mapData[item].averageRiskRating > 0.5 ? 'text-primary' : 'text-secondary';
+                const textColor = averageRiskRating > 0.7 ? 'text-danger' : averageRiskRating > 0.5 ? 'text-primary' : 'text-secondary';
 
                 return (
                     <Marker
@@ -61,7 +57,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         <Popup closeButton={false}>
                             <div className="flex gap-1 mb-2">
                                 <span>Avg. Risk Rating:</span>
-                                <span className={`font-bold ${textColor}`}>{mapData[item].averageRiskRating.toFixed(2)}</span>
+                                <span className={`font-bold ${textColor}`}>{averageRiskRating.toFixed(2)}</span>
                             </div>
 
                             <div className="mb-2">
@@ -74,7 +70,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                             </div>
                             <div className="flex justify-between">
                                 <span>Total Assets: </span>
-                                <span>{mapData[item].assets.length}</span>
+                                <span>{mapData[item].assetsNum}</span>
                             </div>
                         </Popup>
                     </Marker>
