@@ -1,4 +1,4 @@
-const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://risk-viz-b58k.onrender.com';
+const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://127.0.0.1:3000'; // TODO: fix this
 // const domain = process.env.DOMAIN;
 
 export const config = {
