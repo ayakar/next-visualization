@@ -9,68 +9,98 @@ import SelectBusinessCategory from './components/SelectBusinessCategory';
 import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
 
 const fetchInitialAvailableYears = async () => {
-    const res = await fetch(`${config.url.RISKS_YEARS}`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
-    return data;
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_YEARS}`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 const fetchInitialAvailableAssets = async () => {
-    const res = await fetch(`${config.url.RISKS_ASSETS}`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
-    return data;
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_ASSETS}`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 const fetchInitialAvailableBusinessCategories = async () => {
-    const res = await fetch(`${config.url.RISKS_CATEGORIES}`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_CATEGORIES}`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
 
-    return data;
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 
 const fetchInitialTableData = async () => {
-    const res = await fetch(`${config.url.RISKS_TABLE}?limit=10`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
-    return data;
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_TABLE}?limit=10`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 
 const fetchInitialLineData = async () => {
-    const res = await fetch(`${config.url.RISKS_LINE}`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
-    return data;
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_LINE}`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 const fetchInitialMapData = async () => {
-    const res = await fetch(`${config.url.RISKS_MAP}`, {
-        next: {
-            // revalidate: 60 * 60 * 24, // TODO: use this
-            revalidate: 1,
-        },
-    });
-    const data = await res.json();
+    // TODO: make sure ssr working on Prod
+    try {
+        const res = await fetch(`${config.url.RISKS_MAP}`, {
+            next: {
+                // revalidate: 60 * 60 * 24, // TODO: use this
+                revalidate: 1,
+            },
+        });
+        const data = await res.json();
 
-    return data;
+        return data;
+    } catch (err) {
+        console.log('err: ', err);
+    }
 };
 
 export default async function Home() {
