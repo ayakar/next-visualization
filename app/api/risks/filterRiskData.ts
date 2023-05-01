@@ -1,4 +1,4 @@
-import risks from '../data.json';
+import risks from '../data-shorter.json';
 import { Risk } from '@/app/types/RiskRating';
 
 // 1: filter: year, asset, business cat, location
