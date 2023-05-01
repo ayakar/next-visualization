@@ -1,3 +1,4 @@
+// this can be in page.tsx
 import risks from '@/app/api/data.json';
 import { Risk } from '@/app/types/RiskRating';
 export const getYear = () => {

@@ -8,8 +8,9 @@ import SelectAsset from './components/SelectAsset';
 import SelectBusinessCategory from './components/SelectBusinessCategory';
 import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
 import { getYear } from './api/risks/years/getYear';
+import { getBusinessCategories } from './api/risks/business_categories/getBusinessCategories';
 import { getLine } from './api/risks/line/getLine';
-import { LineChartData } from './types/RiskRating';
+import { getAssets } from './api/risks/assets/getAssets';
 
 const fetchInitialAvailableYears = () => {
     // TODO: make sure ssr working on Prod
@@ -112,16 +113,16 @@ export default async function Home() {
     const initialLineResponse = getLine(null, null);
     // const initialMapResponse = await fetchInitialMapData();
     const initialAvailableYears = getYear();
-    // const initialAvailableAssets = await fetchInitialAvailableAssets();
-    // const initialAvailableBusinessCategories = await fetchInitialAvailableBusinessCategories();
+    const initialAvailableAssets = getAssets();
+    const initialAvailableBusinessCategories = getBusinessCategories();
 
     return (
         <>
             <div className="container flex gap-x-6  gap-y-3 items-start flex-wrap ">
                 <SelectYear initialAvailableYears={initialAvailableYears} />
-                {/* <SelectAsset initialAvailableAssets={initialAvailableAssets} />
+                <SelectAsset initialAvailableAssets={initialAvailableAssets} />
                 <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
-                <CheckBoxRiskFactor /> */}
+                <CheckBoxRiskFactor />
             </div>
             <div className="container flex flex-col flex-wrap gap-10">
                 <div className="flex gap-10">
