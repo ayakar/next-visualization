@@ -1,4 +1,5 @@
-const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.DOMAIN;
+const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://risk-viz-delta.vercel.app';
+// const domain = process.env.DOMAIN;
 
 export const config = {
     url: {
