@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { Risk } from '@/app/types/RiskRating';
 import { filterRiskData } from '../filterRiskData';
+import { getTable } from './getTable';
 
 export async function GET(request: Request) {
     console.log('table api called');
-    let totalPages;
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get('limit'); // null or number of limit
     const offset = searchParams.get('offset') ?? '0'; // default is 0
@@ -20,10 +20,9 @@ export async function GET(request: Request) {
 
     if (limit) {
         console.log('limit, offset', limit, offset);
-        totalPages = Math.ceil(filtered.length / parseInt(limit));
-        filtered = trimRisks(filtered, limit, offset);
+        const transformedData = getTable(filtered, limit, offset);
 
-        return NextResponse.json({ data: filtered, totalPages, currentPage: parseInt(offset) / parseInt(limit) + 1 });
+        return NextResponse.json(transformedData);
     }
 }
 
@@ -40,11 +39,4 @@ const sortRisks = (data: Risk[], sortBy: string, order: string) => {
     });
     console.log(data.length);
     return data;
-};
-const trimRisks = (data: Risk[], limit: string, offset: string) => {
-    // TODO: optimize by combine with sortRisks() if possible
-    const startIndex = parseInt(offset);
-    const endIndex = parseInt(offset) + parseInt(limit);
-    const trimmedData = data.slice(startIndex, endIndex);
-    return trimmedData;
 };

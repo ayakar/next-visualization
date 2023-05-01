@@ -12,6 +12,7 @@ import { getBusinessCategories } from './api/risks/business_categories/getBusine
 import { getLine } from './api/risks/line/getLine';
 import { getAssets } from './api/risks/assets/getAssets';
 import { getMap } from './api/risks/map/getMap';
+import { getTable } from './api/risks/table/getTable';
 
 const fetchInitialAvailableYears = () => {
     // TODO: make sure ssr working on Prod
@@ -110,7 +111,7 @@ const fetchInitialLineData = () => {
 // };
 // TODO: make sure data.json is collect content
 export default async function Home() {
-    // const initialTableResponse = await fetchInitialTableData();
+    const initialTableResponse = getTable(null, '10', '0');
     const initialLineResponse = getLine(null, null);
     const initialMapResponse = getMap(null, null);
     const initialAvailableYears = getYear();
@@ -131,7 +132,7 @@ export default async function Home() {
                     <LineSection initialLineResponse={initialLineResponse} />
                 </div>
 
-                {/* <TableSection initialTableResponse={initialTableResponse} /> */}
+                <TableSection initialTableResponse={initialTableResponse} />
             </div>
         </>
     );
