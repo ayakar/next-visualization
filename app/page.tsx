@@ -73,7 +73,6 @@ const fetchInitialMapData = async () => {
     return data;
 };
 
-// TODO: make sure vercel ENV var enable ssr
 export default async function Home() {
     const initialTableResponse = await fetchInitialTableData();
     const initialLineResponse = await fetchInitialLineData();
