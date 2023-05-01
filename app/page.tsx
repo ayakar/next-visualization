@@ -102,7 +102,7 @@ const fetchInitialMapData = async () => {
         console.log('err: ', err);
     }
 };
-
+// TODO: make sure data.json is collect content
 export default async function Home() {
     const initialTableResponse = await fetchInitialTableData();
     const initialLineResponse = await fetchInitialLineData();
