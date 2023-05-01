@@ -11,6 +11,7 @@ import { getYear } from './api/risks/years/getYear';
 import { getBusinessCategories } from './api/risks/business_categories/getBusinessCategories';
 import { getLine } from './api/risks/line/getLine';
 import { getAssets } from './api/risks/assets/getAssets';
+import { getMap } from './api/risks/map/getMap';
 
 const fetchInitialAvailableYears = () => {
     // TODO: make sure ssr working on Prod
@@ -111,7 +112,7 @@ const fetchInitialLineData = () => {
 export default async function Home() {
     // const initialTableResponse = await fetchInitialTableData();
     const initialLineResponse = getLine(null, null);
-    // const initialMapResponse = await fetchInitialMapData();
+    const initialMapResponse = getMap(null, null);
     const initialAvailableYears = getYear();
     const initialAvailableAssets = getAssets();
     const initialAvailableBusinessCategories = getBusinessCategories();
@@ -126,11 +127,11 @@ export default async function Home() {
             </div>
             <div className="container flex flex-col flex-wrap gap-10">
                 <div className="flex gap-10">
-                    {/*    <MapSection initialMapResponse={initialMapResponse} /> */}
+                    <MapSection initialMapResponse={initialMapResponse} />
                     <LineSection initialLineResponse={initialLineResponse} />
                 </div>
 
-                {/*  <TableSection initialTableResponse={initialTableResponse} /> */}
+                {/* <TableSection initialTableResponse={initialTableResponse} /> */}
             </div>
         </>
     );
