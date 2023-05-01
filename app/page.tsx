@@ -8,8 +8,10 @@ import SelectAsset from './components/SelectAsset';
 import SelectBusinessCategory from './components/SelectBusinessCategory';
 import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
 import { getYear } from './api/risks/years/getYear';
+import { getLine } from './api/risks/line/getLine';
+import { LineChartData } from './types/RiskRating';
 
-const fetchInitialAvailableYears = async () => {
+const fetchInitialAvailableYears = () => {
     // TODO: make sure ssr working on Prod
     // try {
     //     const res = await fetch(`${config.url.RISKS_YEARS}`, {
@@ -72,21 +74,22 @@ const fetchInitialAvailableYears = async () => {
 //     }
 // };
 
-// const fetchInitialLineData = async () => {
-//     // TODO: make sure ssr working on Prod
-//     try {
-//         const res = await fetch(`${config.url.RISKS_LINE}`, {
-//             next: {
-//                 // revalidate: 60 * 60 * 24, // TODO: use this
-//                 revalidate: 1,
-//             },
-//         });
-//         const data = await res.json();
-//         return data;
-//     } catch (err) {
-//         console.log('err: ', err);
-//     }
-// };
+const fetchInitialLineData = () => {
+    // TODO: make sure ssr working on Prod
+    // try {
+    // const res = await fetch(`${config.url.RISKS_LINE}`, {
+    //     next: {
+    //         // revalidate: 60 * 60 * 24, // TODO: use this
+    //         revalidate: 1,
+    //     },
+    // });
+    const data = getLine(null, null);
+    return data;
+    // } catch (err) {
+    //     console.log('err: ', err);
+    //     return null;
+    // }
+};
 // const fetchInitialMapData = async () => {
 //     // TODO: make sure ssr working on Prod
 //     try {
@@ -106,9 +109,9 @@ const fetchInitialAvailableYears = async () => {
 // TODO: make sure data.json is collect content
 export default async function Home() {
     // const initialTableResponse = await fetchInitialTableData();
-    // const initialLineResponse = await fetchInitialLineData();
+    const initialLineResponse = getLine(null, null);
     // const initialMapResponse = await fetchInitialMapData();
-    const initialAvailableYears = await fetchInitialAvailableYears();
+    const initialAvailableYears = getYear();
     // const initialAvailableAssets = await fetchInitialAvailableAssets();
     // const initialAvailableBusinessCategories = await fetchInitialAvailableBusinessCategories();
 
@@ -121,12 +124,12 @@ export default async function Home() {
                 <CheckBoxRiskFactor /> */}
             </div>
             <div className="container flex flex-col flex-wrap gap-10">
-                {/* <div className="flex gap-10">
-                    <MapSection initialMapResponse={initialMapResponse} />
+                <div className="flex gap-10">
+                    {/*    <MapSection initialMapResponse={initialMapResponse} /> */}
                     <LineSection initialLineResponse={initialLineResponse} />
                 </div>
 
-                <TableSection initialTableResponse={initialTableResponse} /> */}
+                {/*  <TableSection initialTableResponse={initialTableResponse} /> */}
             </div>
         </>
     );

@@ -8,7 +8,7 @@ import useFetch from '../../hooks/useFetch';
 import { useFilterContext } from '@/app/contexts/FilterContext';
 
 interface Props {
-    initialLineResponse: LineChartDataset;
+    initialLineResponse: LineChartData[];
 }
 
 const LineSection: React.FC<Props> = ({ initialLineResponse }) => {

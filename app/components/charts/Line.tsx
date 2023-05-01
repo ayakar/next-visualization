@@ -2,10 +2,10 @@
 import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
-import { LineChartDataset } from '../../types/RiskRating';
+import { LineChartDataset, LineChartData } from '../../types/RiskRating';
 
 interface Props {
-    lineData: LineChartDataset | {};
+    lineData: LineChartData[];
 }
 
 const Line: React.FC<Props> = ({ lineData }) => {
