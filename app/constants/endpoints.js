@@ -1,4 +1,4 @@
-const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://risk-viz-delta.vercel.app';
+const domain = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://risk-viz-b58k.onrender.com';
 // const domain = process.env.DOMAIN;
 
 export const config = {
