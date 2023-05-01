@@ -26,7 +26,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                         {labels.map((label, index) => (
                             <th
                                 key={index}
-                                onClick={() => label !== 'Year' && label !== 'Risk Factors' && onSortClickHandler(label)}
+                                onClick={() => label !== 'Risk Factors' && onSortClickHandler(label)}
                                 className={label === 'Risk Factors' ? thClassNameNonClickable : thClassName}
                             >
                                 <span className="relative">
@@ -52,7 +52,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                 </thead>
                 <tbody>
                     {tableData?.map((item, index) => {
-                        const riskFactorsArr = Object.entries(item['Risk Factors']);
+                        const riskFactorsArr = Object.entries(item['Risk Factors']).sort();
                         return (
                             <tr key={index}>
                                 <td className="border-b px-1 py-2 w-20 first:pt-6">{item['Asset Name']}</td>
@@ -67,7 +67,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                                             <li key={key}>
                                                 <span>{key}: </span>
                                                 {
-                                                    index === riskFactorsArr.length - 1 ? <span>{val}</span> : <span>{val}, </span> // No comma for last <li>
+                                                    index === riskFactorsArr.length - 1 ? <span>{val}</span> : <span>{val.toFixed(2)}, </span> // No comma for last <li>
                                                 }
                                             </li>
                                         ))}
