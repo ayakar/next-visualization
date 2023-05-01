@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Risk } from '@/app/types/RiskRating';
 import { filterRiskData } from '../filterRiskData';
 
-export async function GET(request: { url: URL }) {
+export async function GET(request: Request) {
     console.log('table api called');
     let totalPages;
     const { searchParams } = new URL(request.url);

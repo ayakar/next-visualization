@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { filterRiskData } from '../filterRiskData';
 import { MapChartData, Risk } from '@/app/types/RiskRating';
 
-export async function GET(request) {
+export async function GET(request: Request) {
     // console.log('map api called');
     const { searchParams } = new URL(request.url);
     const riskFactorParams = searchParams.get('risk-factor'); //  'Flooding,Volcano'

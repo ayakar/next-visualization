@@ -5,7 +5,7 @@ import { Risk } from '@/app/types/RiskRating';
 // 2: sort: sort, order
 // 3: trim: limit, offset
 
-export async function filterRiskData(request: { url: URL }) {
+export async function filterRiskData(request: Request) {
     let filtered: Risk[] = risks;
 
     // Query Params
