@@ -14,6 +14,7 @@ const SideBar = () => {
                     width={150}
                     height={55}
                     className="mx-auto mb-3"
+                    priority={true}
                 />
 
                 <Link href="/about">

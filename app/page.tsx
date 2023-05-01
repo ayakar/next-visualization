@@ -2,121 +2,24 @@ import LineSection from './components/chartSections/LineSection';
 import MapSection from './components/chartSections/MapSection';
 import styles from './page.module.css';
 import TableSection from './components/chartSections/TableSection';
-import { config } from './constants/endpoints';
 import SelectYear from './components/SelectYear';
 import SelectAsset from './components/SelectAsset';
 import SelectBusinessCategory from './components/SelectBusinessCategory';
 import CheckBoxRiskFactor from './components/CheckBoxRiskFactor';
-import { getYear } from './api/risks/years/getYear';
-import { getBusinessCategories } from './api/risks/business_categories/getBusinessCategories';
+import { getYear } from './api/risks/filters/getYear';
+import { getAssets } from './api/risks/filters/getAssets';
+import { getBusinessCategories } from './api/risks/filters/getBusinessCategories';
 import { getLine } from './api/risks/line/getLine';
-import { getAssets } from './api/risks/assets/getAssets';
 import { getMap } from './api/risks/map/getMap';
 import { getTable } from './api/risks/table/getTable';
 
-const fetchInitialAvailableYears = () => {
-    // TODO: make sure ssr working on Prod
-    // try {
-    //     const res = await fetch(`${config.url.RISKS_YEARS}`, {
-    //         next: {
-    //             // revalidate: 60 * 60 * 24, // TODO: use this
-    //             revalidate: 1,
-    //         },
-    //     });
-    const data = getYear();
-    return data;
-    // } catch (err) {
-    //     console.log('err: ', err);
-    // }
-};
-// const fetchInitialAvailableAssets = async () => {
-//     // TODO: make sure ssr working on Prod
-//     try {
-//         const res = await fetch(`${config.url.RISKS_ASSETS}`, {
-//             next: {
-//                 // revalidate: 60 * 60 * 24, // TODO: use this
-//                 revalidate: 1,
-//             },
-//         });
-//         const data = await res.json();
-//         return data;
-//     } catch (err) {
-//         console.log('err: ', err);
-//     }
-// };
-// const fetchInitialAvailableBusinessCategories = async () => {
-//     // TODO: make sure ssr working on Prod
-//     try {
-//         const res = await fetch(`${config.url.RISKS_CATEGORIES}`, {
-//             next: {
-//                 // revalidate: 60 * 60 * 24, // TODO: use this
-//                 revalidate: 1,
-//             },
-//         });
-//         const data = await res.json();
-
-//         return data;
-//     } catch (err) {
-//         console.log('err: ', err);
-//     }
-// };
-
-// const fetchInitialTableData = async () => {
-//     // TODO: make sure ssr working on Prod
-//     try {
-//         const res = await fetch(`${config.url.RISKS_TABLE}?limit=10`, {
-//             next: {
-//                 // revalidate: 60 * 60 * 24, // TODO: use this
-//                 revalidate: 1,
-//             },
-//         });
-//         const data = await res.json();
-//         return data;
-//     } catch (err) {
-//         console.log('err: ', err);
-//     }
-// };
-
-const fetchInitialLineData = () => {
-    // TODO: make sure ssr working on Prod
-    // try {
-    // const res = await fetch(`${config.url.RISKS_LINE}`, {
-    //     next: {
-    //         // revalidate: 60 * 60 * 24, // TODO: use this
-    //         revalidate: 1,
-    //     },
-    // });
-    const data = getLine(null, null);
-    return data;
-    // } catch (err) {
-    //     console.log('err: ', err);
-    //     return null;
-    // }
-};
-// const fetchInitialMapData = async () => {
-//     // TODO: make sure ssr working on Prod
-//     try {
-//         const res = await fetch(`${config.url.RISKS_MAP}`, {
-//             next: {
-//                 // revalidate: 60 * 60 * 24, // TODO: use this
-//                 revalidate: 1,
-//             },
-//         });
-//         const data = await res.json();
-
-//         return data;
-//     } catch (err) {
-//         console.log('err: ', err);
-//     }
-// };
-// TODO: make sure data.json is collect content
 export default async function Home() {
-    const initialTableResponse = getTable(null, '10', '0');
-    const initialLineResponse = getLine(null, null);
-    const initialMapResponse = getMap(null, null);
     const initialAvailableYears = getYear();
     const initialAvailableAssets = getAssets();
     const initialAvailableBusinessCategories = getBusinessCategories();
+    const initialTableResponse = getTable(null, '10', '0');
+    const initialLineResponse = getLine(null, null);
+    const initialMapResponse = getMap(null, null);
 
     return (
         <>
@@ -131,7 +34,6 @@ export default async function Home() {
                     <MapSection initialMapResponse={initialMapResponse} />
                     <LineSection initialLineResponse={initialLineResponse} />
                 </div>
-
                 <TableSection initialTableResponse={initialTableResponse} />
             </div>
         </>
