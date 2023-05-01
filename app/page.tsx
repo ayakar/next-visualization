@@ -24,14 +24,11 @@ export default async function Home() {
 
     return (
         <>
-            <div className="container flex items-end justify-between">
-                <div className="max-w-800 flex gap-x-6  gap-y-3 items-start flex-wrap ">
-                    <SelectYear initialAvailableYears={initialAvailableYears} />
-                    <SelectAsset initialAvailableAssets={initialAvailableAssets} />
-                    <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
-                    <CheckBoxRiskFactor />
-                </div>
-
+            <div className="relative max-w-800  gap-x-6 flex gap-y-3 items-start flex-wrap  ">
+                <SelectYear initialAvailableYears={initialAvailableYears} />
+                <SelectAsset initialAvailableAssets={initialAvailableAssets} />
+                <SelectBusinessCategory initialAvailableBusinessCategories={initialAvailableBusinessCategories} />
+                <CheckBoxRiskFactor />
                 <ClearFilterButton />
             </div>
             <div className="container flex flex-col flex-wrap gap-10">
