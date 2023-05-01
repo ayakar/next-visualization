@@ -5,10 +5,13 @@ import { useFilterContext } from '../contexts/FilterContext';
 const CheckBoxRiskFactor = () => {
     const { riskFactorLists, setRiskFactorLists } = useFilterContext();
     return (
-        <div className="w-full flex flex-wrap justify-between">
+        <div className="w-full flex flex-wrap">
             {Object.entries(riskFactorLists).map(([factorName, isChecked], index) => {
                 return (
-                    <div key={factorName}>
+                    <div
+                        className="w-20"
+                        key={factorName}
+                    >
                         <input
                             type="checkbox"
                             id={factorName}

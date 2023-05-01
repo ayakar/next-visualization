@@ -31,6 +31,9 @@ module.exports = {
                 50: '50%',
                 60: '60%',
             },
+            maxWidth: {
+                800: '800px',
+            },
             container: {
                 center: true,
                 padding: '.5rem',
@@ -76,6 +79,7 @@ module.exports = {
                 ...theme('colors'),
                 dark: theme('colors.gray', 'currentColor'),
                 primary: theme('colors.primary', 'currentColor'),
+                secondary: theme('colors.secondary', 'currentColor'),
                 DEFAULT: theme('colors.lightGray', 'currentColor'),
             }),
             borderStyle: {

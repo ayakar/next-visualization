@@ -57,7 +57,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
             if (offset) {
                 endPoint += `&offset=${offset}`;
             }
-            console.log(endPoint);
+            // console.log(endPoint);
             const transformData = (resData: TableRiskData) => {
                 setTableData(resData.data);
                 setTotalPages(resData.totalPages);
