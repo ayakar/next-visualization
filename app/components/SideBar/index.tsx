@@ -4,7 +4,7 @@ import DeskTopSideBar from './SideBar';
 import MobileMenu from './MobileMenu';
 
 const SideBar = () => {
-    const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
+    const [isMobile, setIsMobile] = useState<boolean>(false);
     useEffect(() => {
         const checkWidth = () => {
             const windowSize = window.innerWidth;
@@ -24,10 +24,8 @@ const SideBar = () => {
 
     if (isMobile === true) {
         return <MobileMenu />;
-    } else if (isMobile === false) {
-        return <DeskTopSideBar />;
     } else {
-        return null;
+        return <DeskTopSideBar />;
     }
 };
 
