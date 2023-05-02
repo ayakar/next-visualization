@@ -33,11 +33,10 @@ export default async function Home() {
                     <ClearFilterButton />
                 </div>
             </div>
-            <div className="container flex flex-col flex-wrap gap-10">
-                <div className="flex flex-col md:flex-row">
-                    <MapSection initialMapResponse={initialMapResponse} />
-                    <LineSection initialLineResponse={initialLineResponse} />
-                </div>
+
+            <div className=" container flex  flex-wrap md:flex-row">
+                <MapSection initialMapResponse={initialMapResponse} />
+                <LineSection initialLineResponse={initialLineResponse} />
                 <TableSection initialTableResponse={initialTableResponse} />
             </div>
         </>

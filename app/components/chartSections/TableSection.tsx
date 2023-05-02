@@ -96,7 +96,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     };
 
     return (
-        <div className="w-full text-sm overflow-x-scroll md:overflow-x-auto">
+        <div className="w-full text-sm overflow-x-scroll md:overflow-x-visible">
             {tableData.length > 0 ? (
                 <Table
                     tableData={tableData}
