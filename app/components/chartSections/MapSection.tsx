@@ -45,7 +45,7 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     return (
-        <div className="w-40 pt-6 relative">
+        <div className="w-100 md:w-40 pt-6 relative">
             {selectedLocation && (
                 <div className="absolute top-0 flex gap-1 items-center">
                     {selectedLocation}

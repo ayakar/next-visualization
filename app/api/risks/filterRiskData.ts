@@ -43,7 +43,7 @@ export async function filterRiskData(request: Request) {
         const reqRiskFactors = riskFactor.split(','); //[ 'Flooding', 'Volcano', 'Hurricane' ]
         filtered = filtered.filter((risk) => {
             const riskFactors = Object.keys(risk['Risk Factors']);
-            return reqRiskFactors.every((factor) => riskFactors.includes(factor)); // TODO: the value have to be more than 0
+            return reqRiskFactors.every((factor) => riskFactors.includes(factor));
         });
         console.log('risk factor', filtered.length);
     }

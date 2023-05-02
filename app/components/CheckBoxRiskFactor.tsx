@@ -9,7 +9,7 @@ const CheckBoxRiskFactor = () => {
             {Object.entries(riskFactorLists).map(([factorName, isChecked], index) => {
                 return (
                     <div
-                        className="w-20"
+                        className="w-50 md:w-20"
                         key={factorName}
                     >
                         <input

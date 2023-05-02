@@ -4,26 +4,31 @@ import DeskTopSideBar from './SideBar';
 import MobileMenu from './MobileMenu';
 
 const SideBar = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
     useEffect(() => {
         const checkWidth = () => {
             const windowSize = window.innerWidth;
+
             if (windowSize < 1024) {
-                setIsMobile(true); // TODO add event listener and remove event listener
+                setIsMobile(true);
             } else {
                 setIsMobile(false);
             }
         };
+        checkWidth();
         window.addEventListener('resize', checkWidth);
         return () => {
             window.removeEventListener('resize', checkWidth);
         };
     }, []);
 
-    if (isMobile) {
+    if (isMobile === true) {
         return <MobileMenu />;
+    } else if (isMobile === false) {
+        return <DeskTopSideBar />;
+    } else {
+        return null;
     }
-    return <DeskTopSideBar />;
 };
 
 export default SideBar;
