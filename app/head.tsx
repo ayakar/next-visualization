@@ -14,6 +14,10 @@ export default function Head() {
                 rel="icon"
                 href="/favicon.ico"
             />
+            <meta
+                name="robots"
+                content="noindex"
+            />
         </>
     );
 }

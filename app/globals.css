@@ -25,14 +25,17 @@ img {
 }
 /* Need width and height to render the map */
 .leaflet-container {
-    flex: 1;
-    width: 500px;
-    height: 400px;
+    height: 350px;
     border-radius: 1rem;
 }
 
+/* For form */
 input[type='checkbox'] {
     accent-color: #008eaa;
+}
+select {
+    /* for fire fox */
+    background-color: #fff;
 }
 
 .sidebar-link__active {

@@ -43,7 +43,7 @@ const ClearFilterButton = () => {
                 style={{ top: 0, right: '-3rem' }}
                 onClick={onClickHandler}
             >
-                <X /> Clear Filter
+                <X /> Clear Filters
             </button>
         );
     } else {

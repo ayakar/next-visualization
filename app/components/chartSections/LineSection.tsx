@@ -48,11 +48,10 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     return (
-        <div className="pt-8">
+        <div className="pt-8 pr-6 pl-12 w-60">
             <Line lineData={lineData} />
-
             {/* TODO: styled this */}
-            {errorMessage && <div>{errorMessage}</div>}
+            {errorMessage && <div className="text-danger">{errorMessage}</div>}
         </div>
     );
 };

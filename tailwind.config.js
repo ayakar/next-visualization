@@ -33,7 +33,7 @@ module.exports = {
                 60: '60%',
             },
             maxWidth: {
-                800: '800px',
+                900: '900px',
             },
             container: {
                 center: true,
