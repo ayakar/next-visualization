@@ -45,46 +45,52 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
     return (
-        <div className="w-100 md:w-40 pt-6 relative">
-            {selectedLocation && (
-                <div className="absolute top-0 flex gap-1 items-center">
-                    {selectedLocation}
-                    <button onClick={() => setSelectedLocation('')}>
-                        <XCircle color="#AA0000" />
-                    </button>
-                </div>
-            )}
-
+        <div className="w-100 md:w-40">
             <Map mapData={mapData} />
-            <div className="flex text-sm gap-2">
-                <div className="flex gap-1">
-                    <Image
-                        src="./assets/marker-low.svg"
-                        alt="Low Risk"
-                        width={16}
-                        height={16}
-                    />
-                    Low Risk
+            <div
+                className="flex justify-between"
+                style={{ minHeight: '2rem' }}
+            >
+                <div className="inline-flex items-center text-xs gap-2">
+                    <div className="flex gap-1">
+                        <Image
+                            src="./assets/marker-low.svg"
+                            alt="Low Risk"
+                            width={16}
+                            height={16}
+                        />
+                        Low Risk
+                    </div>
+                    <div className="flex gap-1">
+                        <Image
+                            src="./assets/marker-md.svg"
+                            alt="Medium Risk"
+                            width={16}
+                            height={16}
+                        />
+                        Medium Risk
+                    </div>
+                    <div className="flex gap-1">
+                        <Image
+                            src="./assets/marker-high.svg"
+                            alt="High Risk"
+                            width={16}
+                            height={16}
+                        />
+                        High Risk
+                    </div>
                 </div>
-                <div className="flex gap-1">
-                    <Image
-                        src="./assets/marker-md.svg"
-                        alt="Medium Risk"
-                        width={16}
-                        height={16}
-                    />
-                    Medium Risk
-                </div>
-                <div className="flex gap-1">
-                    <Image
-                        src="./assets/marker-high.svg"
-                        alt="High Risk"
-                        width={16}
-                        height={16}
-                    />
-                    High Risk
-                </div>
+                {selectedLocation && (
+                    // <div className="absolute top-0 flex gap-1 items-center">
+                    <div className="flex gap-1 items-center text-sm">
+                        {selectedLocation}
+                        <button onClick={() => setSelectedLocation('')}>
+                            <XCircle color="#AA0000" />
+                        </button>
+                    </div>
+                )}
             </div>
+
             {/* TODO: styled this */}
             {errorMessage && <div>{errorMessage}</div>}
         </div>

@@ -73,11 +73,11 @@ const Line: React.FC<Props> = ({ lineData }) => {
 
                     Object.keys(riskFactors).forEach((key) => {
                         const rounded = riskFactors[key].toFixed(2);
-                        riskFactorsLi += `<tr><td className="border-b">${key}:</td> <td style="text-align:right">${rounded}</td></tr>`;
+                        riskFactorsLi += `<tr><td className="border-b">${key}: </td> <td style="text-align:right">${rounded}</td></tr>`;
                     });
 
                     tooltipEl.innerHTML = `<div style="text-align:center; border-bottom:solid 1px #e7e7e7; padding-bottom:.3rem; margin-bottom:.3rem">
-                    Aggregated<br>Risk Rating : ${aggregatedRiskRating.toFixed(2)}
+                    Aggregated<br>Risk Rating: ${aggregatedRiskRating.toFixed(2)}
                     </div>
                     <table style="width:100%"><tbody>${riskFactorsLi}</tbody></table>`;
 
