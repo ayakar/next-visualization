@@ -6,6 +6,7 @@ import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import Table from '../charts/Table';
 import { useFilterContext } from '@/app/contexts/FilterContext';
+import NoResult from '../NoResult';
 
 interface Props {
     initialTableResponse: TableRiskData;
@@ -13,7 +14,7 @@ interface Props {
 
 const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
-    const { fetchData } = useFetch();
+    const { errorMessage, fetchData } = useFetch();
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
     const [tableData, setTableData] = useState<Risk[]>(initialTableResponse.data);
 
@@ -107,9 +108,9 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
                     sortOrder={sortOrder}
                 />
             ) : (
-                // Style this
-                <div>No Result. Please try different term</div>
+                <NoResult />
             )}
+            {/* TODO: ADD ERROR MSG */}
         </div>
     );
 };

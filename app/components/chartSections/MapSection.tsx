@@ -15,7 +15,7 @@ interface Props {
 
 const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation, setSelectedLocation } = useFilterContext();
-    const { isLoading, errorMessage, fetchData } = useFetch();
+    const { errorMessage, fetchData } = useFetch();
     const [mapData, setMapData] = useState(initialMapResponse);
     const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
 

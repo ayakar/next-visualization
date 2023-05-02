@@ -1,16 +1,9 @@
 import { useCallback, useState } from 'react';
 
 const useFetch = () => {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const fetchData = useCallback(async (url: string, callback: ((data: any | null) => void) | null = null, defaultIsLoading = true) => {
-        if (defaultIsLoading) {
-            setIsLoading(true);
-        }
-        setIsSuccess(false);
+    const fetchData = useCallback(async (url: string, callback: ((data: any | null) => void) | null = null) => {
         setErrorMessage(null);
 
         try {
@@ -19,26 +12,18 @@ const useFetch = () => {
             if (!res.ok) {
                 throw new Error();
             }
-            setData(data);
 
             if (callback) {
                 callback(data);
             }
-
-            setIsSuccess(true);
         } catch (error) {
             console.error('Something went wrong', error);
             setErrorMessage('Something went wrong. Please try again.');
-            setIsSuccess(false);
         }
-        setIsLoading(false);
     }, []);
-    // May not need data or isSuccess in this app
+
     return {
-        data,
         errorMessage,
-        isLoading,
-        isSuccess,
         fetchData,
     };
 };
