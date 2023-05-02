@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       */}
             <head />
             <body className={montserrat.className}>
-                <div className="flex gap-6 px-6">
+                <div className="flex flex-col lg:flex-row gap-6 px-6">
                     <SideBar />
                     <main className="flex-1 py-6">
                         <FilterProvider>{children}</FilterProvider>
