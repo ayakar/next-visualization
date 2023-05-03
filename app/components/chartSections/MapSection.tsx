@@ -36,20 +36,53 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
         if (checkedRiskFactors.length > 0) {
             endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
         }
+
+        if (selectedLocation) {
+            endPoint += `&location=${selectedLocation}`;
+        }
+
         if (!isInitial) {
             fetchData(endPoint, setMapData);
         }
         setIsInitial(false);
         // I am adding this because isInitial should not be false right after initialization
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
+    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     if (errorMessage) {
         return <div className="w-100 md:w-40 text-danger">{errorMessage}</div>;
     }
 
     return (
-        <div className="w-100 md:w-40">
+        <div className="w-100 md:w-40 relative">
+            {selectedLocation && (
+                <div
+                    className="absolute bg-secondaryLight rounded shadow flex items-center gap-1 px-4 pl-2 py-3 text-xs "
+                    style={{
+                        top: '-.5rem',
+                        right: '-1rem',
+                        zIndex: 100000,
+                    }}
+                >
+                    <button
+                        className=""
+                        onClick={() => setSelectedLocation('')}
+                    >
+                        <XCircle color="#008eaa" />
+                    </button>
+                    <div>
+                        <div style={{ lineHeight: 1 }}>Selected Location</div>
+                        <span
+                            style={{
+                                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #8be8f5 50%,  #8be8f5 100%)',
+                            }}
+                        >
+                            {selectedLocation}
+                        </span>
+                    </div>
+                </div>
+            )}
+
             <Map mapData={mapData} />
             <div
                 className="flex justify-between"
@@ -84,15 +117,6 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
                         High Risk
                     </div>
                 </div>
-                {selectedLocation && (
-                    // <div className="absolute top-0 flex gap-1 items-center">
-                    <div className="flex gap-1 items-center text-sm">
-                        {selectedLocation}
-                        <button onClick={() => setSelectedLocation('')}>
-                            <XCircle color="#AA0000" />
-                        </button>
-                    </div>
-                )}
             </div>
         </div>
     );
