@@ -12,7 +12,7 @@ interface Props {
 
 const Map: React.FC<Props> = ({ mapData }) => {
     const { selectedLocation, setSelectedLocation } = useFilterContext();
-    const position: LatLngExpression = [43.6532, -79.3832]; // default map
+    const position: LatLngExpression = [43.86682, -79.2663]; // default map
     const zoom: number = 5;
 
     return (
@@ -43,10 +43,10 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         icon={L.icon({
                             iconUrl: marker,
                             iconSize: [markerSize, markerSize],
-                            iconAnchor: [markerSize / 2, 0],
+                            iconAnchor: [markerSize / 2, markerSize / 2],
                         })}
                         key={item}
-                        position={[parseInt(lat), parseInt(long)]}
+                        position={[parseFloat(lat), parseFloat(long)]}
                         title={item}
                         eventHandlers={{
                             click: () => setSelectedLocation((prev) => (prev !== item ? item : '')),
