@@ -16,8 +16,6 @@ interface Props {
 const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClickHandler, onPaginationClickHandler, sortLabel, sortOrder }) => {
     const labels = ['Asset Name', 'Lat', 'Long', 'Business Category', 'Risk Rating', 'Risk Factors', 'Year'];
 
-    const thClassName = 'text-secondary px-3 py-2 bg-secondaryLight first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br hover:cursor-pointer';
-    const thClassNameNonClickable = 'text-secondary px-3 py-2 bg-secondaryLight first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br';
     return (
         <>
             <div className="sticky top-0 pt-10 bg-white"></div>
@@ -27,10 +25,13 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                         {labels.map((label, index) => (
                             <th
                                 key={index}
-                                onClick={() => label !== 'Risk Factors' && onSortClickHandler(label)}
-                                className={label === 'Risk Factors' ? thClassNameNonClickable : thClassName}
+                                className="bg-secondaryLight text-secondary px-3 py-2 first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br"
                             >
-                                <span className="relative">
+                                <button
+                                    className="relative"
+                                    onClick={() => onSortClickHandler(label)}
+                                    disabled={label === 'Risk Factors'} // Risk Factors don't have sort functionality
+                                >
                                     {label}
                                     {sortLabel === label && sortOrder === 'asc' ? (
                                         <CaretUpFill
@@ -46,7 +47,7 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                                             />
                                         )
                                     )}
-                                </span>
+                                </button>
                             </th>
                         ))}
                     </tr>
