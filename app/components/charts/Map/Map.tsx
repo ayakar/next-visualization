@@ -56,7 +56,9 @@ const Map: React.FC<Props> = ({ mapData }) => {
                     >
                         <Popup closeButton={false}>
                             <div className="flex gap-1 mb-2">
-                                <span>Avg. Risk Rating:</span>
+                                <span>
+                                    Avg. Risk at {lat}, {long}:
+                                </span>
                                 <span className={`font-bold ${textColor}`}>{averageRiskRating.toFixed(2)}</span>
                             </div>
 

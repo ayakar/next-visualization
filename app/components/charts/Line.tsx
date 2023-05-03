@@ -18,6 +18,12 @@ const Line: React.FC<Props> = ({ lineData }) => {
             xAxisKey: 'year',
             yAxisKey: 'aggregatedRisk',
         },
+        scales: {
+            y: {
+                max: 1,
+                min: 0,
+            },
+        },
 
         plugins: {
             legend: {
@@ -25,6 +31,8 @@ const Line: React.FC<Props> = ({ lineData }) => {
             },
             title: {
                 display: false,
+
+                // text: 'Average Risk by Year', // TODO: add this
             },
 
             //Custom Tool Tip
@@ -77,7 +85,7 @@ const Line: React.FC<Props> = ({ lineData }) => {
                     });
 
                     tooltipEl.innerHTML = `<div style="text-align:center; border-bottom:solid 1px #e7e7e7; padding-bottom:.3rem; margin-bottom:.3rem">
-                    Aggregated<br>Risk Rating: ${aggregatedRiskRating.toFixed(2)}
+                    Average<br>Risk Rating: ${aggregatedRiskRating.toFixed(2)}
                     </div>
                     <table style="width:100%"><tbody>${riskFactorsLi}</tbody></table>`;
 
