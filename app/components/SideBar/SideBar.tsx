@@ -1,12 +1,14 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import SideBarPopup from './SideBarPopup';
 const SideBar = () => {
     const pathname = usePathname();
+    const [showPopup, setShowPopup] = useState(false);
     return (
-        <aside className="w-sidebar py-6 sticky top-0 h-screen">
+        <aside className="w-sidebar py-6 sticky top-0 h-screen ">
             <div className="flex flex-col gap-4 shadow  p-6 h-full rounded">
                 <Image
                     src="/assets/Riskthinking-logo.png"
@@ -23,19 +25,24 @@ const SideBar = () => {
                 <Link href="/">
                     <span className={pathname === '/' ? 'sidebar-link__active' : ''}>My Work</span>
                 </Link>
-                <button
-                    onClick={() => {}} // TODO add content to this
-                    className="mt-auto flex items-center gap-2 text-sm"
-                >
-                    <Image
-                        className="rounded-full "
-                        src="/assets/ayaka.jpg"
-                        alt="Ayaka"
-                        width={40}
-                        height={40}
-                    />
-                    Ayaka Rogoza
-                </button>
+                <div className="relative mt-auto ">
+                    <button
+                        onClick={() => {
+                            setShowPopup(true);
+                        }} // TODO add content to this
+                        className="flex items-center gap-2 text-sm"
+                    >
+                        <Image
+                            className="rounded-full "
+                            src="/assets/ayaka.jpg"
+                            alt="Ayaka"
+                            width={40}
+                            height={40}
+                        />
+                        Ayaka Rogoza
+                    </button>
+                    {showPopup && <SideBarPopup closeHandler={() => setShowPopup(false)} />}
+                </div>
             </div>
         </aside>
     );
