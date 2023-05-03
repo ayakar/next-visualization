@@ -16,20 +16,15 @@ export const getLine = (filtered: Risk[] | null, riskFactorParams: string | null
         ? riskFactorParams.split(',')
         : ['Earthquake', 'Extreme heat', 'Wildfire', 'Tornado', 'Flooding', 'Volcano', 'Hurricane', 'Drought', 'Extreme cold', 'Sea level rise'];
 
-    let transformedData: TransformedData = {}; // [ '2070': {riskFactors: {Earthquake: 42.570000000000036, 'Sea level rise': 52.790000000000006,Tornado: 56.610000000000035,} }]
+    // Transforming data to following format: [ '2070': {riskFactors: {Earthquake: 42.570000000000036, 'Sea level rise': 52.790000000000006,Tornado: 56.610000000000035,} }]
+    let transformedData: TransformedData = {};
     filtered.forEach((item: Risk) => {
         const year = item['Year'];
         const riskFactors = item['Risk Factors'];
         // Initializing transformedData {"YEAR":{}}
         if (!(year in transformedData)) {
             transformedData[year] = { riskFactors: {} };
-            // transformedData[year] = { }; // TODO: test well
         }
-
-        // Making riskFactors obj ex. "riskFactors": { "Hurricane": 44.91000000000002,"Extreme heat": 52.25000000000004,}
-        // if (!('riskFactors' in transformedData[year])) {
-        //     transformedData[year]['riskFactors'] = {};
-        // }
 
         // Calculating each risk factor if it's in search param.
         Object.entries(riskFactors).forEach(([key, val]) => {
@@ -42,8 +37,8 @@ export const getLine = (filtered: Risk[] | null, riskFactorParams: string | null
             }
         });
     });
-    // console.log(transformedData);
-    // Transforming to send
+
+    // Transforming data to following format: [{"year": "2030","aggregatedRisk": 22, "riskFactors": {"Hurricane": 3,"Tornado": 6,}},{ "year": "2050", "aggregatedRisk": 39, "riskFactors": {"Earthquake": 11,}},]
     let finalTransformedData: LineChartData[] = [];
     Object.entries(transformedData).forEach(([year, data]) => {
         const aggregatedRisk: number = Object.values<number>(data.riskFactors).reduce((prev, curr) => prev + curr, 0);
