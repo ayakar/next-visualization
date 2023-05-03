@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import SideBarPopup from './SideBarPopup';
 const SideBar = () => {
     const pathname = usePathname();
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
     return (
         <aside className="w-sidebar py-6 sticky top-0 h-screen ">
             <div className="flex flex-col gap-4 shadow  p-6 h-full rounded">
@@ -25,12 +25,10 @@ const SideBar = () => {
                 <Link href="/">
                     <span className={pathname === '/' ? 'sidebar-link__active' : ''}>My Work</span>
                 </Link>
-                <div className="relative mt-auto ">
+                <div className="relative mt-auto  text-sm">
                     <button
-                        onClick={() => {
-                            setShowPopup(true);
-                        }} // TODO add content to this
-                        className="flex items-center gap-2 text-sm"
+                        onClick={() => setShowPopup(true)}
+                        className="flex items-center gap-2 "
                     >
                         <Image
                             className="rounded-full "
@@ -41,7 +39,7 @@ const SideBar = () => {
                         />
                         Ayaka Rogoza
                     </button>
-                    {showPopup && <SideBarPopup closeHandler={() => setShowPopup(false)} />}
+                    {showPopup && <SideBarPopup closeHandler={setShowPopup} />}
                 </div>
             </div>
         </aside>

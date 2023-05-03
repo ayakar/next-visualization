@@ -5,7 +5,7 @@ export const getBusinessCategories = () => {
     const businessCategory: { [key: string]: boolean } = {};
     risks.forEach((risk: Risk) => (businessCategory[risk['Business Category']] = true));
     const businessCategoriesArr = Object.keys(businessCategory);
-    const businessCategoriesArrNum = businessCategoriesArr.map((businessCategoryArr) => businessCategoryArr); // [ 'Mcknight, Beasley and Stewart', 'Acevedo-Kennedy', 'Ware PLC' ]
+    const businessCategoriesArrNum = businessCategoriesArr.map((businessCategoryArr) => businessCategoryArr);
     const sorted = businessCategoriesArrNum.sort();
     return sorted;
 };

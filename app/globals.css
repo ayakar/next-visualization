@@ -42,12 +42,24 @@ select {
     font-weight: 700;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #fedca5 50%, #fedca5 100%);
 }
+
 .sidebar-popup {
     position: absolute;
     top: 0;
     left: 0;
     transform: translateY(calc(-100% - 1rem));
+    background: #fee0b0;
     width: 200px;
+}
+
+.sidebar-popup:after {
+    position: absolute;
+    left: 15px;
+    bottom: -20px;
+    display: block;
+    content: '';
+    border: 12px solid transparent;
+    border-top: 10px solid #fee0b0;
 }
 
 @keyframes rotate {
