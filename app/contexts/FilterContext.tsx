@@ -26,7 +26,6 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
     const [riskFactorLists, setRiskFactorLists] = useState<{ [key: string]: boolean }>({
         Earthquake: false,
         'Extreme heat': false,
-        Wildfire: false,
         Tornado: false,
         Flooding: false,
         Volcano: false,
@@ -34,6 +33,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
         Drought: false,
         'Extreme cold': false,
         'Sea level rise': false,
+        Wildfire: false,
     });
     const [selectedAsset, setSelectedAsset] = useState('');
     const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('');

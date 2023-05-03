@@ -44,6 +44,10 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, fetchData]);
 
+    if (errorMessage) {
+        return <div className="w-100 md:w-40 text-danger">{errorMessage}</div>;
+    }
+
     return (
         <div className="w-100 md:w-40">
             <Map mapData={mapData} />
@@ -90,9 +94,6 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
                     </div>
                 )}
             </div>
-
-            {/* TODO: styled this */}
-            {errorMessage && <div>{errorMessage}</div>}
         </div>
     );
 };

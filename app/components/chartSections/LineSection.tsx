@@ -47,11 +47,13 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
+    if (errorMessage) {
+        return <div className="pr-6 pl-12 w-100 md:w-60 text-danger">{errorMessage}</div>;
+    }
+
     return (
         <div className="pr-6 pl-12 w-100 md:w-60">
             <Line lineData={lineData} />
-            {/* TODO: styled this */}
-            {errorMessage && <div className="text-danger">{errorMessage}</div>}
         </div>
     );
 };

@@ -95,6 +95,10 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
         getTableData(offset);
     };
 
+    if (errorMessage) {
+        return <div className="w-full text-danger">{errorMessage}</div>;
+    }
+
     return (
         <div className="w-full text-sm overflow-x-scroll md:overflow-x-visible">
             {tableData.length > 0 ? (
