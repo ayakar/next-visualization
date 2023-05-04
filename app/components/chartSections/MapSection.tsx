@@ -50,11 +50,11 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     if (errorMessage) {
-        return <div className="w-100 md:w-40 text-danger">{errorMessage}</div>;
+        return <div className="w-full md:w-40 text-danger">{errorMessage}</div>;
     }
 
     return (
-        <div className="w-100 md:w-40 relative">
+        <div className="w-full md:w-40 relative">
             {selectedLocation && (
                 <div
                     className="absolute bg-secondaryLight rounded shadow flex items-center gap-1 px-4 pl-2 py-3 text-xs "

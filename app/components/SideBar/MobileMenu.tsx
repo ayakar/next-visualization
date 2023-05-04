@@ -10,17 +10,17 @@ const MobileMenu = () => {
             <Image
                 src="/assets/Riskthinking-logo.png"
                 alt="RiskThinkingAI logo"
-                width={150}
+                width={120}
                 height={55}
                 priority={true}
             />
 
-            <div className="flex gap-4">
-                <Link href="/about">
-                    <span className={pathname === '/about' ? 'sidebar-link__active' : ''}>About This Project</span>
-                </Link>
+            <div className="flex gap-2 text-sm">
                 <Link href="/">
                     <span className={pathname === '/' ? 'sidebar-link__active' : ''}>My Work</span>
+                </Link>
+                <Link href="/about">
+                    <span className={pathname === '/about' ? 'sidebar-link__active' : ''}>About</span>
                 </Link>
             </div>
         </div>
