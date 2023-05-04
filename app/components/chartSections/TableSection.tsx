@@ -63,8 +63,8 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
                 setTableData(resData.data);
                 setTotalPages(resData.totalPages);
                 setCurrentPage(resData.currentPage);
-                console.log('total pages:', resData.totalPages);
-                console.log('current page:', resData.currentPage);
+                // console.log('total pages:', resData.totalPages);
+                // console.log('current page:', resData.currentPage);
             };
 
             fetchData(endPoint, transformData);
@@ -114,7 +114,6 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
             ) : (
                 <NoResult />
             )}
-            {/* TODO: ADD ERROR MSG */}
         </div>
     );
 };
