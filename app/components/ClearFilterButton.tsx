@@ -50,7 +50,7 @@ const ClearFilterButton = () => {
         return (
             <button
                 className="lg:absolute inline-flex items-center gap-1 bg-secondaryLight text-secondary px-2 py-1 text-xs rounded hover:bg-secondaryLight hover:text-secondary  transition-colors duration-300"
-                style={{ top: 0, right: '-3rem' }}
+                style={{ top: 0, right: '-2rem' }}
                 onClick={clearFilterHandler}
             >
                 <X /> Clear Filters

@@ -31,8 +31,6 @@ const Line: React.FC<Props> = ({ lineData }) => {
             },
             title: {
                 display: false,
-
-                // text: 'Average Risk by Year', // TODO: add this
             },
 
             //Custom Tool Tip
