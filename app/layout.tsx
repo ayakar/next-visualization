@@ -6,6 +6,9 @@ import SideBar from './components/SideBar';
 
 export const metadata = {
     title: 'Risk Viz',
+    icons: {
+        icon: '/favicon.png',
+    },
 };
 
 const montserrat = Montserrat({

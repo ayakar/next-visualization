@@ -1,6 +1,5 @@
 import LineSection from './components/chartSections/LineSection';
 import MapSection from './components/chartSections/MapSection';
-import styles from './page.module.css';
 import TableSection from './components/chartSections/TableSection';
 import SelectYear from './components/SelectYear';
 import SelectAsset from './components/SelectAsset';
