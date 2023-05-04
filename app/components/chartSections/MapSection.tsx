@@ -45,7 +45,7 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
             fetchData(endPoint, setMapData);
         }
         setIsInitial(false);
-        // I am adding this because isInitial should not be false right after initialization
+        // Adding this because isInitial should not be false right after initialization
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 

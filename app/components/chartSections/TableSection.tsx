@@ -78,7 +78,7 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
             getTableData();
         }
         setIsInitial(false);
-        // I am adding this because isInitial should not be false right after initialization
+        // Adding this because isInitial should not be false right after initialization
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getTableData]);
 
