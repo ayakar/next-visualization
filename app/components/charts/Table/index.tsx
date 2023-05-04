@@ -25,7 +25,9 @@ const Table: React.FC<Props> = ({ tableData, totalPages, currentPage, onSortClic
                         {labels.map((label, index) => (
                             <th
                                 key={index}
-                                className="bg-secondaryLight text-secondary px-3 py-2 first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br"
+                                className={`bg-secondaryLight text-secondary px-3 py-2 first:rounded-tl first:rounded-bl last:rounded-tr last:rounded-br ${
+                                    label === 'Risk Factors' && 'hidden md:table-cell'
+                                }`}
                             >
                                 <button
                                     className="relative"
