@@ -18,7 +18,7 @@ const ClearFilterButton = () => {
     } = useFilterContext();
 
     const clearFilterHandler = useCallback(() => {
-        console.log('clear handler called');
+        // console.log('clear handler called');
         setSelectedYear('');
         setRiskFactorLists({
             Earthquake: false,
@@ -39,7 +39,7 @@ const ClearFilterButton = () => {
 
     useEffect(() => {
         return () => {
-            console.log('unmount');
+            // console.log('unmount');
             clearFilterHandler();
         };
     }, [clearFilterHandler]);
