@@ -23,7 +23,7 @@ export interface LineChartData {
     year: string;
     aggregatedRisk: number;
     riskFactors: {
-        Hurricane: number;
+        Hurricane?: number;
         ExtremeHeat?: number;
         Tornado?: number;
         Wildfire?: number;

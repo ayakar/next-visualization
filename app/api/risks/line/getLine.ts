@@ -3,62 +3,81 @@ import { LineChartData, Risk } from '@/app/types/RiskRating';
 
 interface TransformedData {
     [key: number]: {
-        riskFactors: { [key: string]: { sum: number; count: number } };
+        riskFactorsTotals: TransformedDataRiskFactors;
+        yearRiskTotal: number;
+        numOfRowsForYear: number;
     };
 }
+
+interface TransformedDataRiskFactors {
+    [key: string]: number;
+}
+
+const mergeRiskFactorTotals = (prevState: TransformedDataRiskFactors, current: TransformedDataRiskFactors) => {
+    let merged = { ...current };
+    Object.entries(prevState).forEach(([key, val]) => {
+        if (key in merged) {
+            merged[key] += val;
+        } else {
+            merged[key] = val;
+        }
+    });
+    return merged;
+};
 
 export const getLine = (filtered: Risk[] | null, riskFactorParams: string | null) => {
     // getLine() can be called from rsc
     if (filtered === null) {
         filtered = risks;
     }
+
     const riskFactorParamsArr = riskFactorParams
         ? riskFactorParams.split(',')
         : ['Earthquake', 'Extreme heat', 'Wildfire', 'Tornado', 'Flooding', 'Volcano', 'Hurricane', 'Drought', 'Extreme cold', 'Sea level rise'];
 
-    // Transforming data to following format: [ '2070': {riskFactors: {Earthquake: {sum:42.570000000000036, count:546}, 'Sea level rise': 52.790000000000006,Tornado: 56.610000000000035,} }]
+    // Transforming data to following format:
+    // [ '2070': {riskFactorsTotals: {Earthquake: 55.2, 'Sea level rise': 52.790000000000006,Tornado: 56.610000000000035,}, yearRiskTotal: 342, numOfRowsForYear: 1000 }]
+    // yearRiskTotal is for sum of all riskFactors in this row.
+    // yearTotal is to track number of rows in that year
+    // yearRiskTotal and yearTotal will be used to calculate aggregatedRisk
     let transformedData: TransformedData = {};
-    // let riskFactorCounts = {}; //TODO: Remove me
-    filtered.forEach((item: Risk) => {
-        const year = item['Year'];
-        const riskFactors = item['Risk Factors'];
-        // Initializing transformedData {"YEAR":{}}
-        if (!(year in transformedData)) {
-            transformedData[year] = { riskFactors: {} };
-        }
+    filtered.forEach((row: Risk) => {
+        let year = row['Year'];
+        let rowRiskFactors: TransformedDataRiskFactors = {}; // will contain selected riskFactors
+        let rowRiskTotal = 0; // total value of selected riskFactors
 
-        // Calculating each risk factor if it's in search param.
-        Object.entries(riskFactors).forEach(([key, val]) => {
-            if (key in transformedData[year]['riskFactors'] && riskFactorParamsArr.includes(key)) {
-                // Calculate value when the risk factor obj exists
-                transformedData[year]['riskFactors'][key]['sum'] += val;
-                transformedData[year]['riskFactors'][key]['count'] += 1;
-                // riskFactorCounts[year][key] += 1;
-            } else if (riskFactorParamsArr.includes(key)) {
-                // Initialize obj when the key doesn't exit in the year obj
-                transformedData[year]['riskFactors'] = { ...transformedData[year]['riskFactors'], [key]: { sum: val, count: 1 } };
-                // riskFactorCounts[year] = { ...riskFactorCounts[year], [key]: 1 }; //TODO: Remove me
+        // Calculate total risk for this row with the risk factor params
+        Object.entries(row['Risk Factors']).forEach(([key, val]) => {
+            if (riskFactorParamsArr.includes(key)) {
+                rowRiskTotal += val;
+                rowRiskFactors[key] = val;
             }
         });
-    });
-    // console.log(riskFactorCounts);
 
+        if (!(year in transformedData)) {
+            transformedData[year] = { riskFactorsTotals: rowRiskFactors, yearRiskTotal: rowRiskTotal, numOfRowsForYear: 1 };
+        } else {
+            transformedData[year]['riskFactorsTotals'] = mergeRiskFactorTotals(transformedData[year]['riskFactorsTotals'], rowRiskFactors);
+            transformedData[year]['yearRiskTotal'] += rowRiskTotal;
+            transformedData[year]['numOfRowsForYear'] += 1;
+        }
+    });
+    // Calc aggregatedRisk factor and individual risk factors for year. Reformat data.
     // Transforming data to following format: [{"year": "2030","aggregatedRisk": 22, "riskFactors": {"Hurricane": 3,"Tornado": 6,}},{ "year": "2050", "aggregatedRisk": 39, "riskFactors": {"Earthquake": 11,}},]
     let finalTransformedData: LineChartData[] = [];
     Object.entries(transformedData).forEach(([year, data]) => {
-        const aggregatedRisk: number = Object.values<number>(data.riskFactors).reduce((prev, curr) => prev + curr, 0);
-        let aggregatedRiskFactors = {};
-        Object.keys(data.riskFactors).forEach(
-            (riskFactor) => (aggregatedRiskFactors[riskFactor] = data.riskFactors[riskFactor].sum / data.riskFactors[riskFactor].count)
-        );
-        console.log(aggregatedRiskFactors);
-        const obj = {
+        let averagedRiskFactors: { [key: string]: number } = {};
+        Object.entries(data['riskFactorsTotals']).forEach(([key, val]) => {
+            averagedRiskFactors[key] = (val as number) / data['numOfRowsForYear'];
+        });
+
+        const obj: LineChartData = {
             year: year,
-            aggregatedRisk: Object.values(aggregatedRiskFactors).reduce((prev, curr) => prev + curr) / Object.values(aggregatedRiskFactors).length,
-            riskFactors: aggregatedRiskFactors,
+            aggregatedRisk: data['yearRiskTotal'] / data['numOfRowsForYear'],
+            riskFactors: averagedRiskFactors,
         };
+
         finalTransformedData.push(obj);
     });
-
     return finalTransformedData;
 };
