@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { X } from 'react-bootstrap-icons';
 
 interface Props {
@@ -9,6 +9,7 @@ const SideBarPopup: React.FC<Props> = ({ closeHandler }) => {
     return (
         <div className="sidebar-popup shadow p-4 rounded">
             <button
+                aria-label="close"
                 onClick={() => closeHandler(false)}
                 className="absolute right-0 top-0 p-2 text-primary"
             >
@@ -17,6 +18,16 @@ const SideBarPopup: React.FC<Props> = ({ closeHandler }) => {
 
             <p>Hello! This is Ayaka. </p>
             <p>Thank you for viewing my project!</p>
+            {/* <a
+                href="https://www.linkedin.com/in/ayakarogoza/"
+                target="_blank"
+                className="absolute right-0 bottom-0 p-3 text-primary"
+            >
+                <Linkedin
+                    color="#F0A323"
+                    size={15}
+                />
+            </a> */}
         </div>
     );
 };
