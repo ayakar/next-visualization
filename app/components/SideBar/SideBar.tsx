@@ -10,7 +10,7 @@ const SideBar = () => {
 
     const links = [
         { link: '/', label: 'My Work' },
-        { link: '/about', label: 'About This Project' },
+        { link: '/about', label: 'About' },
     ];
 
     return (
