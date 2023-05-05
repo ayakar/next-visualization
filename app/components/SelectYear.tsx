@@ -24,7 +24,7 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
             onChange={onChangeHandler}
             data-testid="selectYear"
         >
-            <option value="">All Year</option>
+            <option value="">All Years</option>
             {initialAvailableYears.map((availableYear) => (
                 <option
                     key={availableYear}
