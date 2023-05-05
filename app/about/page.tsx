@@ -280,6 +280,7 @@ const AboutPage = () => {
                         <a
                             className={styles.link}
                             href="https://www.bekk.christmas/post/2020/13/a-hot-chocolate-map-with-react-leaflet-and-typescript"
+                            target="_blank"
                         >
                             https://www.bekk.christmas/post/2020/13/a-hot-chocolate-map-with-react-leaflet-and-typescript
                         </a>{' '}
