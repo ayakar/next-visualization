@@ -1,8 +1,8 @@
 'use client';
 import React, { createContext, useState, useContext } from 'react';
-import { FilterContext } from '../types/RiskRating';
+import type { FilterContext as FilterContextType } from '../types/RiskRating';
 
-const FilterContext = createContext<FilterContext>({
+const FilterContext = createContext<FilterContextType>({
     selectedYear: '',
     setSelectedYear: () => {},
     selectedAsset: '',

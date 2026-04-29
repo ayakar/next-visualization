@@ -27,7 +27,7 @@ describe('SelectYear', () => {
         useFilterContext.mockReturnValue({ selectedYear: '', setSelectedYear: jest.fn() });
         render(<SelectYear initialAvailableYears={initialAvailableYears} />);
 
-        expect(screen.getByText('All Year')).toBeInTheDocument();
+        expect(screen.getByText('All Years')).toBeInTheDocument();
         initialAvailableYears.forEach((year) => {
             expect(screen.getByText(year)).toBeInTheDocument();
         });
