@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
-import { LineChartDataset, LineChartData } from '../../types/RiskRating';
+import { LineChartData } from '../../types/RiskRating';
 
 interface Props {
     lineData: LineChartData[];
 }
 
 const Line: React.FC<Props> = ({ lineData }) => {
-    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
+    ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler);
 
     const options = {
         maintainAspectRatio: false,
@@ -112,11 +112,15 @@ const Line: React.FC<Props> = ({ lineData }) => {
         datasets: [
             {
                 data: lineData,
-                borderColor: '#fedca5',
-                backgroundColor: '#F0A323',
-                pointRadius: 5,
-                pointHoverRadius: 8,
-                tension: 0.1,
+                borderColor: '#7c3aed',
+                backgroundColor: 'rgba(167, 139, 250, 0.18)',
+                fill: true,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#7c3aed',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 7,
+                tension: 0.25,
             },
         ],
     };

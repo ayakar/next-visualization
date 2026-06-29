@@ -1,4 +1,4 @@
-import { Montserrat } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import '@/app/globals.css';
 
 import { FilterProvider } from './contexts/FilterContext';
@@ -11,26 +11,20 @@ export const metadata = {
     },
 };
 
-const montserrat = Montserrat({
-    weight: ['400', '500'],
+const poppins = Poppins({
+    weight: ['400', '500', '600'],
     subsets: ['latin'],
+    variable: '--font-sans',
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-            {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-            <head />
-            <body className={montserrat.className}>
-                <div className="flex flex-col lg:flex-row gap-6 px-6">
-                    <SideBar />
-                    <main className="flex-1 py-6">
-                        <FilterProvider>{children}</FilterProvider>
-                    </main>
-                </div>
+        <html lang="en" className={poppins.variable}>
+            <body className="font-sans">
+                <SideBar />
+                <main className="min-w-0 px-4 pb-16 pt-16 lg:ml-sidebar lg:px-8 lg:pt-7">
+                    <FilterProvider>{children}</FilterProvider>
+                </main>
             </body>
         </html>
     );

@@ -6,8 +6,7 @@ import Map from '../charts/Map';
 import { config } from '@/app/constants/endpoints';
 import useFetch from '../../hooks/useFetch';
 import { useFilterContext } from '@/app/contexts/FilterContext';
-import { XCircle } from 'react-bootstrap-icons';
-import Image from 'next/image';
+import { XCircle } from 'lucide-react';
 
 interface Props {
     initialMapResponse: MapChartData;
@@ -50,73 +49,42 @@ const MapSection: React.FC<Props> = ({ initialMapResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     if (errorMessage) {
-        return <div className="w-full md:w-40 text-danger">{errorMessage}</div>;
+        return <div className="text-sm text-risk-high-text">{errorMessage}</div>;
     }
 
     return (
-        <div className="w-full md:w-40 relative">
+        <div className="relative">
             {selectedLocation && (
                 <div
-                    className="absolute bg-secondaryLight rounded shadow flex items-center gap-1 px-4 pl-2 py-3 text-xs "
-                    style={{
-                        top: '-.5rem',
-                        right: '-1rem',
-                        zIndex: 100000,
-                    }}
+                    className="absolute flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs shadow-subtle"
+                    style={{ top: '0.5rem', right: '0.5rem', zIndex: 1000 }}
                 >
-                    <button
-                        className=""
-                        onClick={() => setSelectedLocation('')}
-                    >
-                        <XCircle color="#008eaa" />
-                    </button>
                     <div>
-                        <div style={{ lineHeight: 1 }}>Selected Location</div>
-                        <span
-                            style={{
-                                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%, #8be8f5 50%,  #8be8f5 100%)',
-                            }}
-                        >
-                            {selectedLocation}
-                        </span>
+                        <div className="text-2xs font-semibold uppercase tracking-wide text-ink-muted">Selected location</div>
+                        <span className="font-medium tabular-nums text-ink">{selectedLocation}</span>
                     </div>
+                    <button
+                        onClick={() => setSelectedLocation('')}
+                        aria-label="Clear selected location"
+                        className="text-ink-muted hover:text-brand"
+                    >
+                        <XCircle size={16} />
+                    </button>
                 </div>
             )}
 
             <Map mapData={mapData} />
-            <div
-                className="flex justify-between"
-                style={{ minHeight: '2rem' }}
-            >
-                <div className="inline-flex items-center text-xs gap-2">
-                    <div className="flex gap-1">
-                        <Image
-                            src="./assets/marker-low.svg"
-                            alt="Low Risk"
-                            width={16}
-                            height={16}
-                        />
-                        Low Risk
-                    </div>
-                    <div className="flex gap-1">
-                        <Image
-                            src="./assets/marker-md.svg"
-                            alt="Medium Risk"
-                            width={16}
-                            height={16}
-                        />
-                        Medium Risk
-                    </div>
-                    <div className="flex gap-1">
-                        <Image
-                            src="./assets/marker-high.svg"
-                            alt="High Risk"
-                            width={16}
-                            height={16}
-                        />
-                        High Risk
-                    </div>
-                </div>
+
+            <div className="mt-3.5 flex flex-wrap gap-4 text-xs text-ink-soft">
+                <span className="inline-flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-risk-low" /> Low &lt; 0.5
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-risk-medium" /> Medium 0.5-0.7
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full bg-risk-high" /> High &gt; 0.7
+                </span>
             </div>
         </div>
     );

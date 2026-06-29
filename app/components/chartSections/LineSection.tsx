@@ -48,11 +48,11 @@ const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
     }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
 
     if (errorMessage) {
-        return <div className="w-full md:pr-6 md:pl-12  md:w-60 text-danger">{errorMessage}</div>;
+        return <div className="text-sm text-risk-high-text">{errorMessage}</div>;
     }
 
     return (
-        <div className="w-full md:pl-12 md:w-60 md:pr-6 ">
+        <div className="h-chart">
             <Line lineData={lineData} />
         </div>
     );

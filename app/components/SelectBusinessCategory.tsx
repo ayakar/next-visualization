@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useFilterContext } from '../contexts/FilterContext';
+import { selectClass, SelectChevron } from './FilterSelect';
 
 interface Props {
     initialAvailableBusinessCategories: string[];
@@ -14,21 +15,17 @@ const SelectBusinessCategory: React.FC<Props> = ({ initialAvailableBusinessCateg
     };
 
     return (
-        <select
-            className="border-dark border-1 focus:border-secondary focus:border rounded-sm mr-10 px-2 py-1 outline-none max-w-full"
-            value={selectedBusinessCategory}
-            onChange={onChangeHandler}
-        >
-            <option value="">All Business Categories</option>
-            {initialAvailableBusinessCategories.map((availableBusinessCategory) => (
-                <option
-                    key={availableBusinessCategory}
-                    value={availableBusinessCategory}
-                >
-                    {availableBusinessCategory}
-                </option>
-            ))}
-        </select>
+        <div className="relative inline-flex">
+            <select className={selectClass} value={selectedBusinessCategory} onChange={onChangeHandler} aria-label="Filter by business category">
+                <option value="">All Categories</option>
+                {initialAvailableBusinessCategories.map((availableBusinessCategory) => (
+                    <option key={availableBusinessCategory} value={availableBusinessCategory}>
+                        {availableBusinessCategory}
+                    </option>
+                ))}
+            </select>
+            <SelectChevron />
+        </div>
     );
 };
 

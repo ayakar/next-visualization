@@ -1,6 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useFilterContext } from '../contexts/FilterContext';
+import { selectClass, SelectChevron } from './FilterSelect';
 
 interface Props {
     initialAvailableYears: number[];
@@ -18,22 +19,17 @@ const SelectYear: React.FC<Props> = ({ initialAvailableYears }) => {
     };
 
     return (
-        <select
-            className="border-dark border-1 focus:border-secondary focus:border rounded-sm px-2 py-1 outline-none "
-            value={selectedYear}
-            onChange={onChangeHandler}
-            data-testid="selectYear"
-        >
-            <option value="">All Years</option>
-            {initialAvailableYears.map((availableYear) => (
-                <option
-                    key={availableYear}
-                    value={availableYear}
-                >
-                    {availableYear}
-                </option>
-            ))}
-        </select>
+        <div className="relative inline-flex">
+            <select className={selectClass} value={selectedYear} onChange={onChangeHandler} data-testid="selectYear" aria-label="Filter by year">
+                <option value="">All Years</option>
+                {initialAvailableYears.map((availableYear) => (
+                    <option key={availableYear} value={availableYear}>
+                        {availableYear}
+                    </option>
+                ))}
+            </select>
+            <SelectChevron />
+        </div>
     );
 };
 

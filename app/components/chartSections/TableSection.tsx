@@ -96,25 +96,27 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
     };
 
     if (errorMessage) {
-        return <div className="w-full text-danger">{errorMessage}</div>;
+        return <div className="p-5 text-sm text-risk-high-text">{errorMessage}</div>;
+    }
+
+    if (tableData.length === 0) {
+        return (
+            <div className="p-5">
+                <NoResult />
+            </div>
+        );
     }
 
     return (
-        <div className="w-full text-sm overflow-x-scroll md:overflow-x-visible">
-            {tableData.length > 0 ? (
-                <Table
-                    tableData={tableData}
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    onSortClickHandler={onSortClickHandler}
-                    onPaginationClickHandler={onPaginationClickHandler}
-                    sortLabel={sortLabel}
-                    sortOrder={sortOrder}
-                />
-            ) : (
-                <NoResult />
-            )}
-        </div>
+        <Table
+            tableData={tableData}
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onSortClickHandler={onSortClickHandler}
+            onPaginationClickHandler={onPaginationClickHandler}
+            sortLabel={sortLabel}
+            sortOrder={sortOrder}
+        />
     );
 };
 

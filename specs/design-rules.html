@@ -1,284 +1,909 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Risk Viz — Design Rules</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <style>
-        :root {
-            --primary: #7c3aed; --primary-dark: #6d28d9; --primary-rgb: 124, 58, 237;
-            --primary-light: #ede9fe; --primary-lighter: #f5f3ff;
-            --secondary: #a78bfa;
-            --bg: #faf9fe; --card-border: #ebe7f5;
-            --onyx: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
-            --text-primary: #202529; --text-secondary: #475569; --text-muted: #6b7686;
-            --danger: #ef4444; --danger-light: #fee2e2; --danger-dark: #b91c1c;
-            --warning: #f59e0b; --warning-light: #fef3c7; --warning-dark: #b45309;
-            --success: #10b981; --success-light: #d1fae5; --success-dark: #047857;
-            --radius: 14px;
-            --shadow-subtle: 0 1px 2px rgba(17,24,39,0.04), 0 6px 18px rgba(17,24,39,0.05);
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-        a { color: inherit; text-decoration: none; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Risk Viz — Design Rules</title>
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #7c3aed;
+                --primary-dark: #6d28d9;
+                --primary-rgb: 124, 58, 237;
+                --primary-light: #ede9fe;
+                --primary-lighter: #f5f3ff;
+                --secondary: #a78bfa;
+                --bg: #faf9fe;
+                --card-border: #ebe7f5;
+                --onyx: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
+                --text-primary: #202529;
+                --text-secondary: #475569;
+                --text-muted: #6b7686;
+                --danger: #ef4444;
+                --danger-light: #fee2e2;
+                --danger-dark: #b91c1c;
+                --warning: #f59e0b;
+                --warning-light: #fef3c7;
+                --warning-dark: #b45309;
+                --success: #10b981;
+                --success-light: #d1fae5;
+                --success-dark: #047857;
+                --radius: 14px;
+                --shadow-subtle: 0 1px 2px rgba(17, 24, 39, 0.04), 0 6px 18px rgba(17, 24, 39, 0.05);
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: var(--bg);
+                color: var(--text-primary);
+                font-size: 14px;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
 
-        /* hero */
-        .hero { background: var(--onyx); color: #fff; padding: 48px 40px; position: relative; overflow: hidden; }
-        .hero::after { content: ''; position: absolute; right: -80px; top: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.40), transparent 68%); }
-        .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--secondary); margin-bottom: 12px; }
-        .hero h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; }
-        .hero p { color: rgba(255,255,255,0.7); margin-top: 10px; max-width: 620px; font-size: 15px; }
-        .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; position: relative; z-index: 1; }
-        .hero-meta span { font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.16); }
+            /* hero */
+            .hero {
+                background: var(--onyx);
+                color: #fff;
+                padding: 48px 40px;
+                position: relative;
+                overflow: hidden;
+            }
+            .hero::after {
+                content: '';
+                position: absolute;
+                right: -80px;
+                top: -80px;
+                width: 280px;
+                height: 280px;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent 68%);
+            }
+            .hero-eyebrow {
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--secondary);
+                margin-bottom: 12px;
+            }
+            .hero h1 {
+                font-size: 34px;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+            }
+            .hero p {
+                color: rgba(255, 255, 255, 0.7);
+                margin-top: 10px;
+                max-width: 620px;
+                font-size: 15px;
+            }
+            .hero-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 22px;
+                position: relative;
+                z-index: 1;
+            }
+            .hero-meta span {
+                font-size: 12px;
+                font-weight: 500;
+                padding: 6px 12px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.16);
+            }
 
-        /* layout */
-        .wrap { display: flex; gap: 40px; max-width: 1180px; margin: 0 auto; padding: 40px; align-items: flex-start; }
-        .toc { position: sticky; top: 24px; width: 220px; flex-shrink: 0; font-size: 13px; }
-        .toc-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
-        .toc a { display: block; padding: 5px 10px; border-radius: 8px; color: var(--text-secondary); transition: 0.15s; border-left: 2px solid transparent; }
-        .toc a:hover { background: var(--primary-lighter); color: var(--primary); }
-        .content { flex: 1; min-width: 0; }
+            /* layout */
+            .wrap {
+                display: flex;
+                gap: 40px;
+                max-width: 1180px;
+                margin: 0 auto;
+                padding: 40px;
+                align-items: flex-start;
+            }
+            .toc {
+                position: sticky;
+                top: 24px;
+                width: 220px;
+                flex-shrink: 0;
+                font-size: 13px;
+            }
+            .toc-title {
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--text-muted);
+                margin-bottom: 10px;
+            }
+            .toc a {
+                display: block;
+                padding: 5px 10px;
+                border-radius: 8px;
+                color: var(--text-secondary);
+                transition: 0.15s;
+                border-left: 2px solid transparent;
+            }
+            .toc a:hover {
+                background: var(--primary-lighter);
+                color: var(--primary);
+            }
+            .content {
+                flex: 1;
+                min-width: 0;
+            }
 
-        section { margin-bottom: 40px; scroll-margin-top: 24px; }
-        section > h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
-        section > h2 .num { font-size: 12px; font-weight: 600; color: var(--primary); background: var(--primary-lighter); border-radius: 8px; padding: 3px 9px; }
-        section > .lede { color: var(--text-secondary); margin-bottom: 16px; }
+            section {
+                margin-bottom: 40px;
+                scroll-margin-top: 24px;
+            }
+            section > h2 {
+                font-size: 20px;
+                font-weight: 700;
+                letter-spacing: -0.01em;
+                margin-bottom: 4px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            section > h2 .num {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--primary);
+                background: var(--primary-lighter);
+                border-radius: 8px;
+                padding: 3px 9px;
+            }
+            section > .lede {
+                color: var(--text-secondary);
+                margin-bottom: 16px;
+            }
 
-        .rule { background: #fff; border: 1px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--shadow-subtle); padding: 16px 18px; margin-bottom: 10px; }
-        .rule-name { font-weight: 600; font-size: 14.5px; display: flex; align-items: center; gap: 9px; }
-        .rule-name::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
-        .rule-desc { color: var(--text-secondary); margin-top: 5px; font-size: 13.5px; }
-        .rule-desc code { font-family: 'Poppins', monospace; background: var(--primary-lighter); color: var(--primary-dark); padding: 1px 6px; border-radius: 5px; font-size: 12.5px; font-weight: 500; }
-        .rule-ref { color: var(--text-muted); font-size: 12px; margin-top: 7px; font-weight: 500; }
+            .rule {
+                background: #fff;
+                border: 1px solid var(--card-border);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-subtle);
+                padding: 16px 18px;
+                margin-bottom: 10px;
+            }
+            .rule-name {
+                font-weight: 600;
+                font-size: 14.5px;
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+            .rule-name::before {
+                content: '';
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--primary);
+                flex-shrink: 0;
+            }
+            .rule-desc {
+                color: var(--text-secondary);
+                margin-top: 5px;
+                font-size: 13.5px;
+            }
+            .rule-desc code {
+                font-family: 'Poppins', monospace;
+                background: var(--primary-lighter);
+                color: var(--primary-dark);
+                padding: 1px 6px;
+                border-radius: 5px;
+                font-size: 12.5px;
+                font-weight: 500;
+            }
+            .rule-ref {
+                color: var(--text-muted);
+                font-size: 12px;
+                margin-top: 7px;
+                font-weight: 500;
+            }
 
-        /* token swatches */
-        .sw-group { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin: 18px 0 8px; }
-        .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
-        .sw { border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: var(--shadow-subtle); }
-        .sw-chip { height: 56px; }
-        .sw-meta { padding: 9px 12px; }
-        .sw-name { font-size: 12.5px; font-weight: 600; }
-        .sw-hex { font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; text-transform: uppercase; }
+            /* token swatches */
+            .sw-group {
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--text-secondary);
+                margin: 18px 0 8px;
+            }
+            .swatches {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+            .sw {
+                border: 1px solid var(--card-border);
+                border-radius: 12px;
+                overflow: hidden;
+                background: #fff;
+                box-shadow: var(--shadow-subtle);
+            }
+            .sw-chip {
+                height: 56px;
+            }
+            .sw-meta {
+                padding: 9px 12px;
+            }
+            .sw-name {
+                font-size: 12.5px;
+                font-weight: 600;
+            }
+            .sw-hex {
+                font-size: 11.5px;
+                color: var(--text-muted);
+                font-variant-numeric: tabular-nums;
+                text-transform: uppercase;
+            }
 
-        /* contrast table */
-        table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-subtle); font-size: 13px; }
-        th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
-        th { background: var(--primary-lighter); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600; }
-        tbody tr:last-child td { border-bottom: none; }
-        td .ratio { font-variant-numeric: tabular-nums; font-weight: 600; }
-        .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; }
-        .tag.pass { color: var(--success-dark); background: var(--success-light); }
+            /* contrast table */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background: #fff;
+                border: 1px solid var(--card-border);
+                border-radius: var(--radius);
+                overflow: hidden;
+                box-shadow: var(--shadow-subtle);
+                font-size: 13px;
+            }
+            th,
+            td {
+                text-align: left;
+                padding: 10px 14px;
+                border-bottom: 1px solid var(--card-border);
+            }
+            th {
+                background: var(--primary-lighter);
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--text-secondary);
+                font-weight: 600;
+            }
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+            td .ratio {
+                font-variant-numeric: tabular-nums;
+                font-weight: 600;
+            }
+            .tag {
+                display: inline-block;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 2px 9px;
+                border-radius: 999px;
+            }
+            .tag.pass {
+                color: var(--success-dark);
+                background: var(--success-light);
+            }
 
-        @media (max-width: 860px) { .wrap { flex-direction: column; padding: 24px; gap: 20px; } .toc { position: static; width: 100%; } .hero { padding: 36px 24px; } }
-    </style>
-</head>
-<body>
-    <header class="hero">
-        <div class="hero-eyebrow">Design System</div>
-        <h1>Risk Viz — Design Rules</h1>
-        <p>The single source of truth for the Risk Viz dashboard. Every visual decision below is intentional and, where it affects legibility, verified against WCAG 2.2 AA.</p>
-        <div class="hero-meta">
-            <span>Poppins</span>
-            <span>Onyx + Violet</span>
-            <span>WCAG 2.2 AA</span>
-            <span>Mobile-first</span>
-            <span>Updated 2026-06-25</span>
+            @media (max-width: 860px) {
+                .wrap {
+                    flex-direction: column;
+                    padding: 24px;
+                    gap: 20px;
+                }
+                .toc {
+                    position: static;
+                    width: 100%;
+                }
+                .hero {
+                    padding: 36px 24px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="hero">
+            <div class="hero-eyebrow">Design System</div>
+            <h1>Risk Viz — Design Rules</h1>
+            <p>
+                The single source of truth for the Risk Viz dashboard. Every visual decision below is intentional and, where it affects legibility, verified
+                against WCAG 2.2 AA.
+            </p>
+            <div class="hero-meta">
+                <span>Poppins</span>
+                <span>Onyx + Violet</span>
+                <span>WCAG 2.2 AA</span>
+                <span>Mobile-first</span>
+                <span>Updated 2026-06-25</span>
+            </div>
+        </header>
+
+        <div class="wrap">
+            <nav class="toc">
+                <div class="toc-title">Contents</div>
+                <a href="#foundations">Foundations</a>
+                <a href="#color">Color &amp; tokens</a>
+                <a href="#type">Typography</a>
+                <a href="#layout">Layout &amp; spacing</a>
+                <a href="#radius">Radius &amp; shadow</a>
+                <a href="#motion">Motion</a>
+                <a href="#components">Components</a>
+                <a href="#dataviz">Data viz</a>
+                <a href="#responsive">Responsive</a>
+                <a href="#a11y">Accessibility</a>
+            </nav>
+
+            <main class="content">
+                <!-- FOUNDATIONS -->
+                <section id="foundations">
+                    <h2><span class="num">01</span> Foundations</h2>
+                    <p class="lede">Universal rules that everything else inherits.</p>
+                    <div class="rule">
+                        <div class="rule-name">Single source of truth for tokens</div>
+                        <div class="rule-desc">
+                            All color, radius, shadow and font values come from CSS variables / Tailwind theme tokens. No raw hex in components.
+                        </div>
+                        <div class="rule-ref">→ app/globals.css · tailwind.config.js</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Mobile-first &amp; responsive</div>
+                        <div class="rule-desc">
+                            Layouts are designed for small screens first, then enhanced at <code>900px</code> and <code>1040px</code>. No horizontal scroll
+                            except inside scoped scroll containers (tables).
+                        </div>
+                        <div class="rule-ref">→ see Responsive</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Color carries meaning</div>
+                        <div class="rule-desc">
+                            The chrome is near-monochrome (onyx + neutrals). Saturated color is reserved: <b>violet</b> for interactive/brand, and the
+                            <b>risk ramp</b> (green/amber/red) exclusively for encoding risk severity.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Contrast minimum: WCAG 2.2 AA</div>
+                        <div class="rule-desc">
+                            Text ≥ <code>4.5:1</code> (large/UI graphics ≥ <code>3:1</code>). Every foreground/background pair is measured, not eyeballed.
+                        </div>
+                        <div class="rule-ref">→ see Accessibility</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Respect reduced-motion</div>
+                        <div class="rule-desc">Transitions are minimized under <code>prefers-reduced-motion: reduce</code>.</div>
+                    </div>
+                </section>
+
+                <!-- COLOR -->
+                <section id="color">
+                    <h2><span class="num">02</span> Color &amp; tokens</h2>
+                    <p class="lede">Onyx chrome, a single violet accent, and a three-step risk ramp.</p>
+
+                    <p
+                        class="lede"
+                        style="margin-top: -6px"
+                    >
+                        This is the complete palette. Nothing outside it ships — every value below is an actual token in the UI.
+                    </p>
+
+                    <div class="sw-group">Onyx &amp; surfaces</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: linear-gradient(165deg, #1c1c22, #09090b)"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Onyx (sidebar)</div>
+                                <div class="sw-hex">#1c1c22 → #09090b</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #2a2a34"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Onyx elevated</div>
+                                <div class="sw-hex">#2a2a34</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #faf9fe"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">App background</div>
+                                <div class="sw-hex">#faf9fe</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #ffffff"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Card surface</div>
+                                <div class="sw-hex">#ffffff</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #ebe7f5"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Border</div>
+                                <div class="sw-hex">#ebe7f5</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-group">Text</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #202529"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Text primary</div>
+                                <div class="sw-hex">#202529</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #475569"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Text secondary</div>
+                                <div class="sw-hex">#475569</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #6b7686"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Text muted</div>
+                                <div class="sw-hex">#6b7686</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-group">Brand · violet</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #7c3aed"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Primary</div>
+                                <div class="sw-hex">#7c3aed</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #6d28d9"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Primary dark</div>
+                                <div class="sw-hex">#6d28d9</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #a78bfa"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Secondary</div>
+                                <div class="sw-hex">#a78bfa</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #ede9fe"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Primary light</div>
+                                <div class="sw-hex">#ede9fe</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #f5f3ff"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Primary lighter</div>
+                                <div class="sw-hex">#f5f3ff</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-group">Risk ramp · low (base / tint / text)</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #10b981"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Low</div>
+                                <div class="sw-hex">#10b981</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #d1fae5"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Low · tint</div>
+                                <div class="sw-hex">#d1fae5</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #047857"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Low · text</div>
+                                <div class="sw-hex">#047857</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-group">Risk ramp · medium</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #f59e0b"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Medium</div>
+                                <div class="sw-hex">#f59e0b</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #fef3c7"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Medium · tint</div>
+                                <div class="sw-hex">#fef3c7</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #b45309"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Medium · text</div>
+                                <div class="sw-hex">#b45309</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sw-group">Risk ramp · high</div>
+                    <div class="swatches">
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #ef4444"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">High</div>
+                                <div class="sw-hex">#ef4444</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #fee2e2"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">High · tint</div>
+                                <div class="sw-hex">#fee2e2</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #b91c1c"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">High · text</div>
+                                <div class="sw-hex">#b91c1c</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">One accent only</div>
+                        <div class="rule-desc">
+                            Violet is the only interactive accent. Text-bearing surfaces use the <code>#7c3aed</code>/<code>#6d28d9</code> pair;
+                            <code>#a78bfa</code> is decorative only (nav bar, glows).
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Risk ramp uses AA-safe text pairs</div>
+                        <div class="rule-desc">
+                            Badges pair a tinted background with a darkened foreground: low <code>#047857/#d1fae5</code>, medium <code>#b45309/#fef3c7</code>,
+                            high <code>#b91c1c/#fee2e2</code>.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Muted text floor</div>
+                        <div class="rule-desc">Lightest body text is <code>#6b7686</code> (4.6:1 on white) — never lighter.</div>
+                    </div>
+                </section>
+
+                <!-- TYPOGRAPHY -->
+                <section id="type">
+                    <h2><span class="num">03</span> Typography</h2>
+                    <p class="lede">Poppins throughout; tabular figures for data.</p>
+                    <div class="rule">
+                        <div class="rule-name">Family: Poppins</div>
+                        <div class="rule-desc">Three weights only: <code>400</code> body · <code>500</code> UI/controls · <code>600</code> headings &amp; labels. Headings get presence from size + 600, not a heavier weight; tracking <code>-0.02em</code>.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Tabular numerals for data</div>
+                        <div class="rule-desc">
+                            Coordinates, risk ratings, years and pagination use <code>font-variant-numeric: tabular-nums</code> so columns align.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Micro-labels</div>
+                        <div class="rule-desc">
+                            Card titles &amp; section labels: 11–12px, 600, uppercase, <code>0.06–0.1em</code> tracking, secondary color.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LAYOUT -->
+                <section id="layout">
+                    <h2><span class="num">04</span> Layout &amp; spacing</h2>
+                    <p class="lede">A fixed sidebar and a fluid content column on an 8px rhythm.</p>
+                    <div class="rule">
+                        <div class="rule-name">Sidebar width <code>232px</code></div>
+                        <div class="rule-desc">Fixed, full-height, onyx gradient. Collapses to a slide-in drawer below <code>900px</code>.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Content padding</div>
+                        <div class="rule-desc"><code>26–32px</code> desktop, tightening to <code>12–18px</code> on mobile. Cards gap <code>16px</code>.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Primary grid</div>
+                        <div class="rule-desc">Map + trend as <code>1.4fr / 1fr</code>; stacks to one column below <code>1040px</code>.</div>
+                    </div>
+                </section>
+
+                <!-- RADIUS / SHADOW -->
+                <section id="radius">
+                    <h2><span class="num">05</span> Radius &amp; shadow</h2>
+                    <div class="rule">
+                        <div class="rule-name">Radius scale</div>
+                        <div class="rule-desc">
+                            Cards <code>14px</code>, controls (buttons/selects) <code>8px</code>, pills &amp; badges <code>999px</code>, avatars
+                            <code>50%</code>.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Shadow scale</div>
+                        <div class="rule-desc">Subtle (cards), medium (overlays), and a violet primary glow for active/elevated brand elements.</div>
+                    </div>
+                </section>
+
+                <!-- MOTION -->
+                <section id="motion">
+                    <h2><span class="num">06</span> Motion</h2>
+                    <div class="rule">
+                        <div class="rule-name">Fast transitions</div>
+                        <div class="rule-desc">Hover/active use <code>0.15s ease</code>; the drawer uses <code>0.3s cubic-bezier(.4,0,.2,1)</code>.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Purposeful animation only</div>
+                        <div class="rule-desc">
+                            Motion is limited to hover/active and the drawer. No looping or decorative animation; all disabled under reduced-motion.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- COMPONENTS -->
+                <section id="components">
+                    <h2><span class="num">07</span> Components</h2>
+                    <p class="lede">shadcn/ui (Radix) primitives — Button, Card, Badge, Checkbox, Sheet — for accessible behavior; native elements where the platform already does it best (see Selects).</p>
+                    <div class="rule">
+                        <div class="rule-name">Icons</div>
+                        <div class="rule-desc">
+                            One icon set: <b>Lucide</b>, outline style only. Sized <code>16-22px</code>, default 2px stroke, and they inherit
+                            <code>currentColor</code> — never a second icon library, never filled glyphs.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Buttons</div>
+                        <div class="rule-desc">
+                            Primary: violet vertical gradient + glow + white text. Secondary: white surface, border, secondary text. All have a visible focus
+                            ring.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Pills / filters</div>
+                        <div class="rule-desc">Toggle pills (risk factors), backed by a Radix <b>Checkbox</b> for keyboard + screen-reader support: off = white + border; on = violet fill + glow. Fully rounded.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Selects &amp; inputs</div>
+                        <div class="rule-desc">
+                            Native <code>&lt;select&gt;</code> (best keyboard, mobile and a11y support out of the box), styled to 38px tall, 8px radius, with
+                            the border lightening to violet on hover.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Cards</div>
+                        <div class="rule-desc">shadcn <b>Card</b>. White, 14px radius, subtle border + shadow. Header = uppercase micro-label + count, divided from the body.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Badges</div>
+                        <div class="rule-desc">shadcn <b>Badge</b> with risk variants (<code>low</code> / <code>medium</code> / <code>high</code>) — tinted background + AA-safe text + a severity dot. Used for risk ratings.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Avatar</div>
+                        <div class="rule-desc">
+                            Circular photo with a white ring and a success-green online dot. Always has descriptive <code>alt</code> text.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Author speech bubble</div>
+                        <div class="rule-desc">Solid (never translucent) onyx bubble with a tail pointing at the avatar.</div>
+                    </div>
+                </section>
+
+                <!-- DATA VIZ -->
+                <section id="dataviz">
+                    <h2><span class="num">08</span> Data visualization</h2>
+                    <div class="rule">
+                        <div class="rule-name">Map markers</div>
+                        <div class="rule-desc">Colored by risk ramp, white border for separation. Selected marker enlarges with a static violet ring.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Trend line</div>
+                        <div class="rule-desc">Single violet line with a soft secondary-tinted area fill; gridlines use the card border token.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Tables</div>
+                        <div class="rule-desc">
+                            Sortable headers expose <code>aria-sort</code>; numeric columns are tabular. Horizontal scroll inside the card on narrow screens —
+                            never breaks page layout.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RESPONSIVE -->
+                <section id="responsive">
+                    <h2><span class="num">09</span> Responsive</h2>
+                    <p class="lede">Three breakpoints, drawer navigation, and a flex-overflow guard.</p>
+                    <div class="rule">
+                        <div class="rule-name">Breakpoints</div>
+                        <div class="rule-desc">
+                            <code>≤1040px</code> grid → 1 column · <code>≤900px</code> sidebar → drawer + mobile header · <code>≤520px</code> filters stack
+                            full-width.
+                        </div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Drawer nav</div>
+                        <div class="rule-desc">Below the <code>lg</code> breakpoint the sidebar becomes a shadcn <b>Sheet</b> (Radix Dialog) — focus-trapped, Esc-to-close, dimmed overlay — opened from a fixed top header. Desktop keeps the static sidebar; both share one <code>SidebarContent</code>.</div>
+                    </div>
+                    <div class="rule">
+                        <div class="rule-name">Flex overflow guard</div>
+                        <div class="rule-desc">
+                            The content column sets <code>min-width: 0</code> so a wide table scrolls inside its container instead of stretching the page.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- A11Y -->
+                <section id="a11y">
+                    <h2><span class="num">10</span> Accessibility</h2>
+                    <p class="lede">Measured contrast ratios for the violet theme (WCAG 2.2 AA).</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Ratio</th>
+                                <th>Required</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>White on primary <code>#7c3aed</code></td>
+                                <td class="ratio">5.70:1</td>
+                                <td>4.5</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td>White on primary-dark <code>#6d28d9</code></td>
+                                <td class="ratio">7.10:1</td>
+                                <td>4.5</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Muted text <code>#6b7686</code> on white</td>
+                                <td class="ratio">4.60:1</td>
+                                <td>4.5</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sidebar section label (55% white)</td>
+                                <td class="ratio">6.17:1</td>
+                                <td>4.5</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Risk badge · low / medium / high</td>
+                                <td class="ratio">4.8 / 4.5 / 5.3</td>
+                                <td>4.5</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                            <tr>
+                                <td>Trend line / markers (graphic)</td>
+                                <td class="ratio">5.70:1</td>
+                                <td>3.0</td>
+                                <td><span class="tag pass">PASS</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div
+                        class="rule"
+                        style="margin-top: 14px"
+                    >
+                        <div class="rule-name">Keyboard &amp; semantics</div>
+                        <div class="rule-desc">
+                            All controls reachable by keyboard with a visible focus ring; sortable headers announce <code>aria-sort</code>; images carry
+                            <code>alt</code>; the drawer toggle is a labelled control.
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
-    </header>
-
-    <div class="wrap">
-        <nav class="toc">
-            <div class="toc-title">Contents</div>
-            <a href="#foundations">Foundations</a>
-            <a href="#color">Color &amp; tokens</a>
-            <a href="#type">Typography</a>
-            <a href="#layout">Layout &amp; spacing</a>
-            <a href="#radius">Radius &amp; shadow</a>
-            <a href="#motion">Motion</a>
-            <a href="#components">Components</a>
-            <a href="#dataviz">Data viz</a>
-            <a href="#responsive">Responsive</a>
-            <a href="#a11y">Accessibility</a>
-        </nav>
-
-        <main class="content">
-            <!-- FOUNDATIONS -->
-            <section id="foundations">
-                <h2><span class="num">01</span> Foundations</h2>
-                <p class="lede">Universal rules that everything else inherits.</p>
-                <div class="rule">
-                    <div class="rule-name">Single source of truth for tokens</div>
-                    <div class="rule-desc">All color, radius, shadow and font values come from CSS variables / Tailwind theme tokens. No raw hex in components.</div>
-                    <div class="rule-ref">→ app/globals.css · tailwind.config.js</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Mobile-first &amp; responsive</div>
-                    <div class="rule-desc">Layouts are designed for small screens first, then enhanced at <code>900px</code> and <code>1040px</code>. No horizontal scroll except inside scoped scroll containers (tables).</div>
-                    <div class="rule-ref">→ see Responsive</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Color carries meaning</div>
-                    <div class="rule-desc">The chrome is near-monochrome (onyx + neutrals). Saturated color is reserved: <b>violet</b> for interactive/brand, and the <b>risk ramp</b> (green/amber/red) exclusively for encoding risk severity.</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Contrast minimum: WCAG 2.2 AA</div>
-                    <div class="rule-desc">Text ≥ <code>4.5:1</code> (large/UI graphics ≥ <code>3:1</code>). Every foreground/background pair is measured, not eyeballed.</div>
-                    <div class="rule-ref">→ see Accessibility</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Respect reduced-motion</div>
-                    <div class="rule-desc">Transitions are minimized under <code>prefers-reduced-motion: reduce</code>.</div>
-                </div>
-            </section>
-
-            <!-- COLOR -->
-            <section id="color">
-                <h2><span class="num">02</span> Color &amp; tokens</h2>
-                <p class="lede">Onyx chrome, a single violet accent, and a three-step risk ramp.</p>
-
-                <p class="lede" style="margin-top:-6px">This is the complete palette. Nothing outside it ships — every value below is an actual token in the UI.</p>
-
-                <div class="sw-group">Onyx &amp; surfaces</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:linear-gradient(165deg,#1c1c22,#09090b)"></div><div class="sw-meta"><div class="sw-name">Onyx (sidebar)</div><div class="sw-hex">#1c1c22 → #09090b</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#2a2a34"></div><div class="sw-meta"><div class="sw-name">Onyx elevated</div><div class="sw-hex">#2a2a34</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#faf9fe"></div><div class="sw-meta"><div class="sw-name">App background</div><div class="sw-hex">#faf9fe</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#ffffff"></div><div class="sw-meta"><div class="sw-name">Card surface</div><div class="sw-hex">#ffffff</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#ebe7f5"></div><div class="sw-meta"><div class="sw-name">Border</div><div class="sw-hex">#ebe7f5</div></div></div>
-                </div>
-
-                <div class="sw-group">Text</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:#202529"></div><div class="sw-meta"><div class="sw-name">Text primary</div><div class="sw-hex">#202529</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#475569"></div><div class="sw-meta"><div class="sw-name">Text secondary</div><div class="sw-hex">#475569</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#6b7686"></div><div class="sw-meta"><div class="sw-name">Text muted</div><div class="sw-hex">#6b7686</div></div></div>
-                </div>
-
-                <div class="sw-group">Brand · violet</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:#7c3aed"></div><div class="sw-meta"><div class="sw-name">Primary</div><div class="sw-hex">#7c3aed</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#6d28d9"></div><div class="sw-meta"><div class="sw-name">Primary dark</div><div class="sw-hex">#6d28d9</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#a78bfa"></div><div class="sw-meta"><div class="sw-name">Secondary</div><div class="sw-hex">#a78bfa</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#ede9fe"></div><div class="sw-meta"><div class="sw-name">Primary light</div><div class="sw-hex">#ede9fe</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#f5f3ff"></div><div class="sw-meta"><div class="sw-name">Primary lighter</div><div class="sw-hex">#f5f3ff</div></div></div>
-                </div>
-
-                <div class="sw-group">Risk ramp · low (base / tint / text)</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:#10b981"></div><div class="sw-meta"><div class="sw-name">Low</div><div class="sw-hex">#10b981</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#d1fae5"></div><div class="sw-meta"><div class="sw-name">Low · tint</div><div class="sw-hex">#d1fae5</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#047857"></div><div class="sw-meta"><div class="sw-name">Low · text</div><div class="sw-hex">#047857</div></div></div>
-                </div>
-
-                <div class="sw-group">Risk ramp · medium</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:#f59e0b"></div><div class="sw-meta"><div class="sw-name">Medium</div><div class="sw-hex">#f59e0b</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#fef3c7"></div><div class="sw-meta"><div class="sw-name">Medium · tint</div><div class="sw-hex">#fef3c7</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#b45309"></div><div class="sw-meta"><div class="sw-name">Medium · text</div><div class="sw-hex">#b45309</div></div></div>
-                </div>
-
-                <div class="sw-group">Risk ramp · high</div>
-                <div class="swatches">
-                    <div class="sw"><div class="sw-chip" style="background:#ef4444"></div><div class="sw-meta"><div class="sw-name">High</div><div class="sw-hex">#ef4444</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#fee2e2"></div><div class="sw-meta"><div class="sw-name">High · tint</div><div class="sw-hex">#fee2e2</div></div></div>
-                    <div class="sw"><div class="sw-chip" style="background:#b91c1c"></div><div class="sw-meta"><div class="sw-name">High · text</div><div class="sw-hex">#b91c1c</div></div></div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">One accent only</div>
-                    <div class="rule-desc">Violet is the only interactive accent. Text-bearing surfaces use the <code>#7c3aed</code>/<code>#6d28d9</code> pair; <code>#a78bfa</code> is decorative only (nav bar, glows).</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Risk ramp uses AA-safe text pairs</div>
-                    <div class="rule-desc">Badges pair a tinted background with a darkened foreground: low <code>#047857/#d1fae5</code>, medium <code>#b45309/#fef3c7</code>, high <code>#b91c1c/#fee2e2</code>.</div>
-                </div>
-                <div class="rule">
-                    <div class="rule-name">Muted text floor</div>
-                    <div class="rule-desc">Lightest body text is <code>#6b7686</code> (4.6:1 on white) — never lighter.</div>
-                </div>
-            </section>
-
-            <!-- TYPOGRAPHY -->
-            <section id="type">
-                <h2><span class="num">03</span> Typography</h2>
-                <p class="lede">Poppins throughout; tabular figures for data.</p>
-                <div class="rule"><div class="rule-name">Family: Poppins</div><div class="rule-desc">Weights 400 / 500 / 600 / 700. Headings 600–700 with <code>-0.02em</code> tracking; body 400–500.</div></div>
-                <div class="rule"><div class="rule-name">Tabular numerals for data</div><div class="rule-desc">Coordinates, risk ratings, years and pagination use <code>font-variant-numeric: tabular-nums</code> so columns align.</div></div>
-                <div class="rule"><div class="rule-name">Micro-labels</div><div class="rule-desc">Card titles &amp; section labels: 11–12px, 600, uppercase, <code>0.06–0.1em</code> tracking, secondary color.</div></div>
-            </section>
-
-            <!-- LAYOUT -->
-            <section id="layout">
-                <h2><span class="num">04</span> Layout &amp; spacing</h2>
-                <p class="lede">A fixed sidebar and a fluid content column on an 8px rhythm.</p>
-                <div class="rule"><div class="rule-name">Sidebar width <code>232px</code></div><div class="rule-desc">Fixed, full-height, onyx gradient. Collapses to a slide-in drawer below <code>900px</code>.</div></div>
-                <div class="rule"><div class="rule-name">Content padding</div><div class="rule-desc"><code>26–32px</code> desktop, tightening to <code>12–18px</code> on mobile. Cards gap <code>16px</code>.</div></div>
-                <div class="rule"><div class="rule-name">Primary grid</div><div class="rule-desc">Map + trend as <code>1.4fr / 1fr</code>; stacks to one column below <code>1040px</code>.</div></div>
-            </section>
-
-            <!-- RADIUS / SHADOW -->
-            <section id="radius">
-                <h2><span class="num">05</span> Radius &amp; shadow</h2>
-                <div class="rule"><div class="rule-name">Radius scale</div><div class="rule-desc">Cards <code>14px</code>, controls (buttons/selects) <code>8px</code>, pills &amp; badges <code>999px</code>, avatars <code>50%</code>.</div></div>
-                <div class="rule"><div class="rule-name">Shadow scale</div><div class="rule-desc">Subtle (cards), medium (overlays), and a violet primary glow for active/elevated brand elements.</div></div>
-            </section>
-
-            <!-- MOTION -->
-            <section id="motion">
-                <h2><span class="num">06</span> Motion</h2>
-                <div class="rule"><div class="rule-name">Fast transitions</div><div class="rule-desc">Hover/active use <code>0.15s ease</code>; the drawer uses <code>0.3s cubic-bezier(.4,0,.2,1)</code>.</div></div>
-                <div class="rule"><div class="rule-name">Purposeful animation only</div><div class="rule-desc">Motion is limited to hover/active and the drawer. No looping or decorative animation; all disabled under reduced-motion.</div></div>
-            </section>
-
-            <!-- COMPONENTS -->
-            <section id="components">
-                <h2><span class="num">07</span> Components</h2>
-                <p class="lede">Built on Radix primitives (shadcn/ui) for accessible behavior.</p>
-                <div class="rule"><div class="rule-name">Buttons</div><div class="rule-desc">Primary: violet vertical gradient + glow + white text. Secondary: white surface, border, secondary text. All have a visible focus ring.</div></div>
-                <div class="rule"><div class="rule-name">Pills / filters</div><div class="rule-desc">Toggle pills (risk factors): off = white + border; on = violet fill + glow. Fully rounded.</div></div>
-                <div class="rule"><div class="rule-name">Selects &amp; inputs</div><div class="rule-desc">38px tall, 8px radius, hover lightens border to violet. Built on Radix Select for keyboard + screen-reader support.</div></div>
-                <div class="rule"><div class="rule-name">Cards</div><div class="rule-desc">White, 14px radius, subtle border + shadow. Header = uppercase micro-label + count, divided from the body.</div></div>
-                <div class="rule"><div class="rule-name">Avatar</div><div class="rule-desc">Circular photo with a white ring and a success-green online dot. Always has descriptive <code>alt</code> text.</div></div>
-                <div class="rule"><div class="rule-name">Author speech bubble</div><div class="rule-desc">Solid (never translucent) onyx bubble with a tail pointing at the avatar.</div></div>
-            </section>
-
-            <!-- DATA VIZ -->
-            <section id="dataviz">
-                <h2><span class="num">08</span> Data visualization</h2>
-                <div class="rule"><div class="rule-name">Map markers</div><div class="rule-desc">Colored by risk ramp, white border for separation. Selected marker enlarges with a static violet ring.</div></div>
-                <div class="rule"><div class="rule-name">Trend line</div><div class="rule-desc">Single violet line with a soft secondary-tinted area fill; gridlines use the card border token.</div></div>
-                <div class="rule"><div class="rule-name">Tables</div><div class="rule-desc">Sortable headers expose <code>aria-sort</code>; numeric columns are tabular. Horizontal scroll inside the card on narrow screens — never breaks page layout.</div></div>
-            </section>
-
-            <!-- RESPONSIVE -->
-            <section id="responsive">
-                <h2><span class="num">09</span> Responsive</h2>
-                <p class="lede">Three breakpoints, drawer navigation, and a flex-overflow guard.</p>
-                <div class="rule"><div class="rule-name">Breakpoints</div><div class="rule-desc"><code>≤1040px</code> grid → 1 column · <code>≤900px</code> sidebar → drawer + mobile header · <code>≤520px</code> filters stack full-width.</div></div>
-                <div class="rule"><div class="rule-name">Drawer nav</div><div class="rule-desc">Below 900px the sidebar slides in over a dimmed overlay, toggled from a fixed top header.</div></div>
-                <div class="rule"><div class="rule-name">Flex overflow guard</div><div class="rule-desc">The content column sets <code>min-width: 0</code> so a wide table scrolls inside its container instead of stretching the page.</div></div>
-            </section>
-
-            <!-- A11Y -->
-            <section id="a11y">
-                <h2><span class="num">10</span> Accessibility</h2>
-                <p class="lede">Measured contrast ratios for the violet theme (WCAG 2.2 AA).</p>
-                <table>
-                    <thead><tr><th>Pair</th><th>Ratio</th><th>Required</th><th>Result</th></tr></thead>
-                    <tbody>
-                        <tr><td>White on primary <code>#7c3aed</code></td><td class="ratio">5.70:1</td><td>4.5</td><td><span class="tag pass">PASS</span></td></tr>
-                        <tr><td>White on primary-dark <code>#6d28d9</code></td><td class="ratio">7.10:1</td><td>4.5</td><td><span class="tag pass">PASS</span></td></tr>
-                        <tr><td>Muted text <code>#6b7686</code> on white</td><td class="ratio">4.60:1</td><td>4.5</td><td><span class="tag pass">PASS</span></td></tr>
-                        <tr><td>Sidebar section label (55% white)</td><td class="ratio">6.17:1</td><td>4.5</td><td><span class="tag pass">PASS</span></td></tr>
-                        <tr><td>Risk badge · low / medium / high</td><td class="ratio">4.8 / 4.5 / 5.3</td><td>4.5</td><td><span class="tag pass">PASS</span></td></tr>
-                        <tr><td>Trend line / markers (graphic)</td><td class="ratio">5.70:1</td><td>3.0</td><td><span class="tag pass">PASS</span></td></tr>
-                    </tbody>
-                </table>
-                <div class="rule" style="margin-top:14px"><div class="rule-name">Keyboard &amp; semantics</div><div class="rule-desc">All controls reachable by keyboard with a visible focus ring; sortable headers announce <code>aria-sort</code>; images carry <code>alt</code>; the drawer toggle is a labelled control.</div></div>
-            </section>
-        </main>
-    </div>
-</body>
+    </body>
 </html>

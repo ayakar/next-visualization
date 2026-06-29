@@ -7,15 +7,17 @@ interface Props {
 }
 
 const PaginationButton: React.FC<Props> = ({ pageNumber, currentPage, onClickHandler }) => {
+    const isCurrent = currentPage === pageNumber;
     return (
         <button
-            key={pageNumber}
-            className={
-                currentPage !== pageNumber
-                    ? 'bg-primary hover:bg-primaryLight hover:text-primary text-white font-bold py-2 px-4 rounded-sm transition-colors duration-300'
-                    : 'bg-lightGray2 text-gray font-bold py-2 px-4 rounded-sm transition-colors duration-300'
-            }
-            disabled={currentPage === pageNumber}
+            aria-label={`Go to page ${pageNumber}`}
+            aria-current={isCurrent ? 'page' : undefined}
+            className={`h-9 rounded-md px-3 text-sm font-medium tabular-nums transition-colors ${
+                isCurrent
+                    ? 'border border-brand bg-brand text-white shadow-primary'
+                    : 'border border-border bg-card text-ink-soft hover:border-brand-light hover:bg-brand-lighter hover:text-brand'
+            }`}
+            disabled={isCurrent}
             onClick={(event) => onClickHandler(pageNumber, event)}
         >
             {pageNumber}

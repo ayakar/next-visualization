@@ -1,7 +1,8 @@
 'use client';
 import React, { useCallback, useEffect } from 'react';
 import { useFilterContext } from '../contexts/FilterContext';
-import { X, XCircle } from 'react-bootstrap-icons';
+import { X } from 'lucide-react';
+import { Button } from './ui/button';
 
 const ClearFilterButton = () => {
     const {
@@ -48,13 +49,9 @@ const ClearFilterButton = () => {
 
     if (selectedYear || isRiskFactorChecked || selectedAsset || selectedBusinessCategory || selectedLocation) {
         return (
-            <button
-                className="lg:absolute inline-flex items-center gap-1 bg-secondaryLight text-secondary px-2 py-1 text-xs rounded hover:bg-secondaryLight hover:text-secondary  transition-colors duration-300"
-                style={{ top: 0, right: '-2rem' }}
-                onClick={clearFilterHandler}
-            >
-                <X /> Clear Filters
-            </button>
+            <Button variant="outline" size="sm" onClick={clearFilterHandler} className="ml-auto text-ink-soft hover:text-brand">
+                <X size={16} /> Clear filters
+            </Button>
         );
     } else {
         return null;

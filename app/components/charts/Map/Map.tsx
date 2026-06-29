@@ -36,7 +36,8 @@ const Map: React.FC<Props> = ({ mapData }) => {
                     averageRiskRating > 0.7 ? './assets/marker-high.svg' : averageRiskRating > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
                 const markerSize = selectedLocation === item ? 50 : 30;
 
-                const textColor = averageRiskRating > 0.7 ? 'text-danger' : averageRiskRating > 0.5 ? 'text-primary' : 'text-secondary';
+                const textColor =
+                    averageRiskRating > 0.7 ? 'text-risk-high-text' : averageRiskRating > 0.5 ? 'text-risk-medium-text' : 'text-risk-low-text';
 
                 return (
                     <Marker
@@ -57,7 +58,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         <Popup closeButton={false}>
                             <div className="flex gap-1 mb-2">
                                 <span>Avg. Risk:</span>
-                                <span className={`font-bold ${textColor}`}>{averageRiskRating.toFixed(2)}</span>
+                                <span className={`font-semibold ${textColor}`}>{averageRiskRating.toFixed(2)}</span>
                             </div>
 
                             <div className="mb-2">
