@@ -4,14 +4,14 @@ import L, { LatLngExpression } from 'leaflet';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapChartData, Risk } from '../../../types/RiskRating';
-import { useFilterContext } from '@/app/contexts/FilterContext';
+import { useFilters } from '@/app/hooks/useFilters';
 
 interface Props {
     mapData: MapChartData;
 }
 
 const Map: React.FC<Props> = ({ mapData }) => {
-    const { selectedLocation, setSelectedLocation } = useFilterContext();
+    const { location, setLocation } = useFilters();
     const position: LatLngExpression = [43.86682, -79.2663]; // default map
     const zoom: number = 5;
 
@@ -34,7 +34,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
 
                 const marker =
                     averageRiskRating > 0.7 ? './assets/marker-high.svg' : averageRiskRating > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
-                const markerSize = selectedLocation === item ? 50 : 30;
+                const markerSize = location === item ? 50 : 30;
 
                 const textColor =
                     averageRiskRating > 0.7 ? 'text-risk-high-text' : averageRiskRating > 0.5 ? 'text-risk-medium-text' : 'text-risk-low-text';
@@ -50,7 +50,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                         position={[parseFloat(lat), parseFloat(long)]}
                         title={item}
                         eventHandlers={{
-                            click: () => setSelectedLocation((prev) => (prev !== item ? item : '')),
+                            click: () => setLocation(location === item ? null : item),
                             mouseover: (event) => event.target.openPopup(),
                             mouseout: (event) => event.target.closePopup(),
                         }}

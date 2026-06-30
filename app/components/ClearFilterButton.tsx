@@ -1,61 +1,19 @@
 'use client';
-import React, { useCallback, useEffect } from 'react';
-import { useFilterContext } from '../contexts/FilterContext';
+import React from 'react';
 import { X } from 'lucide-react';
+import { useFilters } from '../hooks/useFilters';
 import { Button } from './ui/button';
 
 const ClearFilterButton = () => {
-    const {
-        selectedYear,
-        setSelectedYear,
-        riskFactorLists,
-        setRiskFactorLists,
-        selectedAsset,
-        setSelectedAsset,
-        selectedBusinessCategory,
-        setSelectedBusinessCategory,
-        selectedLocation,
-        setSelectedLocation,
-    } = useFilterContext();
+    const { hasActiveFilters, clearAll } = useFilters();
 
-    const clearFilterHandler = useCallback(() => {
-        // console.log('clear handler called');
-        setSelectedYear('');
-        setRiskFactorLists({
-            Earthquake: false,
-            'Extreme heat': false,
-            Wildfire: false,
-            Tornado: false,
-            Flooding: false,
-            Volcano: false,
-            Hurricane: false,
-            Drought: false,
-            'Extreme cold': false,
-            'Sea level rise': false,
-        });
-        setSelectedAsset('');
-        setSelectedBusinessCategory('');
-        setSelectedLocation('');
-    }, [setRiskFactorLists, setSelectedAsset, setSelectedBusinessCategory, setSelectedLocation, setSelectedYear]);
+    if (!hasActiveFilters) return null;
 
-    useEffect(() => {
-        return () => {
-            // console.log('unmount');
-            clearFilterHandler();
-        };
-    }, [clearFilterHandler]);
-
-    const isRiskFactorChecked = Object.values(riskFactorLists).some((item) => item === true);
-
-    if (selectedYear || isRiskFactorChecked || selectedAsset || selectedBusinessCategory || selectedLocation) {
-        return (
-            <Button variant="outline" size="sm" onClick={clearFilterHandler} className="ml-auto text-ink-soft hover:text-brand">
-                <X size={16} /> Clear filters
-            </Button>
-        );
-    } else {
-        return null;
-    }
+    return (
+        <Button variant="outline" size="sm" onClick={clearAll} className="ml-auto text-ink-soft hover:text-brand">
+            <X size={16} /> Clear filters
+        </Button>
+    );
 };
 
 export default ClearFilterButton;

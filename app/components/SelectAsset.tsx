@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useFilterContext } from '../contexts/FilterContext';
+import { useFilters } from '../hooks/useFilters';
 import { selectClass, SelectChevron } from './FilterSelect';
 
 interface Props {
@@ -8,15 +8,15 @@ interface Props {
 }
 
 const SelectAsset: React.FC<Props> = ({ initialAvailableAssets }) => {
-    const { selectedAsset, setSelectedAsset } = useFilterContext();
+    const { asset, setAsset } = useFilters();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedAsset(event.target.value);
+        setAsset(event.target.value || null);
     };
 
     return (
         <div className="relative inline-flex">
-            <select className={selectClass} value={selectedAsset} onChange={onChangeHandler} data-testid="selectAsset" aria-label="Filter by asset">
+            <select className={selectClass} value={asset} onChange={onChangeHandler} data-testid="selectAsset" aria-label="Filter by asset">
                 <option value="">All Assets</option>
                 {initialAvailableAssets.map((availableAsset) => (
                     <option key={availableAsset} value={availableAsset}>

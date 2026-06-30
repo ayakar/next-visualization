@@ -1,59 +1,33 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import Line from '@/app/components/charts/Line';
 import { config } from '../../constants/endpoints';
-import { LineChartData, LineChartDataset, Risk } from '../../types/RiskRating';
-import useFetch from '../../hooks/useFetch';
-
-import { useFilterContext } from '@/app/contexts/FilterContext';
+import { LineChartData } from '../../types/RiskRating';
+import { useFilters } from '../../hooks/useFilters';
+import { riskSearchParams, riskQueryKey, fetchJson } from '../../lib/riskParams';
 
 interface Props {
     initialLineResponse: LineChartData[];
 }
 
 const LineSection: React.FC<Props> = ({ initialLineResponse }) => {
-    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
-    const { errorMessage, fetchData } = useFetch();
-    const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
+    const { filters, hasActiveFilters } = useFilters();
 
-    const [lineData, setLineData] = useState(initialLineResponse); // [{ '2030': 0.27, '2050': 0.06 }]
+    const { data, isError } = useQuery({
+        queryKey: riskQueryKey('line', filters),
+        queryFn: ({ signal }) => fetchJson<LineChartData[]>(`${config.url.RISKS_LINE}?${riskSearchParams(filters)}`, signal),
+        initialData: hasActiveFilters ? undefined : initialLineResponse,
+        placeholderData: keepPreviousData,
+    });
 
-    useEffect(() => {
-        let endPoint = `${config.url.RISKS_LINE}?`;
-
-        // Filter: business category, asset, risk factor, year
-        if (selectedYear) {
-            endPoint += `&year=${selectedYear}`;
-        }
-        if (selectedBusinessCategory) {
-            endPoint += `&business_category=${selectedBusinessCategory}`;
-        }
-        if (selectedAsset) {
-            endPoint += `&asset=${selectedAsset}`;
-        }
-        const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
-        if (checkedRiskFactors.length > 0) {
-            endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
-        }
-        if (selectedLocation) {
-            endPoint += `&location=${selectedLocation}`;
-        }
-
-        if (!isInitial) {
-            fetchData(endPoint, setLineData);
-        }
-        setIsInitial(false);
-        // Adding this because isInitial should not be false right after initialization
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, selectedLocation, fetchData]);
-
-    if (errorMessage) {
-        return <div className="text-sm text-risk-high-text">{errorMessage}</div>;
+    if (isError) {
+        return <div className="text-sm text-risk-high-text">Something went wrong. Please try again.</div>;
     }
 
     return (
         <div className="h-chart">
-            <Line lineData={lineData} />
+            <Line lineData={data ?? []} />
         </div>
     );
 };

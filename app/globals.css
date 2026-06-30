@@ -74,6 +74,11 @@
     background: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
 }
 
+/* Brand-coloured sidebar gradient — follows the accent token, so it tracks any theme change. */
+.bg-brand-gradient {
+    background: linear-gradient(165deg, hsl(var(--primary)) 0%, hsl(var(--primary-dark)) 100%);
+}
+
 /* Leaflet needs an explicit height to render. */
 .leaflet-container {
     height: 300px;

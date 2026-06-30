@@ -1,10 +1,16 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TableSection from './TableSection';
-import { useFilterContext } from '@/app/contexts/FilterContext';
+import { useFilters } from '@/app/hooks/useFilters';
 
-// Mocking FilterContext
-jest.mock('../../contexts/FilterContext');
+// Filter state lives in the URL (nuqs); mock the hook (factory avoids loading nuqs).
+jest.mock('../../hooks/useFilters', () => ({ useFilters: jest.fn() }));
+
+const renderWithClient = (ui) => {
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: Infinity } } });
+    return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+};
 
 describe('TableSection component', () => {
     const initialTableResponse = {
@@ -31,19 +37,18 @@ describe('TableSection component', () => {
         totalPages: 1,
         currentPage: 1,
     };
-    const mockSetSelectedAsset = jest.fn(); // making mock function
-    // initialize selected asset value for each testing case
+
     beforeEach(() => {
-        useFilterContext.mockReturnValue({
-            selectedAsset: '',
-            setSelectedAsset: mockSetSelectedAsset,
+        jest.clearAllMocks();
+        useFilters.mockReturnValue({
+            filters: { year: null, asset: '', category: '', riskFactors: [], location: '' },
+            hasActiveFilters: false,
         });
     });
 
     test('should render a table with initial data', () => {
-        render(<TableSection initialTableResponse={initialTableResponse} />);
+        renderWithClient(<TableSection initialTableResponse={initialTableResponse} />);
 
-        // check if the table is rendered with data
         const tableRows = screen.getAllByRole('row');
         expect(tableRows).toHaveLength(initialTableResponse.data.length + 1); // + 1 is for table header
         initialTableResponse.data.forEach((row) => {
@@ -52,14 +57,8 @@ describe('TableSection component', () => {
         });
     });
 
-    test('should call useFilterContext', () => {
-        render(<TableSection initialTableResponse={initialTableResponse} />);
-        expect(useFilterContext).toHaveBeenCalled();
-    });
-
     test('should render NoResult component when data is empty', () => {
-        render(<TableSection initialTableResponse={{ data: [], totalPages: 0, currentPage: 0 }} />);
-        const noResultElement = screen.getByTestId('no-result');
-        expect(noResultElement).toBeInTheDocument();
+        renderWithClient(<TableSection initialTableResponse={{ data: [], totalPages: 0, currentPage: 0 }} />);
+        expect(screen.getByTestId('no-result')).toBeInTheDocument();
     });
 });

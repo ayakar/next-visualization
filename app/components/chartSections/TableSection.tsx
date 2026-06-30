@@ -1,105 +1,71 @@
 'use client';
 
-import { useEffect, useState, useCallback, MouseEvent } from 'react';
-import { Risk, TableRiskData } from '../../types/RiskRating';
+import React, { useEffect, useState, MouseEvent } from 'react';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { TableRiskData } from '../../types/RiskRating';
 import { config } from '@/app/constants/endpoints';
-import useFetch from '../../hooks/useFetch';
 import Table from '../charts/Table';
-import { useFilterContext } from '@/app/contexts/FilterContext';
 import NoResult from '../NoResult';
+import { useFilters } from '../../hooks/useFilters';
+import { riskSearchParams, riskQueryKey, fetchJson } from '../../lib/riskParams';
 
 interface Props {
     initialTableResponse: TableRiskData;
 }
 
-const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
-    const { selectedYear, selectedAsset, selectedBusinessCategory, riskFactorLists, selectedLocation } = useFilterContext();
-    const { errorMessage, fetchData } = useFetch();
-    const [isInitial, setIsInitial] = useState(true); // To prevent triggering useEffect during the initial rendering
-    const [tableData, setTableData] = useState<Risk[]>(initialTableResponse.data);
+const LIMIT = 10;
 
-    // For sorting
+const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
+    const { filters, hasActiveFilters } = useFilters();
+
     const [sortLabel, setSortLabel] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [page, setPage] = useState(1);
 
-    //For pagination
-    const [totalPages, setTotalPages] = useState(initialTableResponse.totalPages);
-    const [currentPage, setCurrentPage] = useState(initialTableResponse.currentPage);
-
-    const limit = 10;
-
-    const getTableData = useCallback(
-        (offset: number | null = null) => {
-            let endPoint = `${config.url.RISKS_TABLE}?limit=${limit}`;
-
-            // Filter: business category, asset, risk factor, year
-            if (selectedYear) {
-                endPoint += `&year=${selectedYear}`;
-            }
-            if (selectedBusinessCategory) {
-                endPoint += `&business_category=${selectedBusinessCategory}`;
-            }
-            if (selectedAsset) {
-                endPoint += `&asset=${selectedAsset}`;
-            }
-            const checkedRiskFactors = Object.keys(riskFactorLists).filter((list) => riskFactorLists[list] === true);
-            if (checkedRiskFactors.length > 0) {
-                endPoint += `&risk-factor=${checkedRiskFactors.toString()}`;
-            }
-            if (selectedLocation) {
-                endPoint += `&location=${selectedLocation}`;
-            }
-            // sort
-            if (sortLabel) {
-                endPoint += `&sort=${sortLabel}&order=${sortOrder}`;
-            }
-
-            // offset
-            if (offset) {
-                endPoint += `&offset=${offset}`;
-            }
-            // console.log(endPoint);
-            const transformData = (resData: TableRiskData) => {
-                setTableData(resData.data);
-                setTotalPages(resData.totalPages);
-                setCurrentPage(resData.currentPage);
-                // console.log('total pages:', resData.totalPages);
-                // console.log('current page:', resData.currentPage);
-            };
-
-            fetchData(endPoint, transformData);
-        },
-        [selectedAsset, riskFactorLists, selectedBusinessCategory, selectedYear, sortLabel, sortOrder, selectedLocation, fetchData]
-    );
-
-    // Initial
+    // Reset to the first page whenever the filters change.
+    const filterKey = JSON.stringify(filters);
     useEffect(() => {
-        if (!isInitial) {
-            getTableData();
-        }
-        setIsInitial(false);
-        // Adding this because isInitial should not be false right after initialization
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getTableData]);
+        setPage(1);
+    }, [filterKey]);
+
+    const offset = (page - 1) * LIMIT;
+    const extra: Record<string, string> = { limit: String(LIMIT) };
+    if (offset) extra.offset = String(offset);
+    if (sortLabel) {
+        extra.sort = sortLabel;
+        extra.order = sortOrder;
+    }
+
+    const pristine = !hasActiveFilters && !sortLabel && page === 1;
+
+    const { data, isError } = useQuery({
+        queryKey: riskQueryKey('table', filters, { sortLabel, sortOrder, page }),
+        queryFn: ({ signal }) => fetchJson<TableRiskData>(`${config.url.RISKS_TABLE}?${riskSearchParams(filters, extra)}`, signal),
+        initialData: pristine ? initialTableResponse : undefined,
+        placeholderData: keepPreviousData,
+    });
 
     const onSortClickHandler = (label: string) => {
         if (label === sortLabel) {
             setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+        } else {
+            setSortLabel(label);
+            setSortOrder('asc');
         }
-        setSortLabel(label);
+        setPage(1);
     };
 
     const onPaginationClickHandler = (pageNum: number, event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const offset = (pageNum - 1) * limit;
-        getTableData(offset);
+        setPage(pageNum);
     };
 
-    if (errorMessage) {
-        return <div className="p-5 text-sm text-risk-high-text">{errorMessage}</div>;
+    if (isError) {
+        return <div className="p-5 text-sm text-risk-high-text">Something went wrong. Please try again.</div>;
     }
 
-    if (tableData.length === 0) {
+    const rows = data?.data ?? [];
+    if (rows.length === 0) {
         return (
             <div className="p-5">
                 <NoResult />
@@ -109,9 +75,9 @@ const TableSection: React.FC<Props> = ({ initialTableResponse }) => {
 
     return (
         <Table
-            tableData={tableData}
-            totalPages={totalPages}
-            currentPage={currentPage}
+            tableData={rows}
+            totalPages={data?.totalPages ?? 0}
+            currentPage={page}
             onSortClickHandler={onSortClickHandler}
             onPaginationClickHandler={onPaginationClickHandler}
             sortLabel={sortLabel}

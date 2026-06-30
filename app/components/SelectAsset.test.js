@@ -1,42 +1,31 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SelectAsset from '@/app/components/SelectAsset';
+import { useFilters } from '@/app/hooks/useFilters';
 
-import { useFilterContext } from '@/app/contexts/FilterContext';
-
-// Mocking FilterContext
-jest.mock('../contexts/FilterContext');
+// Filter state lives in the URL (nuqs); mock the hook (factory avoids loading nuqs).
+jest.mock('../hooks/useFilters', () => ({ useFilters: jest.fn() }));
 
 describe('SelectAsset', () => {
     const initialAvailableAssets = ['Mcknight, Beasley and Stewart', 'Acevedo-Kennedy', 'Ware PLC'];
-    const mockSetSelectedAsset = jest.fn(); // making mock function
-    // initialize selected asset value for each testing case
+    const mockSetAsset = jest.fn();
+
     beforeEach(() => {
-        useFilterContext.mockReturnValue({
-            selectedAsset: '',
-            setSelectedAsset: mockSetSelectedAsset,
-        });
+        jest.clearAllMocks();
+        useFilters.mockReturnValue({ asset: '', setAsset: mockSetAsset });
     });
 
-    test('should call useFilterContext', () => {
+    test('renders all available assets', () => {
         render(<SelectAsset initialAvailableAssets={initialAvailableAssets} />);
-        expect(useFilterContext).toHaveBeenCalled();
-    });
-
-    test('should render all available assets', () => {
-        useFilterContext.mockReturnValue({ selectedAsset: '', setSelectedAsset: jest.fn() });
-        render(<SelectAsset initialAvailableAssets={initialAvailableAssets} />);
-
         expect(screen.getByText('All Assets')).toBeInTheDocument();
         initialAvailableAssets.forEach((asset) => {
             expect(screen.getByText(asset)).toBeInTheDocument();
         });
     });
 
-    test('should call setSelectedAsset when select value is changed', () => {
+    test('calls setAsset when the selection changes', () => {
         render(<SelectAsset initialAvailableAssets={initialAvailableAssets} />);
-        const selectEl = screen.getByTestId('selectAsset');
-        fireEvent.change(selectEl, { target: { value: 'Acevedo-Kennedy' } });
-        expect(mockSetSelectedAsset).toHaveBeenCalledWith('Acevedo-Kennedy');
+        fireEvent.change(screen.getByTestId('selectAsset'), { target: { value: 'Acevedo-Kennedy' } });
+        expect(mockSetAsset).toHaveBeenCalledWith('Acevedo-Kennedy');
     });
 });
