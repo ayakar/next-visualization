@@ -4,18 +4,21 @@
 
 .largeTitle {
     margin-bottom: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1.5rem;
-    color: #f0a323;
+    letter-spacing: -0.01em;
+    color: hsl(var(--primary));
 }
 .title {
     margin-bottom: 0.5rem;
-    font-weight: bold;
+    font-weight: 600;
+    color: hsl(var(--primary));
 }
 
 .text {
     margin-bottom: 0.5rem;
     padding-left: 1rem;
+    color: hsl(var(--ink-soft));
 }
 
 .wrapper {
@@ -28,6 +31,8 @@
 }
 .li {
     list-style-type: disc;
+    color: hsl(var(--ink-soft));
+    margin-bottom: 0.15rem;
 }
 
 .logoWrapper {
@@ -48,4 +53,5 @@
 .link {
     text-decoration: underline;
     word-break: break-all;
+    color: hsl(var(--primary));
 }

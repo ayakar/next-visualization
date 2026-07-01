@@ -9,7 +9,7 @@
  */
 @layer base {
     :root {
-        --background: 252 71% 99%; /* #faf9fe */
+        --background: 204 45% 98%; /* #f7fafc cool light */
         --foreground: 207 12% 14%; /* #202529 */
 
         --card: 0 0% 100%;
@@ -18,28 +18,32 @@
         --popover: 0 0% 100%;
         --popover-foreground: 207 12% 14%;
 
-        --primary: 262 83% 58%; /* #7c3aed */
+        --primary: 192 91% 36%; /* #0891b2 cyan */
         --primary-foreground: 0 0% 100%;
 
-        --secondary: 250 100% 98%; /* #f5f3ff light violet surface */
-        --secondary-foreground: 263 70% 50%;
+        --secondary: 183 100% 96%; /* #ecfeff light cyan surface */
+        --secondary-foreground: 193 82% 31%;
 
-        --muted: 250 100% 98%;
+        --muted: 183 100% 96%;
         --muted-foreground: 216 11% 47%; /* #6b7686 */
 
-        --accent: 251 91% 95%; /* #ede9fe hover surface */
-        --accent-foreground: 263 70% 50%;
+        --accent: 185 96% 90%; /* #cffafe hover surface */
+        --accent-foreground: 193 82% 31%;
 
         --destructive: 0 84% 60%; /* #ef4444 */
         --destructive-foreground: 0 0% 100%;
 
-        --border: 257 41% 93%; /* #ebe7f5 */
-        --input: 257 41% 93%;
-        --ring: 262 83% 58%;
+        --border: 203 33% 92%; /* #e5edf2 */
+        --input: 203 33% 92%;
+        --ring: 192 91% 36%;
 
         /* design extras */
-        --primary-dark: 263 70% 50%; /* #6d28d9 */
+        --primary-dark: 193 82% 31%; /* #0e7490 */
         --ink-soft: 215 19% 35%; /* #475569 secondary text */
+
+        /* Aqua accent gradient (cyan → blue) */
+        --g-from: #06b6d4;
+        --g-to: #2563eb;
 
         --radius: 0.5rem;
     }
@@ -74,9 +78,20 @@
     background: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
 }
 
-/* Brand-coloured sidebar gradient — follows the accent token, so it tracks any theme change. */
+/* Aqua sidebar gradient (cyan → blue). */
 .bg-brand-gradient {
-    background: linear-gradient(165deg, hsl(var(--primary)) 0%, hsl(var(--primary-dark)) 100%);
+    background: linear-gradient(165deg, var(--g-from) 0%, var(--g-to) 100%);
+}
+
+/* Aqua accent gradient for fills (pills, pagination, etc.). */
+.bg-accent-gradient {
+    background: linear-gradient(135deg, var(--g-from) 0%, var(--g-to) 100%);
+}
+
+/* Sidebar note surface — a SOLID colour that reads like white/15 over the gradient,
+   so the speech-bubble tail joins it cleanly (a translucent tail seams/detaches). */
+.bg-note {
+    background: color-mix(in srgb, #ffffff 15%, var(--g-to));
 }
 
 /* Leaflet needs an explicit height to render. */

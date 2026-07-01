@@ -3,6 +3,7 @@ import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
 import { LineChartData } from '../../types/RiskRating';
+import { SURFACE_COLOR, GRAD_FROM, GRAD_TO } from '../../constants/colors';
 
 interface Props {
     lineData: LineChartData[];
@@ -108,15 +109,33 @@ const Line: React.FC<Props> = ({ lineData }) => {
         },
     };
 
+    // Aqua gradients (cyan → blue). Scriptable so they size to the chart's draw area.
+    const lineGradient = (ctx: any) => {
+        const { ctx: c, chartArea } = ctx.chart;
+        if (!chartArea) return GRAD_FROM;
+        const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+        g.addColorStop(0, GRAD_FROM);
+        g.addColorStop(1, GRAD_TO);
+        return g;
+    };
+    const areaGradient = (ctx: any) => {
+        const { ctx: c, chartArea } = ctx.chart;
+        if (!chartArea) return 'rgba(37, 99, 235, 0.12)';
+        const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+        g.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
+        g.addColorStop(1, 'rgba(6, 182, 212, 0.02)');
+        return g;
+    };
+
     const data = {
         datasets: [
             {
                 data: lineData,
-                borderColor: '#7c3aed',
-                backgroundColor: 'rgba(167, 139, 250, 0.18)',
+                borderColor: lineGradient,
+                backgroundColor: areaGradient,
                 fill: true,
-                pointBackgroundColor: '#ffffff',
-                pointBorderColor: '#7c3aed',
+                pointBackgroundColor: SURFACE_COLOR,
+                pointBorderColor: GRAD_TO,
                 pointBorderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 7,

@@ -15,7 +15,7 @@ const CheckBoxRiskFactor = () => {
                         key={factorName}
                         htmlFor={`risk-${factorName}`}
                         className={`inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border px-3 text-sm font-medium transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ${
-                            isChecked ? 'border-brand bg-brand text-white shadow-primary' : 'border-border bg-card text-ink-soft hover:border-brand-light'
+                            isChecked ? 'bg-accent-gradient border-transparent text-white shadow-primary' : 'border-border bg-card text-ink-soft hover:border-brand-light'
                         }`}
                     >
                         <Checkbox

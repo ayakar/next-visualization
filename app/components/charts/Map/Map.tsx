@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-import L, { LatLngExpression } from 'leaflet';
-import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
+import { LatLngExpression } from 'leaflet';
+import { MapContainer, CircleMarker, TileLayer, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapChartData, Risk } from '../../../types/RiskRating';
 import { useFilters } from '@/app/hooks/useFilters';
+import { BRAND_COLOR, SURFACE_COLOR, riskColorFor } from '@/app/constants/colors';
 
 interface Props {
     mapData: MapChartData;
@@ -32,25 +33,19 @@ const Map: React.FC<Props> = ({ mapData }) => {
                 const long = item.split(',')[1];
                 const averageRiskRating = mapData[item].totalRiskRating / mapData[item].assetsNum;
 
-                const marker =
-                    averageRiskRating > 0.7 ? './assets/marker-high.svg' : averageRiskRating > 0.5 ? './assets/marker-md.svg' : './assets/marker-low.svg';
-                const markerSize = location === item ? 50 : 30;
-
+                const riskColor = riskColorFor(averageRiskRating);
+                const selected = location === item;
                 const textColor =
                     averageRiskRating > 0.7 ? 'text-risk-high-text' : averageRiskRating > 0.5 ? 'text-risk-medium-text' : 'text-risk-low-text';
 
                 return (
-                    <Marker
-                        icon={L.icon({
-                            iconUrl: marker,
-                            iconSize: [markerSize, markerSize],
-                            iconAnchor: [markerSize / 2, markerSize / 2],
-                        })}
+                    <CircleMarker
                         key={item}
-                        position={[parseFloat(lat), parseFloat(long)]}
-                        title={item}
+                        center={[parseFloat(lat), parseFloat(long)]}
+                        radius={selected ? 9 : 6}
+                        pathOptions={{ color: selected ? BRAND_COLOR : SURFACE_COLOR, weight: selected ? 3 : 2, fillColor: riskColor, fillOpacity: 1 }}
                         eventHandlers={{
-                            click: () => setLocation(location === item ? null : item),
+                            click: () => setLocation(selected ? null : item),
                             mouseover: (event) => event.target.openPopup(),
                             mouseout: (event) => event.target.closePopup(),
                         }}
@@ -74,7 +69,7 @@ const Map: React.FC<Props> = ({ mapData }) => {
                                 <span>{mapData[item].assetsNum}</span>
                             </div>
                         </Popup>
-                    </Marker>
+                    </CircleMarker>
                 );
             })}
         </MapContainer>

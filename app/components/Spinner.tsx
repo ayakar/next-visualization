@@ -8,14 +8,7 @@ const Spinner = () => {
             viewBox="0 0 50 50"
             className="spinner"
         >
-            <circle
-                cx="25"
-                cy="25"
-                r="20"
-                fill="none"
-                strokeWidth="5"
-                style={{ stroke: '#e7e7e7', strokeLinecap: 'round' }}
-            ></circle>
+            <circle cx="25" cy="25" r="20" fill="none" strokeWidth="5" strokeLinecap="round" className="stroke-brand"></circle>
         </svg>
     );
 };

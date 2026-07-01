@@ -14,21 +14,10 @@ const ICONS: Record<NavIcon, LucideIcon> = {
 };
 
 const BrandMark = () => (
-    <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/30 bg-white/20">
+    <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/30 bg-white/18">
         <span className="h-3 w-3 rounded-full border-2 border-white" />
         <span className="absolute bottom-1.5 right-1.5 h-2 w-2 rounded-full bg-white ring-2 ring-white/30" />
     </span>
-);
-
-const SidebarGlows = () => (
-    <>
-        <span aria-hidden="true" className="pointer-events-none absolute rounded-full bg-white/10" style={{ top: -70, right: -70, width: 180, height: 180 }} />
-        <span
-            aria-hidden="true"
-            className="pointer-events-none absolute rounded-full"
-            style={{ bottom: -50, left: -60, width: 230, height: 230, background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 68%)' }}
-        />
-    </>
 );
 
 const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
@@ -39,13 +28,13 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
                 <BrandMark />
                 <div className="text-base font-semibold leading-tight text-white">
                     {BRAND.name}
-                    <span className="block text-2xs font-medium uppercase tracking-widest text-white/70">{BRAND.tagline}</span>
+                    <span className="block text-2xs font-medium uppercase tracking-widest text-white/72">{BRAND.tagline}</span>
                 </div>
             </div>
 
             {NAV_SECTIONS.map((section) => (
                 <div key={section.label} className="px-3 py-2">
-                    <div className="mb-1.5 px-2 text-2xs font-semibold uppercase tracking-widest text-white/70">{section.label}</div>
+                    <div className="mb-1.5 px-2 text-2xs font-semibold uppercase tracking-widest text-white/72">{section.label}</div>
                     {section.items.map((item) => {
                         const Icon = ICONS[item.icon];
                         const active = pathname === item.href;
@@ -56,7 +45,7 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
                                 onClick={onNavigate}
                                 aria-current={active ? 'page' : undefined}
                                 className={`relative flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                                    active ? 'bg-white/20 text-white' : 'text-white/85 hover:bg-white/15 hover:text-white'
+                                    active ? 'bg-white/20 text-white' : 'text-white/85 hover:bg-white/14 hover:text-white'
                                 }`}
                             >
                                 {active && <span className="absolute bottom-2 left-0 top-2 w-0.5 rounded-r bg-white" />}
@@ -68,15 +57,15 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
                 </div>
             ))}
 
-            {/* author speech bubble */}
-            <div className="relative mx-3 mb-4 mt-auto rounded-card border border-white/20 bg-black/20 px-4 py-3 text-xs leading-relaxed text-white/90 shadow-bubble">
+            {/* author speech bubble — solid "translucent-looking" colour (bg-note) so the tail joins cleanly */}
+            <div className="bg-note relative mx-3 mb-4 mt-auto rounded-card border border-white/24 px-4 py-3 text-xs leading-relaxed text-white/90">
                 {AUTHOR.note.lead} <b className="font-semibold text-white">{AUTHOR.firstName}</b>.<br />
                 {AUTHOR.note.tail}
-                <span className="absolute -bottom-1.5 left-6 h-3 w-3 rotate-45 border-b border-r border-white/20 bg-black/20" />
+                <span className="bg-note absolute -bottom-1.5 left-6 h-3 w-3 rotate-45 border-b border-r border-white/24" />
             </div>
 
             {/* logged-in user */}
-            <div className="mx-3 mb-4 flex items-center gap-2.5 rounded-xl border border-white/20 bg-white/15 p-2.5">
+            <div className="mx-3 mb-4 flex items-center gap-2.5 rounded-xl border border-white/24 bg-white/12 p-2.5">
                 <div className="relative h-9 w-9 shrink-0">
                     <Image src={AUTHOR.avatar} alt={AUTHOR.name} width={36} height={36} className="h-full w-full rounded-full border-2 border-white/30 object-cover" />
                     <span className="absolute -bottom-px -right-px h-3 w-3 rounded-full border-2 border-brand-dark bg-risk-low" />
@@ -94,7 +83,6 @@ const SideBar = () => {
         <>
             {/* desktop: fixed sidebar */}
             <aside className="bg-brand-gradient fixed bottom-0 left-0 top-0 z-50 hidden w-sidebar flex-col overflow-hidden lg:flex">
-                <SidebarGlows />
                 <SidebarContent />
             </aside>
 
@@ -106,7 +94,7 @@ const SideBar = () => {
                         <span>{BRAND.name}</span>
                     </div>
                     <SheetTrigger asChild>
-                        <button type="button" aria-label="Open navigation" className="-m-2 rounded-lg p-2 text-white hover:bg-white/15">
+                        <button type="button" aria-label="Open navigation" className="-m-2 rounded-lg p-2 text-white hover:bg-white/14">
                             <Menu size={22} />
                         </button>
                     </SheetTrigger>
@@ -114,7 +102,6 @@ const SideBar = () => {
 
                 <SheetContent side="left" className="bg-brand-gradient overflow-hidden border-0 p-0 text-white">
                     <SheetTitle className="sr-only">Navigation</SheetTitle>
-                    <SidebarGlows />
                     <SidebarContent onNavigate={() => setOpen(false)} />
                 </SheetContent>
             </Sheet>

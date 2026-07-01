@@ -14,7 +14,7 @@ const PaginationButton: React.FC<Props> = ({ pageNumber, currentPage, onClickHan
             aria-current={isCurrent ? 'page' : undefined}
             className={`h-9 rounded-md px-3 text-sm font-medium tabular-nums transition-colors ${
                 isCurrent
-                    ? 'border border-brand bg-brand text-white shadow-primary'
+                    ? 'bg-accent-gradient border border-transparent text-white shadow-primary'
                     : 'border border-border bg-card text-ink-soft hover:border-brand-light hover:bg-brand-lighter hover:text-brand'
             }`}
             disabled={isCurrent}
