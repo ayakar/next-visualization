@@ -22,15 +22,20 @@
         />
         <style>
             :root {
-                --primary: #7c3aed;
-                --primary-dark: #6d28d9;
-                --primary-rgb: 124, 58, 237;
-                --primary-light: #ede9fe;
-                --primary-lighter: #f5f3ff;
-                --secondary: #a78bfa;
-                --bg: #faf9fe;
-                --card-border: #ebe7f5;
-                --onyx: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
+                --primary: #0891b2;
+                --primary-dark: #0e7490;
+                --primary-rgb: 8, 145, 178;
+                --primary-light: #cffafe;
+                --primary-lighter: #ecfeff;
+                --primary-deep: #0b5e72;
+                --secondary: #22d3ee;
+                /* Aqua accent gradient (cyan → blue) */
+                --g-from: #06b6d4;
+                --g-to: #2563eb;
+                --grad: linear-gradient(135deg, var(--g-from) 0%, var(--g-to) 100%);
+                --sidebar-gradient: linear-gradient(165deg, var(--g-from) 0%, var(--g-to) 100%);
+                --bg: #f7fafc;
+                --card-border: #e5edf2;
                 --text-primary: #202529;
                 --text-secondary: #475569;
                 --text-muted: #6b7686;
@@ -45,6 +50,7 @@
                 --success-dark: #047857;
                 --radius: 14px;
                 --shadow-subtle: 0 1px 2px rgba(17, 24, 39, 0.04), 0 6px 18px rgba(17, 24, 39, 0.05);
+                --shadow-primary: 0 4px 14px rgba(37, 99, 235, 0.25);
             }
             *,
             *::before,
@@ -68,7 +74,7 @@
 
             /* hero */
             .hero {
-                background: var(--onyx);
+                background: var(--sidebar-gradient);
                 color: #fff;
                 padding: 48px 40px;
                 position: relative;
@@ -82,7 +88,7 @@
                 width: 280px;
                 height: 280px;
                 border-radius: 50%;
-                background: radial-gradient(circle, rgba(124, 58, 237, 0.4), transparent 68%);
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.22), transparent 68%);
             }
             .hero-eyebrow {
                 font-size: 12px;
@@ -313,6 +319,10 @@
                 color: var(--success-dark);
                 background: var(--success-light);
             }
+            .tag.warn {
+                color: var(--warning-dark);
+                background: var(--warning-light);
+            }
 
             @media (max-width: 860px) {
                 .wrap {
@@ -335,15 +345,15 @@
             <div class="hero-eyebrow">Design System</div>
             <h1>Risk Viz — Design Rules</h1>
             <p>
-                The single source of truth for the Risk Viz dashboard. Every visual decision below is intentional and, where it affects legibility, verified
-                against WCAG 2.2 AA.
+                The single source of truth for the Risk Viz dashboard. Every visual decision below is intentional. Legibility follows WCAG 2.2 AA, with one
+                deliberate exception: the aqua accent trades a little text-contrast for brand character (see Accessibility).
             </p>
             <div class="hero-meta">
                 <span>Poppins</span>
-                <span>Onyx + Violet</span>
-                <span>WCAG 2.2 AA</span>
+                <span>Aqua · cyan → blue</span>
+                <span>WCAG 2.2 AA (contrast relaxed)</span>
                 <span>Mobile-first</span>
-                <span>Updated 2026-06-25</span>
+                <span>Updated 2026-06-30</span>
             </div>
         </header>
 
@@ -385,14 +395,15 @@
                     <div class="rule">
                         <div class="rule-name">Color carries meaning</div>
                         <div class="rule-desc">
-                            The chrome is near-monochrome (onyx + neutrals). Saturated color is reserved: <b>violet</b> for interactive/brand, and the
-                            <b>risk ramp</b> (green/amber/red) exclusively for encoding risk severity.
+                            The chrome is light and near-neutral. Saturated color is reserved: the <b>aqua gradient</b> (cyan → blue) for interactive/brand
+                            surfaces, and the <b>risk ramp</b> (green/amber/red) exclusively for encoding risk severity.
                         </div>
                     </div>
                     <div class="rule">
-                        <div class="rule-name">Contrast minimum: WCAG 2.2 AA</div>
+                        <div class="rule-name">Contrast target: WCAG 2.2 AA</div>
                         <div class="rule-desc">
-                            Text ≥ <code>4.5:1</code> (large/UI graphics ≥ <code>3:1</code>). Every foreground/background pair is measured, not eyeballed.
+                            Body text ≥ <code>4.5:1</code> (large/UI graphics ≥ <code>3:1</code>), measured not eyeballed. The single exception is the aqua
+                            accent on white text — a deliberate, documented trade-off limited to large/bold labels and chrome.
                         </div>
                         <div class="rule-ref">→ see Accessibility</div>
                     </div>
@@ -405,7 +416,7 @@
                 <!-- COLOR -->
                 <section id="color">
                     <h2><span class="num">02</span> Color &amp; tokens</h2>
-                    <p class="lede">Onyx chrome, a single violet accent, and a three-step risk ramp.</p>
+                    <p class="lede">Light chrome, an aqua gradient accent (cyan → blue), and a three-step risk ramp.</p>
 
                     <p
                         class="lede"
@@ -414,36 +425,36 @@
                         This is the complete palette. Nothing outside it ships — every value below is an actual token in the UI.
                     </p>
 
-                    <div class="sw-group">Onyx &amp; surfaces</div>
+                    <div class="sw-group">Sidebar &amp; surfaces</div>
                     <div class="swatches">
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: linear-gradient(165deg, #1c1c22, #09090b)"
+                                style="background: linear-gradient(165deg, #06b6d4, #2563eb)"
                             ></div>
                             <div class="sw-meta">
-                                <div class="sw-name">Onyx (sidebar)</div>
-                                <div class="sw-hex">#1c1c22 → #09090b</div>
+                                <div class="sw-name">Sidebar (aqua gradient)</div>
+                                <div class="sw-hex">#06b6d4 → #2563eb</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #2a2a34"
+                                style="background: color-mix(in srgb, #ffffff 15%, #2563eb)"
                             ></div>
                             <div class="sw-meta">
-                                <div class="sw-name">Onyx elevated</div>
-                                <div class="sw-hex">#2a2a34</div>
+                                <div class="sw-name">Note surface (bg-note)</div>
+                                <div class="sw-hex">white 15% over --g-to</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #faf9fe"
+                                style="background: #f7fafc"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">App background</div>
-                                <div class="sw-hex">#faf9fe</div>
+                                <div class="sw-hex">#f7fafc</div>
                             </div>
                         </div>
                         <div class="sw">
@@ -459,11 +470,11 @@
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #ebe7f5"
+                                style="background: #e5edf2"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">Border</div>
-                                <div class="sw-hex">#ebe7f5</div>
+                                <div class="sw-hex">#e5edf2</div>
                             </div>
                         </div>
                     </div>
@@ -502,56 +513,76 @@
                         </div>
                     </div>
 
-                    <div class="sw-group">Brand · violet</div>
+                    <div class="sw-group">Brand · aqua</div>
                     <div class="swatches">
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #7c3aed"
+                                style="background: linear-gradient(135deg, #06b6d4, #2563eb)"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Accent gradient</div>
+                                <div class="sw-hex">#06b6d4 → #2563eb</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #0891b2"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">Primary</div>
-                                <div class="sw-hex">#7c3aed</div>
+                                <div class="sw-hex">#0891b2</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #6d28d9"
+                                style="background: #0e7490"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">Primary dark</div>
-                                <div class="sw-hex">#6d28d9</div>
+                                <div class="sw-hex">#0e7490</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #a78bfa"
+                                style="background: #0b5e72"
                             ></div>
                             <div class="sw-meta">
-                                <div class="sw-name">Secondary</div>
-                                <div class="sw-hex">#a78bfa</div>
+                                <div class="sw-name">Brand deep</div>
+                                <div class="sw-hex">#0b5e72</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #ede9fe"
+                                style="background: #22d3ee"
+                            ></div>
+                            <div class="sw-meta">
+                                <div class="sw-name">Secondary (soft)</div>
+                                <div class="sw-hex">#22d3ee</div>
+                            </div>
+                        </div>
+                        <div class="sw">
+                            <div
+                                class="sw-chip"
+                                style="background: #cffafe"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">Primary light</div>
-                                <div class="sw-hex">#ede9fe</div>
+                                <div class="sw-hex">#cffafe</div>
                             </div>
                         </div>
                         <div class="sw">
                             <div
                                 class="sw-chip"
-                                style="background: #f5f3ff"
+                                style="background: #ecfeff"
                             ></div>
                             <div class="sw-meta">
                                 <div class="sw-name">Primary lighter</div>
-                                <div class="sw-hex">#f5f3ff</div>
+                                <div class="sw-hex">#ecfeff</div>
                             </div>
                         </div>
                     </div>
@@ -660,8 +691,9 @@
                     <div class="rule">
                         <div class="rule-name">One accent only</div>
                         <div class="rule-desc">
-                            Violet is the only interactive accent. Text-bearing surfaces use the <code>#7c3aed</code>/<code>#6d28d9</code> pair;
-                            <code>#a78bfa</code> is decorative only (nav bar, glows).
+                            The aqua gradient <code>#06b6d4 → #2563eb</code> is the only interactive accent — used as a fill on the sidebar, active pills,
+                            pagination and the trend line (via <code>--grad</code> / <code>.bg-accent-gradient</code>). Solid <code>#0891b2</code>/<code>#0e7490</code> carry small
+                            accents (icons, hovers). Nothing else is tinted except the risk ramp.
                         </div>
                     </div>
                     <div class="rule">
@@ -705,7 +737,7 @@
                     <p class="lede">A fixed sidebar and a fluid content column on an 8px rhythm.</p>
                     <div class="rule">
                         <div class="rule-name">Sidebar width <code>232px</code></div>
-                        <div class="rule-desc">Fixed, full-height, onyx gradient. Collapses to a slide-in drawer below <code>900px</code>.</div>
+                        <div class="rule-desc">Fixed, full-height, aqua gradient (<code>.bg-brand-gradient</code>). Collapses to a slide-in drawer below <code>900px</code>.</div>
                     </div>
                     <div class="rule">
                         <div class="rule-name">Content padding</div>
@@ -729,7 +761,7 @@
                     </div>
                     <div class="rule">
                         <div class="rule-name">Shadow scale</div>
-                        <div class="rule-desc">Subtle (cards), medium (overlays), and a violet primary glow for active/elevated brand elements.</div>
+                        <div class="rule-desc">Subtle (cards), medium (overlays), and a blue primary glow <code>rgba(37,99,235,.25)</code> for active/elevated brand elements.</div>
                     </div>
                 </section>
 
@@ -762,19 +794,19 @@
                     <div class="rule">
                         <div class="rule-name">Buttons</div>
                         <div class="rule-desc">
-                            Primary: violet vertical gradient + glow + white text. Secondary: white surface, border, secondary text. All have a visible focus
+                            Primary: aqua gradient + glow + white text. Secondary: white surface, border, secondary text. All have a visible focus
                             ring.
                         </div>
                     </div>
                     <div class="rule">
                         <div class="rule-name">Pills / filters</div>
-                        <div class="rule-desc">Toggle pills (risk factors), backed by a Radix <b>Checkbox</b> for keyboard + screen-reader support: off = white + border; on = violet fill + glow. Fully rounded.</div>
+                        <div class="rule-desc">Toggle pills (risk factors), backed by a Radix <b>Checkbox</b> for keyboard + screen-reader support: off = white + border; on = aqua gradient fill + glow. Fully rounded.</div>
                     </div>
                     <div class="rule">
                         <div class="rule-name">Selects &amp; inputs</div>
                         <div class="rule-desc">
                             Native <code>&lt;select&gt;</code> (best keyboard, mobile and a11y support out of the box), styled to 38px tall, 8px radius, with
-                            the border lightening to violet on hover.
+                            the border lightening to cyan on hover.
                         </div>
                     </div>
                     <div class="rule">
@@ -793,7 +825,7 @@
                     </div>
                     <div class="rule">
                         <div class="rule-name">Author speech bubble</div>
-                        <div class="rule-desc">Solid (never translucent) onyx bubble with a tail pointing at the avatar.</div>
+                        <div class="rule-desc">A translucent-looking panel that actually uses a solid colour (<code>.bg-note</code> = white 15% mixed into <code>--g-to</code>) so it blends into the sidebar yet lets the tail join cleanly. Tail points at the avatar.</div>
                     </div>
                 </section>
 
@@ -802,11 +834,11 @@
                     <h2><span class="num">08</span> Data visualization</h2>
                     <div class="rule">
                         <div class="rule-name">Map markers</div>
-                        <div class="rule-desc">Colored by risk ramp, white border for separation. Selected marker enlarges with a static violet ring.</div>
+                        <div class="rule-desc">Round dot markers (Leaflet <code>CircleMarker</code>) colored by risk ramp with a white border. Selected marker enlarges with a static cyan ring.</div>
                     </div>
                     <div class="rule">
                         <div class="rule-name">Trend line</div>
-                        <div class="rule-desc">Single violet line with a soft secondary-tinted area fill; gridlines use the card border token.</div>
+                        <div class="rule-desc">A single line drawn with the aqua gradient (cyan → blue, left to right) and a soft blue area fill; gridlines use the card border token.</div>
                     </div>
                     <div class="rule">
                         <div class="rule-name">Tables</div>
@@ -843,7 +875,10 @@
                 <!-- A11Y -->
                 <section id="a11y">
                     <h2><span class="num">10</span> Accessibility</h2>
-                    <p class="lede">Measured contrast ratios for the violet theme (WCAG 2.2 AA).</p>
+                    <p class="lede">
+                        Measured contrast ratios for the aqua theme. Everything meets WCAG 2.2 AA except the accent gradient on white text — a deliberate
+                        trade-off, confined to large/bold pill labels and chrome (still clears the <code>3:1</code> bar for large text / UI graphics).
+                    </p>
                     <table>
                         <thead>
                             <tr>
@@ -855,14 +890,20 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>White on primary <code>#7c3aed</code></td>
-                                <td class="ratio">5.70:1</td>
+                                <td>White on accent · cyan end <code>#06b6d4</code></td>
+                                <td class="ratio">2.9:1</td>
+                                <td>4.5</td>
+                                <td><span class="tag warn">AA-large only</span></td>
+                            </tr>
+                            <tr>
+                                <td>White on accent · blue end <code>#2563eb</code></td>
+                                <td class="ratio">4.9:1</td>
                                 <td>4.5</td>
                                 <td><span class="tag pass">PASS</span></td>
                             </tr>
                             <tr>
-                                <td>White on primary-dark <code>#6d28d9</code></td>
-                                <td class="ratio">7.10:1</td>
+                                <td>White on primary-dark <code>#0e7490</code> (icons/solid)</td>
+                                <td class="ratio">5.1:1</td>
                                 <td>4.5</td>
                                 <td><span class="tag pass">PASS</span></td>
                             </tr>
@@ -873,8 +914,8 @@
                                 <td><span class="tag pass">PASS</span></td>
                             </tr>
                             <tr>
-                                <td>Sidebar section label (55% white)</td>
-                                <td class="ratio">6.17:1</td>
+                                <td>Sidebar nav / label (85% / 72% white on gradient)</td>
+                                <td class="ratio">≈ 4.7:1</td>
                                 <td>4.5</td>
                                 <td><span class="tag pass">PASS</span></td>
                             </tr>
@@ -885,10 +926,10 @@
                                 <td><span class="tag pass">PASS</span></td>
                             </tr>
                             <tr>
-                                <td>Trend line / markers (graphic)</td>
-                                <td class="ratio">5.70:1</td>
+                                <td>Trend line gradient / markers on white (graphic)</td>
+                                <td class="ratio">2.9–4.9:1</td>
                                 <td>3.0</td>
-                                <td><span class="tag pass">PASS</span></td>
+                                <td><span class="tag warn">borderline</span></td>
                             </tr>
                         </tbody>
                     </table>

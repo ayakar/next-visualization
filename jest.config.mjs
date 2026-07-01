@@ -12,6 +12,8 @@ const config = {
     // Add more setup options before each test is run
     setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
     testEnvironment: 'jest-environment-jsdom',
+    // Playwright specs live in e2e/ and use @playwright/test — keep Jest out of them.
+    testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/e2e/', '<rootDir>/.next/'],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
