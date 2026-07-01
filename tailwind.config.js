@@ -46,8 +46,7 @@ module.exports = {
 
                 // design palette (see specs/design-rules.html)
                 ink: { DEFAULT: '#202529', soft: '#475569', muted: '#6b7686' },
-                brand: { DEFAULT: '#0891b2', dark: '#0e7490', deep: '#0b5e72', soft: '#22d3ee', light: '#cffafe', lighter: '#ecfeff' },
-                onyx: { DEFAULT: '#1c1c22', deep: '#09090b', raised: '#2a2a34' },
+                brand: { DEFAULT: '#0891b2', dark: '#0e7490', soft: '#22d3ee', light: '#cffafe', lighter: '#ecfeff' },
                 risk: {
                     low: '#10b981',
                     'low-tint': '#d1fae5',
@@ -105,7 +104,6 @@ module.exports = {
             boxShadow: {
                 subtle: '0 1px 2px rgba(17, 24, 39, 0.04), 0 6px 18px rgba(17, 24, 39, 0.05)',
                 primary: '0 4px 14px rgba(37, 99, 235, 0.25)',
-                bubble: '0 8px 20px rgba(0, 0, 0, 0.28)',
             },
         },
     },

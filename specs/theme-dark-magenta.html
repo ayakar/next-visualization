@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risk Viz — design mock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /*
+         * Risk Viz — design mock, CaseLab branding.
+         * Tokens lifted from CaseLab design system (Poppins, blue primary,
+         * gradient sidebar, soft surfaces, pastel status ramp).
+         */
+        :root {
+            /* THEME: Onyx + Magenta — DARK. Bold magenta on deep charcoal. */
+            --primary: #ec4899;
+            --primary-dark: #db2777;
+            --primary-rgb: 236, 72, 153;
+            --primary-light: #9d2461; /* hover border on dark */
+            --primary-lighter: #2a1220; /* subtle cyan tint: table head / row hover */
+
+            --secondary: #f472b6;
+            --secondary-light: #3a1228;
+
+            --bg: #0a0f14;
+            --surface: #121a22;
+            --sidebar-gradient: linear-gradient(165deg, #11161d 0%, #080b0f 100%);
+            --card-border: #202b38;
+
+            --text-primary: #e8eef4;
+            --text-secondary: #93a1b0;
+            --text-muted: #5c6976;
+
+            /* risk ramp tuned for dark: bright marker/dot, dark badge tint, bright badge text */
+            --danger: #f87171; --danger-light: #2a1416; --danger-dark: #fca5a5;
+            --warning: #fbbf24; --warning-light: #2b2410; --warning-dark: #fcd34d;
+            --success: #34d399; --success-light: #102a20; --success-dark: #6ee7b7;
+
+            --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 22px rgba(0, 0, 0, 0.35);
+            --shadow-medium: 0 4px 14px rgba(0, 0, 0, 0.5);
+            --shadow-primary: 0 4px 18px rgba(var(--primary-rgb), 0.28);
+
+            --transition-fast: 0.15s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .app { display: flex; min-height: 100vh; }
+
+        /* ---------- SIDEBAR ---------- */
+        .sidebar {
+            width: 232px; position: fixed; top: 0; left: 0; bottom: 0;
+            background: var(--sidebar-gradient);
+            display: flex; flex-direction: column; overflow: hidden; z-index: 50;
+        }
+        /* Decorative circles (replaces CaseLab's rotated squares). */
+        .sidebar::before {
+            content: ''; position: absolute; top: -70px; right: -70px;
+            width: 180px; height: 180px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); pointer-events: none;
+        }
+        .sidebar::after {
+            content: ''; position: absolute; bottom: -50px; left: -60px;
+            width: 230px; height: 230px; border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.32), transparent 68%);
+            pointer-events: none;
+        }
+        /* keep real sidebar content above the decorative glows */
+        .sidebar > * { position: relative; z-index: 1; }
+        .sb-logo { padding: 24px; display: flex; align-items: center; gap: 11px; }
+        .sb-logo-mark {
+            width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            display: grid; place-items: center; position: relative;
+        }
+        .sb-logo-mark::before {
+            content: ''; width: 13px; height: 13px; border-radius: 50%;
+            border: 2.5px solid white;
+        }
+        .sb-logo-mark::after {
+            content: ''; position: absolute; width: 7px; height: 7px; border-radius: 50%;
+            background: var(--secondary); right: 6px; bottom: 6px;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        .sb-logo-text { color: white; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+        .sb-logo-text span { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+        .sb-section { padding: 8px 12px; }
+        .sb-section-label {
+            font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.55); padding: 0 8px; margin-bottom: 6px;
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 6px;
+            color: rgba(255, 255, 255, 0.65); font-size: 14px; font-weight: 500;
+            cursor: pointer; transition: var(--transition-fast); margin-bottom: 2px; position: relative;
+        }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.09); color: white; }
+        .nav-item.active { background: rgba(236, 72, 153, 0.32); color: white; }
+        .nav-item.active::before {
+            content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
+            background: var(--secondary); border-radius: 0 4px 4px 0;
+        }
+        .nav-ico { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.9; }
+        .sb-foot { margin-top: auto; padding: 12px 20px; }
+        .sb-foot-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+        .sb-foot-val { font-size: 12.5px; color: rgba(255,255,255,0.85); }
+
+        /* logged-in user card */
+        .sb-user {
+            display: flex; align-items: center; gap: 11px;
+            margin: 0 12px 16px; padding: 10px 12px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+        .sb-avatar { position: relative; width: 38px; height: 38px; flex-shrink: 0; }
+        .sb-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; border: 1.5px solid rgba(255,255,255,0.25); }
+        .sb-avatar .online {
+            position: absolute; right: -1px; bottom: -1px; width: 11px; height: 11px;
+            border-radius: 50%; background: var(--success); border: 2px solid #1c1c22;
+        }
+        .sb-user-name { color: #fff; font-size: 13px; font-weight: 600; line-height: 1.25; }
+        .sb-user-mail { color: rgba(255,255,255,0.6); font-size: 11px; line-height: 1.25; }
+
+        /* personal note from the author — speech bubble pointing at the avatar */
+        .sb-note {
+            position: relative;
+            margin: auto 12px 18px; padding: 13px 15px; border-radius: 14px;
+            background: #2a2a34; border: 1px solid rgba(255, 255, 255, 0.10);
+            color: rgba(255, 255, 255, 0.9); font-size: 12.5px; line-height: 1.55;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
+        }
+        .sb-note::after {
+            content: ''; position: absolute; left: 26px; bottom: -7px;
+            width: 13px; height: 13px; background: #2a2a34;
+            border-right: 1px solid rgba(255, 255, 255, 0.10);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+            transform: rotate(45deg);
+        }
+        .sb-note b { color: #fff; font-weight: 600; }
+
+        /* ---------- MAIN ---------- */
+        main { flex: 1; min-width: 0; margin-left: 232px; padding: 26px 32px 60px; }
+
+        .topbar { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; }
+        .greeting { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+        .greeting b { color: var(--primary); font-weight: 600; }
+        .topbar h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.03em; }
+        .topbar .sub { font-size: 13.5px; font-weight: 300; color: var(--text-muted); margin-top: 3px; }
+        .btn-primary {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.28); color: white;
+            padding: 9px 16px; border-radius: 8px;
+            font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: var(--transition-fast); box-shadow: var(--shadow-primary);
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .btn-primary:hover { box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.30); transform: translateY(-1px); }
+
+        /* stat cards */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 18px; }
+        .stat-card {
+            background: var(--surface); border: 1px solid var(--card-border); border-radius: 14px;
+            box-shadow: var(--shadow-subtle); padding: 16px 18px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .stat-ico {
+            width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
+            display: grid; place-items: center; background: var(--primary-lighter); color: var(--primary);
+        }
+        .stat-ico.warn { background: var(--warning-light); color: var(--warning-dark); }
+        .stat-ico.danger { background: var(--danger-light); color: var(--danger-dark); }
+        .stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-secondary); }
+        .stat-val { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-top: 2px; }
+
+        /* ---------- FILTER BAR ---------- */
+        .filterbar {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 9px;
+            background: var(--surface); border: 1px solid var(--card-border); border-radius: 14px;
+            box-shadow: var(--shadow-subtle); padding: 14px; margin-bottom: 18px;
+        }
+        .select {
+            display: inline-flex; align-items: center; justify-content: space-between; gap: 10px;
+            height: 38px; padding: 0 13px; min-width: 136px;
+            background: var(--surface); border: 1px solid var(--card-border); border-radius: 8px;
+            font-size: 13.5px; font-weight: 500; cursor: pointer; transition: var(--transition-fast);
+        }
+        .select:hover { border-color: var(--primary-light); }
+        .select .chev { color: var(--text-muted); font-size: 10px; }
+        .select .ph { color: var(--text-secondary); font-weight: 400; }
+
+        .vsep { width: 1px; height: 24px; background: var(--card-border); margin: 0 3px; }
+
+        .factors { display: flex; flex-wrap: wrap; gap: 7px; }
+        .pill {
+            display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 13px;
+            border: 1px solid var(--card-border); border-radius: 999px;
+            font-size: 13px; font-weight: 500; cursor: pointer; background: var(--surface);
+            transition: var(--transition-fast); color: var(--text-secondary);
+        }
+        .pill:hover { border-color: var(--primary-light); }
+        .pill .tick { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text-muted); display: grid; place-items: center; }
+        .pill.on { background: var(--primary); border-color: var(--primary); color: #ffffff; box-shadow: var(--shadow-primary); }
+        .pill.on .tick { background: #ffffff; border-color: #ffffff; }
+        .pill.on .tick::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+
+        .btn-clear {
+            margin-left: auto; height: 38px; padding: 0 15px; font-size: 13px; font-weight: 600;
+            border: 1px solid var(--card-border); border-radius: 8px; background: var(--surface);
+            cursor: pointer; color: var(--text-secondary); transition: var(--transition-fast);
+        }
+        .btn-clear:hover { color: var(--primary); border-color: var(--primary-light); background: var(--primary-lighter); }
+
+        /* ---------- CARDS / GRID ---------- */
+        .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .card { background: var(--surface); border: 1px solid var(--card-border); border-radius: 14px; box-shadow: var(--shadow-subtle); overflow: hidden; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid var(--card-border); }
+        .card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); }
+        .card-count { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+        .card-body { padding: 18px 20px; }
+
+        /* map mock — dotted "regions" map instead of a flat grid */
+        .map {
+            height: 300px; border-radius: 12px; position: relative; overflow: hidden;
+            background:
+                radial-gradient(55% 70% at 22% 28%, rgba(236, 72, 153, 0.12), transparent 60%),
+                radial-gradient(50% 60% at 82% 72%, rgba(236, 72, 153, 0.16), transparent 60%),
+                linear-gradient(180deg, #101a22 0%, #0c141b 100%);
+            box-shadow: inset 0 0 0 1px var(--card-border), inset 0 -44px 60px -34px rgba(236, 72, 153, 0.12);
+        }
+        .marker {
+            position: absolute; width: 13px; height: 13px; border-radius: 50%;
+            border: 2.5px solid white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transform: translate(-50%, -50%);
+        }
+        .marker.sel { width: 16px; height: 16px; z-index: 2; box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.30), 0 1px 4px rgba(0, 0, 0, 0.25); }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+        }
+        .m-low { background: var(--success); } .m-med { background: var(--warning); } .m-high { background: var(--danger); }
+
+        .legend { display: flex; gap: 16px; margin-top: 14px; }
+        .legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+        .legend i { width: 9px; height: 9px; border-radius: 50%; }
+
+        /* line chart */
+        .axis { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11.5px; color: var(--text-muted); font-weight: 500; }
+
+        /* ---------- TABLE ---------- */
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+        thead th {
+            text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--card-border);
+            background: var(--primary-lighter);
+            font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+            color: var(--text-secondary); white-space: nowrap;
+        }
+        thead th button { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        thead th .sort { font-size: 8px; opacity: .35; }
+        thead th[aria-sort] { color: var(--primary); }
+        thead th[aria-sort] .sort { opacity: 1; }
+        tbody td { padding: 12px 16px; border-bottom: 1px solid var(--card-border); }
+        tbody tr:hover { background: var(--primary-lighter); }
+        tbody tr:last-child td { border-bottom: none; }
+        td.name { font-weight: 500; }
+        .num { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+
+        .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .badge i { width: 6px; height: 6px; border-radius: 50%; }
+        .b-low { color: var(--success-dark); background: var(--success-light); } .b-low i { background: var(--success); }
+        .b-med { color: var(--warning-dark); background: var(--warning-light); } .b-med i { background: var(--warning); }
+        .b-high { color: var(--danger-dark); background: var(--danger-light); } .b-high i { background: var(--danger); }
+
+        .table-foot { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid var(--card-border); }
+        .table-foot .meta { font-size: 12.5px; color: var(--text-secondary); }
+        .pager { display: flex; gap: 5px; }
+        .pager button {
+            min-width: 34px; height: 34px; padding: 0 11px; border: 1px solid var(--card-border);
+            background: var(--surface); border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-variant-numeric: tabular-nums;
+            color: var(--text-secondary); transition: var(--transition-fast);
+        }
+        .pager button:hover { border-color: var(--primary-light); background: var(--primary-lighter); color: var(--primary); }
+        .pager button.cur { background: linear-gradient(180deg, var(--primary), var(--primary-dark)); color: #ffffff; border-color: var(--primary); box-shadow: var(--shadow-primary); }
+
+        /* table scrolls horizontally instead of overflowing on narrow screens */
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { min-width: 620px; }
+
+        /* mobile nav scaffolding — hidden on desktop */
+        .nav-toggle, .mobile-header, .nav-overlay { display: none; }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 1040px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 900px) {
+            .mobile-header {
+                display: flex; align-items: center; justify-content: space-between;
+                position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 60;
+                padding: 0 16px; background: var(--sidebar-gradient);
+            }
+            .mh-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 15px; }
+            .mh-burger { display: inline-flex; padding: 8px; margin: -8px; color: #fff; cursor: pointer; border-radius: 8px; }
+            .mh-burger:hover { background: rgba(255, 255, 255, 0.1); }
+
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 70; }
+            .nav-toggle:checked ~ .sidebar { transform: translateX(0); box-shadow: 0 0 40px rgba(0, 0, 0, 0.4); }
+            .nav-toggle:checked ~ .nav-overlay {
+                display: block; position: fixed; inset: 0; z-index: 65; background: rgba(0, 0, 0, 0.5);
+            }
+
+            main { margin-left: 0; padding: 72px 18px 48px; }
+            .stats { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 520px) {
+            main { padding: 70px 12px 40px; }
+            .card-body { padding: 14px; }
+            .topbar h1 { font-size: 19px; }
+            .vsep { display: none; }
+            .select { flex: 1 1 140px; min-width: 0; }
+            .factors { width: 100%; }
+            .btn-clear { width: 100%; margin-left: 0; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- Mobile nav toggle (CSS-only, no JS) -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+        <header class="mobile-header">
+            <div class="mh-brand">
+                <div class="sb-logo-mark"></div>
+                <span>Risk Viz</span>
+            </div>
+            <label for="nav-toggle" class="mh-burger" role="button" aria-label="Toggle navigation">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </label>
+        </header>
+
+        <!-- SIDEBAR -->
+        <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
+        <aside class="sidebar">
+            <div class="sb-logo">
+                <div class="sb-logo-mark"></div>
+                <div class="sb-logo-text">Risk Viz<span>Climate Intel</span></div>
+            </div>
+            <div class="sb-section">
+                <div class="sb-section-label">Explore</div>
+                <div class="nav-item active">
+                    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                    Dashboard
+                </div>
+            </div>
+            <div class="sb-section">
+                <div class="sb-section-label">Info</div>
+                <div class="nav-item">
+                    <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>
+                    About
+                </div>
+            </div>
+            <div class="sb-note">
+                Hello! This is <b>Ayaka</b>.<br />Thank you for viewing my project!
+            </div>
+            <div class="sb-user">
+                <div class="sb-avatar">
+                    <img src="../public/assets/ayaka.jpg" alt="Ayaka Rogoza" />
+                    <span class="online" title="Online"></span>
+                </div>
+                <div>
+                    <div class="sb-user-name">Ayaka Rogoza</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main>
+            <div class="topbar">
+                <div>
+                    <h1>Climate Risk Overview</h1>
+                    <div class="sub">Explore risk across 5,000 assets — map, trend, and ledger in one view.</div>
+                </div>
+            </div>
+
+            <!-- stat cards — commented out until real content is wired up; keep for later
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-ico">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+                    </div>
+                    <div><div class="stat-label">Assets in view</div><div class="stat-val">1,284</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico warn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" opacity="0"/><path d="M3 12l4-4 3 3 5-6 5 5"/><path d="M3 18h18"/></svg>
+                    </div>
+                    <div><div class="stat-label">Avg risk rating</div><div class="stat-val">0.58</div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-ico danger">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.3a2 2 0 0 1 3.4 0l8 14A2 2 0 0 1 20 20H4a2 2 0 0 1-1.7-2.7z"/><path d="M12 9v4M12 17h.01"/></svg>
+                    </div>
+                    <div><div class="stat-label">High-risk assets</div><div class="stat-val">812</div></div>
+                </div>
+            </div>
+            -->
+
+            <!-- filter bar -->
+            <div class="filterbar">
+                <div class="select"><span>2027</span><span class="chev">▼</span></div>
+                <div class="select"><span class="ph">All assets</span><span class="chev">▼</span></div>
+                <div class="select"><span class="ph">All categories</span><span class="chev">▼</span></div>
+                <div class="vsep"></div>
+                <div class="factors">
+                    <label class="pill on"><span class="tick"></span> Flooding</label>
+                    <label class="pill on"><span class="tick"></span> Wildfire</label>
+                    <label class="pill"><span class="tick"></span> Drought</label>
+                    <label class="pill"><span class="tick"></span> Hurricane</label>
+                    <label class="pill"><span class="tick"></span> Extreme heat</label>
+                </div>
+                <button class="btn-clear">Clear filters</button>
+            </div>
+
+            <!-- map + line -->
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Geographic distribution</span>
+                        <span class="card-count">1,284 in view</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="map">
+                            <span class="marker m-low" style="left:18%;top:30%"></span>
+                            <span class="marker m-med" style="left:32%;top:55%"></span>
+                            <span class="marker m-high" style="left:46%;top:24%"></span>
+                            <span class="marker m-low" style="left:58%;top:62%"></span>
+                            <span class="marker m-high sel" style="left:66%;top:40%"></span>
+                            <span class="marker m-med" style="left:78%;top:33%"></span>
+                            <span class="marker m-low" style="left:84%;top:66%"></span>
+                            <span class="marker m-med" style="left:26%;top:74%"></span>
+                            <span class="marker m-high" style="left:52%;top:78%"></span>
+                        </div>
+                        <div class="legend">
+                            <span><i style="background:var(--success)"></i> Low &lt; 0.5</span>
+                            <span><i style="background:var(--warning)"></i> Medium 0.5–0.7</span>
+                            <span><i style="background:var(--danger)"></i> High &gt; 0.7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Average risk · by year</span>
+                        <span class="card-count">2020–2030</span>
+                    </div>
+                    <div class="card-body">
+                        <svg viewBox="0 0 420 296" preserveAspectRatio="none" width="100%" height="296">
+                            <defs>
+                                <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--secondary)" stop-opacity="0.30" />
+                                    <stop offset="100%" stop-color="var(--secondary)" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <g stroke="var(--card-border)" stroke-width="1">
+                                <line x1="0" y1="60" x2="420" y2="60" />
+                                <line x1="0" y1="130" x2="420" y2="130" />
+                                <line x1="0" y1="200" x2="420" y2="200" />
+                                <line x1="0" y1="270" x2="420" y2="270" />
+                            </g>
+                            <path d="M0,210 L60,190 L120,200 L180,150 L240,160 L300,110 L360,120 L420,80 L420,296 L0,296 Z" fill="url(#area)" />
+                            <path d="M0,210 L60,190 L120,200 L180,150 L240,160 L300,110 L360,120 L420,80" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+                            <g fill="var(--surface)" stroke="var(--primary)" stroke-width="2.5">
+                                <circle cx="180" cy="150" r="4" />
+                                <circle cx="300" cy="110" r="4" />
+                                <circle cx="420" cy="80" r="4" />
+                            </g>
+                        </svg>
+                        <div class="axis"><span>2020</span><span>2023</span><span>2026</span><span>2030</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- table -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Asset ledger</span>
+                    <span class="card-count">1,284 results · page 1 / 129</span>
+                </div>
+                <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><button>Asset name <span class="sort">▲▼</span></button></th>
+                            <th><button>Lat <span class="sort">▲▼</span></button></th>
+                            <th><button>Long <span class="sort">▲▼</span></button></th>
+                            <th><button>Category <span class="sort">▲▼</span></button></th>
+                            <th aria-sort="descending"><button>Risk rating <span class="sort">▼</span></button></th>
+                            <th><button>Year <span class="sort">▲▼</span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="name">Cedar Ridge Terminal</td><td class="num">41.8781</td><td class="num">-87.6298</td><td>Logistics</td><td><span class="badge b-high"><i></i> 0.91</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Harbor Point Facility</td><td class="num">29.7604</td><td class="num">-95.3698</td><td>Manufacturing</td><td><span class="badge b-high"><i></i> 0.84</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Northgate Distribution</td><td class="num">47.6062</td><td class="num">-122.3321</td><td>Retail</td><td><span class="badge b-med"><i></i> 0.66</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Willow Creek Plant</td><td class="num">39.7392</td><td class="num">-104.9903</td><td>Energy</td><td><span class="badge b-med"><i></i> 0.58</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Lakeside Office Park</td><td class="num">33.4484</td><td class="num">-112.0740</td><td>Commercial</td><td><span class="badge b-low"><i></i> 0.42</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Granite Bay Depot</td><td class="num">38.5816</td><td class="num">-121.4944</td><td>Logistics</td><td><span class="badge b-low"><i></i> 0.31</span></td><td class="num">2027</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="table-foot">
+                    <span class="meta">Showing 1–6 of 1,284</span>
+                    <div class="pager">
+                        <button>‹</button>
+                        <button class="cur">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>…</button>
+                        <button>129</button>
+                        <button>›</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 /*
- * Risk Viz — design tokens (Onyx + Violet).
+ * Risk Viz — design tokens (Aqua: cyan → blue).
  * See specs/design-rules.html for the full system.
- * Chrome is near-monochrome; saturated color is reserved for the risk ramp.
+ * Chrome is light and near-neutral; saturated colour is reserved for the aqua
+ * accent gradient and the risk ramp.
  */
 @layer base {
     :root {
@@ -71,11 +72,6 @@
         max-width: 100%;
         height: auto;
     }
-}
-
-/* Onyx sidebar gradient (kept as a utility — used by the sidebar and mobile header). */
-.bg-onyx {
-    background: linear-gradient(165deg, #1c1c22 0%, #09090b 100%);
 }
 
 /* Aqua sidebar gradient (cyan → blue). */

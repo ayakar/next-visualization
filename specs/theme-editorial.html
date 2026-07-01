@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Risk Viz — editorial mock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Fraunces:ital,opsz,wght@1,9..144,500&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        /*
+         * Risk Viz — "Observatory" editorial direction.
+         * No sidebar: top nav + centred reading column. Warm paper, hairline rules,
+         * serif display (Fraunces) over a grotesque (Archivo), one petrol accent;
+         * colour otherwise reserved for the risk ramp.
+         */
+        :root {
+            --paper: #faf7f0;
+            --surface: #ffffff;
+            --ink: #1f1b16;
+            --ink-2: #6b6459;
+            --ink-3: #a89f90;
+            --line: #e7e1d4;
+            --line-strong: #d8d1c2;
+
+            --accent: #0f5c6b;
+            --accent-tint: #ecf3f4;
+
+            --risk-low: #2f7d57; --risk-low-tint: #e6f0e9; --risk-low-text: #1f5c3e;
+            --risk-med: #b4791f; --risk-med-tint: #f6ecd6; --risk-med-text: #845410;
+            --risk-high: #b0392f; --risk-high-tint: #f5e3df; --risk-high-text: #862a23;
+
+            --display: 'Fraunces', Georgia, serif;
+            --body: 'Archivo', system-ui, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--body);
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .tabular { font-variant-numeric: tabular-nums; }
+        .serif-num { font-family: var(--display); font-variant-numeric: tabular-nums; font-weight: 500; }
+
+        /* ---------- TOP NAV ---------- */
+        header {
+            position: sticky; top: 0; z-index: 50;
+            display: flex; align-items: center; gap: 32px;
+            padding: 0 32px; height: 64px;
+            background: rgba(250, 247, 240, 0.85);
+            backdrop-filter: saturate(140%) blur(8px);
+            border-bottom: 1px solid var(--line);
+        }
+        .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+        .brand-mark {
+            width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+            border: 1.5px solid var(--ink); position: relative;
+        }
+        .brand-mark::after { content: ''; position: absolute; right: 3px; bottom: 3px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+        nav { display: flex; gap: 24px; }
+        nav a {
+            font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none; padding: 4px 0;
+            position: relative; transition: color 0.15s;
+        }
+        nav a:hover { color: var(--ink); }
+        nav a.active { color: var(--ink); }
+        nav a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--accent); }
+        .nav-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+        .nav-avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 1px solid var(--line-strong); }
+        .nav-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* ---------- MAIN ---------- */
+        main { max-width: 1180px; margin: 0 auto; padding: 40px 32px 80px; }
+
+        .hero { padding-bottom: 26px; margin-bottom: 26px; border-bottom: 1px solid var(--line); }
+        .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+        .hero h1 { font-family: var(--display); font-weight: 600; font-size: 46px; line-height: 1.02; letter-spacing: -0.02em; }
+        .hero .lead { margin-top: 14px; max-width: 560px; font-size: 16px; color: var(--ink-2); }
+        .hero-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+        .hero-stats { display: flex; gap: 36px; }
+        .hero-stat .k { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+        .hero-stat .v { font-family: var(--display); font-size: 30px; font-weight: 500; line-height: 1.1; margin-top: 2px; }
+        .hero-stat .v.high { color: var(--risk-high); }
+
+        /* ---------- FILTERS ---------- */
+        .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .filter-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-right: 4px; }
+        .select {
+            display: inline-flex; align-items: center; justify-content: space-between; gap: 10px;
+            height: 36px; padding: 0 12px; min-width: 130px;
+            background: var(--surface); border: 1px solid var(--line-strong); border-radius: 7px;
+            font-size: 13.5px; font-weight: 500; cursor: pointer; transition: border-color 0.15s;
+        }
+        .select:hover { border-color: var(--ink-3); }
+        .select .chev { color: var(--ink-3); font-size: 10px; }
+        .select .ph { color: var(--ink-2); font-weight: 400; }
+
+        .pills { display: flex; flex-wrap: wrap; gap: 7px; }
+        .pill {
+            display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 13px;
+            border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface);
+            font-size: 13px; font-weight: 500; color: var(--ink-2); cursor: pointer; transition: all 0.15s;
+        }
+        .pill:hover { border-color: var(--ink-3); color: var(--ink); }
+        .pill.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .pill .dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--ink-3); }
+        .pill.on .dot { background: #fff; border-color: #fff; }
+        .btn-clear { margin-left: auto; background: none; border: none; cursor: pointer; font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+        /* ---------- CARDS ---------- */
+        .grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .card-head { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 22px 14px; }
+        .card-title { display: flex; align-items: baseline; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); }
+        .card-title .idx { font-family: var(--display); font-size: 13px; font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+        .card-meta { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+        .card-body { padding: 0 22px 22px; }
+
+        /* map */
+        .map {
+            height: 300px; border-radius: 8px; position: relative; overflow: hidden;
+            background:
+                radial-gradient(60% 80% at 25% 30%, rgba(15, 92, 107, 0.07), transparent 60%),
+                linear-gradient(180deg, #f7f4ec 0%, #efece2 100%);
+            border: 1px solid var(--line);
+        }
+        .marker { position: absolute; width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,0.2); transform: translate(-50%,-50%); }
+        .marker.sel { width: 16px; height: 16px; box-shadow: 0 0 0 4px rgba(15,92,107,0.25), 0 1px 4px rgba(0,0,0,0.25); }
+        .m-low { background: var(--risk-low); } .m-med { background: var(--risk-med); } .m-high { background: var(--risk-high); }
+        .legend { display: flex; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--ink-2); }
+        .legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .legend i { width: 9px; height: 9px; border-radius: 50%; }
+        .axis { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+        /* ---------- TABLE ---------- */
+        .ledger { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+        thead th { text-align: left; padding: 12px 22px; border-bottom: 1px solid var(--line-strong); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+        thead th .s { font-size: 8px; opacity: 0.5; }
+        thead th[aria-sort] { color: var(--ink); }
+        tbody td { padding: 13px 22px; border-bottom: 1px solid var(--line); }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #faf8f2; }
+        td.name { font-weight: 500; }
+        .num { font-variant-numeric: tabular-nums; color: var(--ink-2); }
+        .badge { display: inline-flex; align-items: center; gap: 6px; }
+        .badge .serif-num { font-size: 15px; }
+        .badge i { width: 7px; height: 7px; border-radius: 50%; }
+        .b-low { color: var(--risk-low-text); } .b-low i { background: var(--risk-low); }
+        .b-med { color: var(--risk-med-text); } .b-med i { background: var(--risk-med); }
+        .b-high { color: var(--risk-high-text); } .b-high i { background: var(--risk-high); }
+        .ledger-foot { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-top: 1px solid var(--line-strong); }
+        .ledger-foot .meta { font-size: 12.5px; color: var(--ink-2); }
+        .pager { display: flex; gap: 4px; }
+        .pager button { min-width: 32px; height: 32px; padding: 0 9px; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 7px; font-family: var(--body); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); cursor: pointer; }
+        .pager button:hover { border-color: var(--ink-3); color: var(--ink); }
+        .pager button.cur { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+        /* author margin note */
+        .note { margin-top: 40px; padding-left: 18px; border-left: 2px solid var(--accent); display: flex; gap: 14px; align-items: flex-start; max-width: 560px; }
+        .note-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; border: 1px solid var(--line-strong); flex-shrink: 0; }
+        .note-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .note-body { font-family: var(--display); font-size: 17px; font-style: italic; line-height: 1.45; color: var(--ink); }
+        .note-by { font-family: var(--body); font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-top: 8px; }
+
+        @media (max-width: 900px) {
+            header { gap: 18px; padding: 0 18px; }
+            nav { display: none; }
+            .grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 34px; }
+            main { padding: 28px 18px 60px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand"><span class="brand-mark"></span> Risk Viz</div>
+        <nav>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">About</a>
+            <a href="#">Methodology</a>
+        </nav>
+        <div class="nav-right">
+            <span class="nav-avatar"><img src="../public/assets/ayaka.jpg" alt="Ayaka Rogoza" /></span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">Climate Intelligence · 5,000 assets</div>
+            <div class="hero-row">
+                <div>
+                    <h1>Climate Risk<br />Overview</h1>
+                    <p class="lead">Explore physical climate risk across the portfolio — geography, trend, and the asset ledger, in one view.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><div class="k">Assets</div><div class="v">5,000</div></div>
+                    <div class="hero-stat"><div class="k">Avg risk</div><div class="v">0.58</div></div>
+                    <div class="hero-stat"><div class="k">High-risk</div><div class="v high">812</div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="filters">
+            <span class="filter-label">Filter</span>
+            <div class="select"><span>2027</span><span class="chev">▼</span></div>
+            <div class="select"><span class="ph">All assets</span><span class="chev">▼</span></div>
+            <div class="select"><span class="ph">All categories</span><span class="chev">▼</span></div>
+            <div class="pills">
+                <label class="pill on"><span class="dot"></span> Flooding</label>
+                <label class="pill on"><span class="dot"></span> Wildfire</label>
+                <label class="pill"><span class="dot"></span> Drought</label>
+                <label class="pill"><span class="dot"></span> Hurricane</label>
+            </div>
+            <button class="btn-clear">Clear all</button>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-head">
+                    <div class="card-title"><span class="idx">01</span> Geographic distribution</div>
+                    <span class="card-meta">1,284 in view</span>
+                </div>
+                <div class="card-body">
+                    <div class="map">
+                        <span class="marker m-low" style="left:18%;top:30%"></span>
+                        <span class="marker m-med" style="left:32%;top:55%"></span>
+                        <span class="marker m-high" style="left:46%;top:24%"></span>
+                        <span class="marker m-low" style="left:58%;top:62%"></span>
+                        <span class="marker m-high sel" style="left:66%;top:40%"></span>
+                        <span class="marker m-med" style="left:78%;top:33%"></span>
+                        <span class="marker m-low" style="left:84%;top:66%"></span>
+                        <span class="marker m-high" style="left:52%;top:78%"></span>
+                    </div>
+                    <div class="legend">
+                        <span><i style="background:var(--risk-low)"></i> Low &lt; 0.5</span>
+                        <span><i style="background:var(--risk-med)"></i> Medium 0.5–0.7</span>
+                        <span><i style="background:var(--risk-high)"></i> High &gt; 0.7</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <div class="card-title"><span class="idx">02</span> Average risk · by year</div>
+                    <span class="card-meta">2020–2030</span>
+                </div>
+                <div class="card-body">
+                    <svg viewBox="0 0 420 300" preserveAspectRatio="none" width="100%" height="300">
+                        <defs>
+                            <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="rgba(15,92,107,0.16)" />
+                                <stop offset="100%" stop-color="rgba(15,92,107,0)" />
+                            </linearGradient>
+                        </defs>
+                        <g stroke="#e7e1d4" stroke-width="1">
+                            <line x1="0" y1="70" x2="420" y2="70" /><line x1="0" y1="140" x2="420" y2="140" />
+                            <line x1="0" y1="210" x2="420" y2="210" /><line x1="0" y1="280" x2="420" y2="280" />
+                        </g>
+                        <path d="M0,215 L60,200 L120,205 L180,160 L240,170 L300,120 L360,128 L420,90 L420,300 L0,300 Z" fill="url(#area)" />
+                        <path d="M0,215 L60,200 L120,205 L180,160 L240,170 L300,120 L360,128 L420,90" fill="none" stroke="#0f5c6b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+                        <g fill="#faf7f0" stroke="#0f5c6b" stroke-width="2.5"><circle cx="180" cy="160" r="4" /><circle cx="300" cy="120" r="4" /><circle cx="420" cy="90" r="4" /></g>
+                    </svg>
+                    <div class="axis"><span>2020</span><span>2023</span><span>2026</span><span>2030</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ledger">
+            <div class="card-head" style="padding:18px 22px 16px">
+                <div class="card-title"><span class="idx">03</span> Asset ledger</div>
+                <span class="card-meta">1,284 results · page 1 / 129</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset name <span class="s">▲▼</span></th>
+                        <th>Lat <span class="s">▲▼</span></th>
+                        <th>Long <span class="s">▲▼</span></th>
+                        <th>Category <span class="s">▲▼</span></th>
+                        <th aria-sort="descending">Risk rating <span class="s">▼</span></th>
+                        <th>Year <span class="s">▲▼</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="name">Cedar Ridge Terminal</td><td class="num">41.8781</td><td class="num">-87.6298</td><td>Logistics</td><td><span class="badge b-high"><i></i><span class="serif-num">0.91</span></span></td><td class="num">2027</td></tr>
+                    <tr><td class="name">Harbor Point Facility</td><td class="num">29.7604</td><td class="num">-95.3698</td><td>Manufacturing</td><td><span class="badge b-high"><i></i><span class="serif-num">0.84</span></span></td><td class="num">2027</td></tr>
+                    <tr><td class="name">Northgate Distribution</td><td class="num">47.6062</td><td class="num">-122.3321</td><td>Retail</td><td><span class="badge b-med"><i></i><span class="serif-num">0.66</span></span></td><td class="num">2027</td></tr>
+                    <tr><td class="name">Willow Creek Plant</td><td class="num">39.7392</td><td class="num">-104.9903</td><td>Energy</td><td><span class="badge b-med"><i></i><span class="serif-num">0.58</span></span></td><td class="num">2027</td></tr>
+                    <tr><td class="name">Lakeside Office Park</td><td class="num">33.4484</td><td class="num">-112.0740</td><td>Commercial</td><td><span class="badge b-low"><i></i><span class="serif-num">0.42</span></span></td><td class="num">2027</td></tr>
+                    <tr><td class="name">Granite Bay Depot</td><td class="num">38.5816</td><td class="num">-121.4944</td><td>Logistics</td><td><span class="badge b-low"><i></i><span class="serif-num">0.31</span></span></td><td class="num">2027</td></tr>
+                </tbody>
+            </table>
+            <div class="ledger-foot">
+                <span class="meta">Showing 1–6 of 1,284</span>
+                <div class="pager">
+                    <button>‹</button><button class="cur">1</button><button>2</button><button>3</button><button>…</button><button>129</button><button>›</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            <span class="note-avatar"><img src="../public/assets/ayaka.jpg" alt="Ayaka Rogoza" /></span>
+            <div>
+                <div class="note-body">“Hello! This is Ayaka. Thank you for taking the time to view my project.”</div>
+                <div class="note-by">Ayaka Rogoza — Author</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
