@@ -44,7 +44,7 @@ module.exports = {
                     foreground: 'hsl(var(--popover-foreground))',
                 },
 
-                // design palette (see specs/design-rules.html)
+                // design palette (see public/design/design-rules.html)
                 ink: { DEFAULT: '#202529', soft: '#475569', muted: '#6b7686' },
                 brand: { DEFAULT: '#0891b2', dark: '#0e7490', soft: '#22d3ee', light: '#cffafe', lighter: '#ecfeff' },
                 risk: {

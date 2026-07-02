@@ -1,7 +1,7 @@
 /**
  * Canonical colour values for non-CSS consumers (Chart.js, Leaflet) that need a
  * colour *string* and can't take a Tailwind class. Single source of truth — mirrors
- * the design tokens in tailwind.config.js / globals.css (see specs/design-rules.html).
+ * the design tokens in tailwind.config.js / globals.css (see public/design/design-rules.html).
  */
 export const BRAND_COLOR = '#0891b2';
 export const SURFACE_COLOR = '#ffffff';

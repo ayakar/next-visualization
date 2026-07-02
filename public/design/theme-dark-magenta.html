@@ -14,15 +14,15 @@
          * gradient sidebar, soft surfaces, pastel status ramp).
          */
         :root {
-            /* THEME: Onyx + Indigo — DARK, with categorical data colours (category-coded ledger). */
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-rgb: 99, 102, 241;
-            --primary-light: #4438a6; /* hover border on dark */
-            --primary-lighter: #171a30; /* subtle cyan tint: table head / row hover */
+            /* THEME: Onyx + Magenta — DARK. Bold magenta on deep charcoal. */
+            --primary: #ec4899;
+            --primary-dark: #db2777;
+            --primary-rgb: 236, 72, 153;
+            --primary-light: #9d2461; /* hover border on dark */
+            --primary-lighter: #2a1220; /* subtle cyan tint: table head / row hover */
 
-            --secondary: #818cf8;
-            --secondary-light: #1e1f47;
+            --secondary: #f472b6;
+            --secondary-light: #3a1228;
 
             --bg: #0a0f14;
             --surface: #121a22;
@@ -73,7 +73,7 @@
         .sidebar::after {
             content: ''; position: absolute; bottom: -50px; left: -60px;
             width: 230px; height: 230px; border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.32), transparent 68%);
+            background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.32), transparent 68%);
             pointer-events: none;
         }
         /* keep real sidebar content above the decorative glows */
@@ -108,7 +108,7 @@
             cursor: pointer; transition: var(--transition-fast); margin-bottom: 2px; position: relative;
         }
         .nav-item:hover { background: rgba(255, 255, 255, 0.09); color: white; }
-        .nav-item.active { background: rgba(99, 102, 241, 0.32); color: white; }
+        .nav-item.active { background: rgba(236, 72, 153, 0.32); color: white; }
         .nav-item.active::before {
             content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
             background: var(--secondary); border-radius: 0 4px 4px 0;
@@ -234,10 +234,10 @@
         .map {
             height: 300px; border-radius: 12px; position: relative; overflow: hidden;
             background:
-                radial-gradient(55% 70% at 22% 28%, rgba(99, 102, 241, 0.12), transparent 60%),
-                radial-gradient(50% 60% at 82% 72%, rgba(99, 102, 241, 0.16), transparent 60%),
+                radial-gradient(55% 70% at 22% 28%, rgba(236, 72, 153, 0.12), transparent 60%),
+                radial-gradient(50% 60% at 82% 72%, rgba(236, 72, 153, 0.16), transparent 60%),
                 linear-gradient(180deg, #101a22 0%, #0c141b 100%);
-            box-shadow: inset 0 0 0 1px var(--card-border), inset 0 -44px 60px -34px rgba(99, 102, 241, 0.12);
+            box-shadow: inset 0 0 0 1px var(--card-border), inset 0 -44px 60px -34px rgba(236, 72, 153, 0.12);
         }
         .marker {
             position: absolute; width: 13px; height: 13px; border-radius: 50%;
@@ -273,8 +273,6 @@
         tbody tr:last-child td { border-bottom: none; }
         td.name { font-weight: 500; }
         .num { font-variant-numeric: tabular-nums; color: var(--text-secondary); }
-        .cat { display: inline-flex; align-items: center; gap: 7px; }
-        .cat::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--c); flex-shrink: 0; }
 
         .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
         .badge i { width: 6px; height: 6px; border-radius: 50%; }
@@ -375,7 +373,7 @@
             </div>
             <div class="sb-user">
                 <div class="sb-avatar">
-                    <img src="../public/assets/ayaka.jpg" alt="Ayaka Rogoza" />
+                    <img src="/assets/ayaka.jpg" alt="Ayaka Rogoza" />
                     <span class="online" title="Online"></span>
                 </div>
                 <div>
@@ -510,12 +508,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="name">Cedar Ridge Terminal</td><td class="num">41.8781</td><td class="num">-87.6298</td><td><span class="cat" style="--c:#818cf8">Logistics</span></td><td><span class="badge b-high"><i></i> 0.91</span></td><td class="num">2027</td></tr>
-                        <tr><td class="name">Harbor Point Facility</td><td class="num">29.7604</td><td class="num">-95.3698</td><td><span class="cat" style="--c:#2dd4bf">Manufacturing</span></td><td><span class="badge b-high"><i></i> 0.84</span></td><td class="num">2027</td></tr>
-                        <tr><td class="name">Northgate Distribution</td><td class="num">47.6062</td><td class="num">-122.3321</td><td><span class="cat" style="--c:#f472b6">Retail</span></td><td><span class="badge b-med"><i></i> 0.66</span></td><td class="num">2027</td></tr>
-                        <tr><td class="name">Willow Creek Plant</td><td class="num">39.7392</td><td class="num">-104.9903</td><td><span class="cat" style="--c:#c084fc">Energy</span></td><td><span class="badge b-med"><i></i> 0.58</span></td><td class="num">2027</td></tr>
-                        <tr><td class="name">Lakeside Office Park</td><td class="num">33.4484</td><td class="num">-112.0740</td><td><span class="cat" style="--c:#38bdf8">Commercial</span></td><td><span class="badge b-low"><i></i> 0.42</span></td><td class="num">2027</td></tr>
-                        <tr><td class="name">Granite Bay Depot</td><td class="num">38.5816</td><td class="num">-121.4944</td><td><span class="cat" style="--c:#818cf8">Logistics</span></td><td><span class="badge b-low"><i></i> 0.31</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Cedar Ridge Terminal</td><td class="num">41.8781</td><td class="num">-87.6298</td><td>Logistics</td><td><span class="badge b-high"><i></i> 0.91</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Harbor Point Facility</td><td class="num">29.7604</td><td class="num">-95.3698</td><td>Manufacturing</td><td><span class="badge b-high"><i></i> 0.84</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Northgate Distribution</td><td class="num">47.6062</td><td class="num">-122.3321</td><td>Retail</td><td><span class="badge b-med"><i></i> 0.66</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Willow Creek Plant</td><td class="num">39.7392</td><td class="num">-104.9903</td><td>Energy</td><td><span class="badge b-med"><i></i> 0.58</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Lakeside Office Park</td><td class="num">33.4484</td><td class="num">-112.0740</td><td>Commercial</td><td><span class="badge b-low"><i></i> 0.42</span></td><td class="num">2027</td></tr>
+                        <tr><td class="name">Granite Bay Depot</td><td class="num">38.5816</td><td class="num">-121.4944</td><td>Logistics</td><td><span class="badge b-low"><i></i> 0.31</span></td><td class="num">2027</td></tr>
                     </tbody>
                 </table>
                 </div>
