@@ -1,13 +1,11 @@
 import Image from 'next/image';
 import React from 'react';
 import styles from './about.module.css';
+import { MockCard, type Mock } from './MockCard';
 
 export const metadata = {
     title: 'Risk Viz - About Project',
 };
-
-// Live design mockups — committed static files served from public/design/.
-type Mock = { file: string; title: string; note?: string; adopted?: string };
 
 // The colour directions I compared - each card carries its own verdict below the preview.
 const EXPLORATION_MOCKS: Mock[] = [
@@ -39,32 +37,6 @@ const SYSTEM_MOCKS: Mock[] = [
     { file: 'design-rules.html', title: 'Design system', note: 'The living spec: tokens, component rules and accessibility notes.' },
 ];
 
-const MockCard = ({ mock }: { mock: Mock }) => (
-    <a
-        href={`/design/${mock.file}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.mockCard}
-    >
-        <div className={styles.mockThumb}>
-            {mock.adopted && <span className={styles.adopted}>{mock.adopted}</span>}
-            <iframe
-                src={`/design/${mock.file}`}
-                title={`${mock.title} mockup preview`}
-                aria-hidden
-                tabIndex={-1}
-                loading="lazy"
-                scrolling="no"
-            />
-        </div>
-        <div className={styles.mockCaption}>
-            <div className={styles.mockTitle}>
-                {mock.title} <span className={styles.mockOpen}>↗</span>
-            </div>
-            {mock.note && <div className={styles.mockNote}>{mock.note}</div>}
-        </div>
-    </a>
-);
 
 const AboutPage = () => {
     return (

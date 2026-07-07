@@ -232,18 +232,12 @@
     background: #f7fafc;
     border-bottom: 1px solid hsl(var(--border));
 }
-/* iframe is 250% wide and scaled 0.4 → renders at exactly 100% of the card, at any
-   width. Height 600px * 0.4 = 240px matches the thumb, so the preview fills it. */
-.mockThumb iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 250%;
-    height: 600px;
-    border: 0;
-    transform: scale(0.4);
-    transform-origin: top left;
-    pointer-events: none;
+.mockThumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
 }
 
 .adopted {
