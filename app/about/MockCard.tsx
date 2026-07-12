@@ -15,8 +15,8 @@ export function MockCard({ mock }: { mock: Mock }) {
             rel="noopener noreferrer"
             className={styles.mockCard}
         >
+            {mock.adopted && <span className={styles.adopted}>{mock.adopted}</span>}
             <div className={styles.mockThumb}>
-                {mock.adopted && <span className={styles.adopted}>{mock.adopted}</span>}
                 {/* eslint-disable-next-line @next/next/no-img-element -- static preview, no optimization needed */}
                 <img
                     src={preview}

@@ -26,7 +26,7 @@ export default async function Home() {
         <div className="mx-auto max-w-content">
             <header className="mb-5 lg:mb-6">
                 <h1 className="text-2xl font-semibold tracking-tight text-ink">Climate Risk Overview</h1>
-                <p className="mt-0.5 text-sm text-ink-soft">Explore risk across 5,000 assets — map, trend, and ledger in one view.</p>
+                <p className="mt-0.5 text-sm text-ink-soft">Explore risk across 5,000 assets - map, trend, and ledger in one view.</p>
             </header>
 
             <div className="mb-4 flex flex-wrap items-center gap-2 rounded-card border border-border bg-card p-3.5 shadow-subtle">
@@ -47,7 +47,10 @@ export default async function Home() {
                 </Card>
             </div>
 
-            <Card title="Asset ledger" padded={false}>
+            <Card
+                title="Asset ledger"
+                padded={false}
+            >
                 <TableSection initialTableResponse={initialTableResponse} />
             </Card>
         </div>

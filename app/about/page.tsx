@@ -37,7 +37,6 @@ const SYSTEM_MOCKS: Mock[] = [
     { file: 'design-rules.html', title: 'Design system', note: 'The living spec: tokens, component rules and accessibility notes.' },
 ];
 
-
 const AboutPage = () => {
     return (
         <div className="container">
@@ -57,7 +56,9 @@ const AboutPage = () => {
                 <p>
                     I like to own things end-to-end. This project shows both sides of that: the <a href="#design-exploration">design decisions</a> (color
                     system, <a href="#accessibility">accessibility trade-offs</a>, visual iteration) and the{' '}
-                    <a href="#product-decisions">product &amp; technical calls</a> (API design, scope decisions, state management) that went into it.
+                    <a href="#product-decisions">product &amp; technical calls</a> (API design, scope decisions, state management) that went into it. It also
+                    reflects <a href="#documentation">how I keep work like this maintainable</a> - spec- and documentation-driven, for both my team and the AI
+                    agents I pair with.
                 </p>
             </div>
 
@@ -209,6 +210,24 @@ const AboutPage = () => {
                             mock={mock}
                         />
                     ))}
+                </div>
+            </section>
+
+            <section
+                id="documentation"
+                className={styles.section}
+            >
+                <h2 className={styles.largeTitle}>How I Document Work Like This</h2>
+                <div className={styles.wrapper}>
+                    <p className={styles.text}>
+                        This sample ships with one design-system spec. In production that&rsquo;s the tip of the iceberg - the product I build day-to-day is
+                        backed by ~20 living specs covering the craft of the work: a design system and tokens, accessibility, testing strategy, error &amp;
+                        loading states, an icon and component inventory, environment setup, and project structure.
+                    </p>
+                    <p className={styles.text}>
+                        I write them for two audiences at once - my team, and the AI coding agents (Claude) I pair with daily, where precise specs are what keep
+                        an agent from drifting across a large codebase. I&rsquo;m happy to walk through a selection of these in an interview.
+                    </p>
                 </div>
             </section>
 

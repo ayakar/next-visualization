@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* In-page anchor links (About page nav) scroll smoothly, and land clear of the
+ * mobile fixed header (h-header = 56px) instead of tucking under it. */
+html {
+    scroll-behavior: smooth;
+}
+:target {
+    scroll-margin-top: 72px;
+}
+
 /*
  * Risk Viz — design tokens (Aqua: cyan → blue).
  * See public/design/design-rules.html for the full system.
