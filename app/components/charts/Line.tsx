@@ -1,6 +1,17 @@
 'use client';
 import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from 'chart.js';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Tooltip,
+    Legend,
+    Filler,
+    type TooltipModel,
+    type ScriptableContext,
+} from 'chart.js';
 import { Line as LineChartJS } from 'react-chartjs-2';
 import { LineChartData } from '../../types/RiskRating';
 import { SURFACE_COLOR, GRAD_FROM, GRAD_TO } from '../../constants/colors';
@@ -38,17 +49,16 @@ const Line: React.FC<Props> = ({ lineData }) => {
             tooltip: {
                 // Disable the on-canvas tooltip
                 enabled: false,
-                external: function (context: any) {
-                    // console.log('tooltip', context.tooltip);
+                external: function (context: { chart: ChartJS; tooltip: TooltipModel<'line'> }) {
+                    const tooltipModel = context.tooltip;
 
                     // Avoid throwing error when dataPoints object is not filled
-                    if (context.tooltip.dataPoints === undefined) {
+                    if (!tooltipModel.dataPoints || tooltipModel.dataPoints.length === 0) {
                         return;
                     }
-                    const tooltipModel = context.tooltip;
-                    const year = tooltipModel.dataPoints[0].raw.year;
-                    const aggregatedRiskRating = tooltipModel.dataPoints[0].raw.aggregatedRisk;
-                    const riskFactors = tooltipModel.dataPoints[0].raw.riskFactors;
+                    const point = tooltipModel.dataPoints[0].raw as LineChartData;
+                    const aggregatedRiskRating = point.aggregatedRisk;
+                    const riskFactors = point.riskFactors;
                     // Tooltip Element
                     let tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -78,8 +88,9 @@ const Line: React.FC<Props> = ({ lineData }) => {
                     // Set Text
                     let riskFactorsLi = '';
 
-                    Object.keys(riskFactors).forEach((key) => {
-                        const rounded = riskFactors[key].toFixed(2);
+                    Object.entries(riskFactors).forEach(([key, value]) => {
+                        if (value == null) return;
+                        const rounded = value.toFixed(2);
                         riskFactorsLi += `<tr><td className="border-b">${key}: </td> <td style="text-align:right">${rounded}</td></tr>`;
                     });
 
@@ -110,7 +121,7 @@ const Line: React.FC<Props> = ({ lineData }) => {
     };
 
     // Aqua gradients (cyan → blue). Scriptable so they size to the chart's draw area.
-    const lineGradient = (ctx: any) => {
+    const lineGradient = (ctx: ScriptableContext<'line'>) => {
         const { ctx: c, chartArea } = ctx.chart;
         if (!chartArea) return GRAD_FROM;
         const g = c.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
@@ -118,7 +129,7 @@ const Line: React.FC<Props> = ({ lineData }) => {
         g.addColorStop(1, GRAD_TO);
         return g;
     };
-    const areaGradient = (ctx: any) => {
+    const areaGradient = (ctx: ScriptableContext<'line'>) => {
         const { ctx: c, chartArea } = ctx.chart;
         if (!chartArea) return 'rgba(37, 99, 235, 0.12)';
         const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
@@ -139,7 +150,7 @@ const Line: React.FC<Props> = ({ lineData }) => {
                 pointBorderWidth: 2,
                 pointRadius: 4,
                 pointHoverRadius: 7,
-                tension: 0.25,
+                tension: 0,
             },
         ],
     };
